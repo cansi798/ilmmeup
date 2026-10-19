@@ -1,65 +1,136 @@
 ---
 // Gezeichnete Team-Figur (Comic-Stil, Markenfarben). Vorläufig statt Fotos – Wunsch von Jamil.
+// Jede Figur wird über die Merkmale in consts.ts (TEAM[].figur) individuell zusammengesetzt.
 import type { Person } from "../consts";
 interface Props { figur: Person["figur"]; name: string; hinter?: number }
 const { figur: f, name, hinter = 0 } = Astro.props;
 const hintergruende = ["#ffe680", "#cfe7ec", "#fff1b8", "#d9eef2"];
 const bg = hintergruende[hinter % hintergruende.length];
-const tuch = f.stil === "tuch";
+const tuch = f.haar === "tuch";
 const uid = "f" + name.toLowerCase().replace(/[^a-z]/g, "");
+const haarFarbe = f.haarFarbe ?? "#1d1a19";
+const bartFarbe = f.bartFarbe ?? haarFarbe;
+const braue = f.brauen === "dick" ? 6 : f.brauen === "fein" ? 2.6 : 3.4;
+const brauenFarbe = f.brauenFarbe ?? (tuch ? "#2b211c" : haarFarbe);
+// Strähnen (z. B. grau im Bart/Haar)
+const bartStraehnen = ["M74 112 q3 12 9 20", "M86 124 q2 10 6 16", "M100 128 v14", "M114 124 q-2 10 -6 16", "M126 112 q-3 12 -9 20", "M68 98 q1 10 4 16", "M132 98 q-1 10 -4 16"];
+const haarStraehnenLang = ["M72 50 q-12 30 -12 90", "M88 42 q-6 20 -4 24", "M118 42 q8 18 6 26", "M136 60 q8 30 6 84", "M64 110 q-4 20 0 38", "M140 112 q2 20 -2 36"];
 ---
 <svg class="figur" viewBox="0 0 200 200" role="img" aria-label={`Gezeichnete Figur: ${name}`}>
   <defs><clipPath id={uid}><circle cx="100" cy="100" r="100" /></clipPath></defs>
   <g clip-path={`url(#${uid})`}>
     <rect width="200" height="200" fill={bg} />
     <circle cx="150" cy="44" r="46" fill="#fff" opacity="0.45" />
+
     <!-- Oberkörper -->
-    <path d="M24 210 C28 160 60 140 100 140 C140 140 172 160 176 210 Z" fill={f.kleid} />
-    {!tuch && <path d="M86 140 L100 160 L114 140 Z" fill="#fff" opacity="0.9" />}
+    <path d="M22 212 C26 160 60 140 100 140 C140 140 174 160 178 212 Z" fill={f.kleid} />
+    {!tuch && f.kragen === "hemd" && <path d="M82 140 L100 168 L118 140 L110 138 L100 152 L90 138 Z" fill="#fff" />}
+    {!tuch && f.kragen === "v" && <path d="M86 140 L100 162 L114 140 Z" fill="#fff" opacity="0.9" />}
+    {!tuch && f.kragen === "rund" && <path d="M82 142 Q100 156 118 142" fill="none" stroke="#000" stroke-opacity="0.18" stroke-width="5" stroke-linecap="round" />}
+    {!tuch && f.kragen === "jacke" && (
+      <>
+        <path d="M88 140 L100 160 L112 140 Z" fill="#fff" />
+        <path d="M84 141 L100 176 L70 150 Z M116 141 L100 176 L130 150 Z" fill="#000" opacity="0.22" />
+      </>
+    )}
+
+    <!-- langes Haar hinter dem Kopf -->
+    {f.haar === "lang" && (
+      <>
+        <path d="M54 156 C46 112 50 62 68 44 C82 30 118 30 132 44 C150 62 154 112 146 156 C138 160 130 158 126 150 C130 128 132 110 130 96 L70 96 C68 110 70 128 74 150 C70 158 62 160 54 156 Z" fill={haarFarbe} />
+        {f.straehnen && <g fill="none" stroke={f.straehnen} stroke-width="2.2" stroke-linecap="round" opacity="0.7">{haarStraehnenLang.map((d) => <path d={d} />)}</g>}
+      </>
+    )}
+
     {!tuch && <rect x="89" y="116" width="22" height="28" rx="8" fill={f.haut} />}
     {!tuch && <ellipse cx="65" cy="94" rx="6" ry="9" fill={f.haut} />}
     {!tuch && <ellipse cx="135" cy="94" rx="6" ry="9" fill={f.haut} />}
+
     {tuch && (
       <>
-        <path d="M100 32 C142 32 150 68 148 100 C146 128 152 150 176 210 L24 210 C48 150 54 128 52 100 C50 68 58 32 100 32 Z" fill={f.tuch} />
+        <path d="M100 32 C142 32 150 68 148 100 C146 128 152 150 176 212 L24 212 C48 150 54 128 52 100 C50 68 58 32 100 32 Z" fill={f.tuch} />
         <path d="M60 128 C80 150 120 150 140 128" fill="none" stroke="#000" stroke-opacity="0.12" stroke-width="3" stroke-linecap="round" />
+        {f.tuchStil === "seite" && <path d="M138 96 C150 130 140 170 120 212 L150 212 C162 170 160 128 146 100 Z" fill="#000" opacity="0.12" />}
+        {f.tuchStil === "band" && <path d="M70 62 C84 50 116 50 130 62" fill="none" stroke={f.tuchAkzent ?? "#fff"} stroke-width="6" stroke-linecap="round" />}
+        {f.tuchStil === "nadel" && <circle cx="136" cy="118" r="4" fill={f.tuchAkzent ?? "#ffcc00"} />}
       </>
     )}
+
     <!-- Kopf -->
     <ellipse cx="100" cy={tuch ? 92 : 90} rx={tuch ? 30 : 34} ry={tuch ? 36 : 40} fill={f.haut} />
-    {f.stil === "kurz" && <path d="M64 88 C60 50 80 40 100 40 C124 40 142 52 136 88 C132 70 120 60 100 60 C84 60 70 68 64 88 Z" fill={f.haar} />}
-    {f.stil === "bart" && (
+
+    <!-- Frisuren -->
+    {f.haar === "kurz" && <path d="M64 88 C60 50 80 40 100 40 C124 40 142 52 136 88 C132 70 120 60 100 60 C84 60 70 68 64 88 Z" fill={haarFarbe} />}
+    {f.haar === "seitenscheitel" && (
+      <path d="M64 90 C58 54 76 38 102 38 C128 38 144 52 136 90 C134 74 128 64 118 60 C106 66 86 66 76 62 C70 68 66 78 64 90 Z" fill={haarFarbe} />
+    )}
+    {f.haar === "voll" && (
       <>
-        <path d="M64 86 C60 50 80 40 100 40 C124 40 142 52 136 86 C130 68 118 60 100 60 C84 60 70 68 64 86 Z" fill={f.haar} />
-        <path d="M66 92 C66 126 84 134 100 134 C116 134 134 126 134 92 C130 108 122 116 100 116 C78 116 70 108 66 92 Z" fill={f.haar} />
-        <path d="M88 108 Q100 102 112 108" fill="none" stroke={f.haar} stroke-width="5" stroke-linecap="round" />
+        <path d="M60 102 C53 78 56 54 70 42 C78 30 96 20 114 22 C134 25 146 40 143 60 C146 76 143 90 140 102 C137 88 134 78 129 72 C112 76 90 75 73 72 C67 80 63 90 60 102 Z" fill={haarFarbe} />
+        <path d="M92 32 C102 26 118 26 128 34" fill="none" stroke="#fff" stroke-opacity="0.18" stroke-width="4" stroke-linecap="round" />
       </>
     )}
-    {f.stil === "locken" && (
-      <g fill={f.haar}>
+    {f.haar === "locken" && (
+      <g fill={haarFarbe}>
         <circle cx="70" cy="72" r="13" /><circle cx="80" cy="56" r="14" /><circle cx="98" cy="48" r="15" />
         <circle cx="117" cy="52" r="14" /><circle cx="131" cy="66" r="13" /><circle cx="135" cy="82" r="9" /><circle cx="65" cy="86" r="9" />
         <path d="M68 78 C80 62 120 60 132 78 L132 66 L68 66 Z" />
       </g>
     )}
-    {f.stil === "glatze" && <path d="M68 70 C76 52 124 52 132 70" fill="none" stroke="#fff" stroke-opacity="0.25" stroke-width="5" stroke-linecap="round" />}
+    {f.haar === "lang" && (
+      <>
+        <path d="M64 84 C62 54 82 40 100 40 C120 40 138 54 136 84 C128 68 114 60 100 62 C90 70 76 74 64 84 Z" fill={haarFarbe} />
+        {f.straehnen && <path d="M82 46 q-8 10 -14 26 M104 42 q-6 12 -16 22 M120 46 q4 12 10 24" fill="none" stroke={f.straehnen} stroke-width="2.2" stroke-linecap="round" opacity="0.7" />}
+      </>
+    )}
+    {f.haar === "glatze" && (
+      <>
+        <path d="M74 60 C82 50 96 48 106 50" fill="none" stroke="#fff" stroke-opacity="0.35" stroke-width="5" stroke-linecap="round" />
+      </>
+    )}
     {tuch && <path d="M70 70 C80 56 120 56 130 70" fill="none" stroke="#000" stroke-opacity="0.1" stroke-width="4" stroke-linecap="round" />}
+
+    <!-- Bart -->
+    {f.bart === "voll" && (
+      <>
+        <path d="M64 88 C62 126 80 150 100 150 C120 150 138 126 136 88 C132 106 124 116 100 116 C76 116 68 106 64 88 Z" fill={bartFarbe} />
+        <path d="M84 109 Q100 100 116 109 Q100 106 84 109 Z" fill={bartFarbe} stroke={bartFarbe} stroke-width="5" stroke-linejoin="round" />
+        {f.bartStraehnen && <g fill="none" stroke={f.bartStraehnen} stroke-width="2.2" stroke-linecap="round" opacity="0.85">{bartStraehnen.map((d) => <path d={d} />)}<path d="M90 106 q4 -2 8 -2 M104 104 q4 0 8 2" /></g>}
+      </>
+    )}
+    {f.bart === "kurz" && (
+      <>
+        <path d="M66 92 C66 126 84 134 100 134 C116 134 134 126 134 92 C130 108 122 116 100 116 C78 116 70 108 66 92 Z" fill={bartFarbe} />
+        <path d="M88 108 Q100 102 112 108" fill="none" stroke={bartFarbe} stroke-width="5" stroke-linecap="round" />
+      </>
+    )}
+    {f.bart === "stoppel" && (
+      <>
+        <path d="M66 94 C66 124 84 134 100 134 C116 134 134 124 134 94 C130 108 122 118 100 118 C78 118 70 108 66 94 Z" fill={bartFarbe} opacity="0.42" />
+        <path d="M88 108 Q100 103 112 108" fill="none" stroke={bartFarbe} stroke-opacity="0.5" stroke-width="4.5" stroke-linecap="round" />
+      </>
+    )}
+
     <!-- Gesicht -->
-    <g fill="none" stroke="#1d1a19" stroke-linecap="round">
-      <path d="M80 82 Q87 78 94 81" stroke-width="3" />
-      <path d="M106 81 Q113 78 120 82" stroke-width="3" />
-      {f.stil !== "bart" && <path d="M90 108 Q100 117 110 108" stroke-width="3.2" />}
-      {f.stil === "bart" && <path d="M92 111 Q100 116 108 111" stroke="#fff" stroke-opacity="0.85" stroke-width="2.6" />}
+    <g fill="none" stroke={brauenFarbe} stroke-linecap="round">
+      <path d="M79 81 Q87 76 95 80" stroke-width={braue} />
+      <path d="M105 80 Q113 76 121 81" stroke-width={braue} />
     </g>
+    {f.bart === "voll" || f.bart === "kurz"
+      ? <path d="M92 113 Q100 118 108 113" fill="none" stroke="#fff" stroke-opacity="0.85" stroke-width="2.6" stroke-linecap="round" />
+      : <path d="M90 109 Q100 118 110 109" fill="none" stroke="#1d1a19" stroke-width="3.2" stroke-linecap="round" />}
     <circle cx="87" cy="92" r="3.8" fill="#1d1a19" />
     <circle cx="113" cy="92" r="3.8" fill="#1d1a19" />
     <circle cx="88.3" cy="90.8" r="1.1" fill="#fff" />
     <circle cx="114.3" cy="90.8" r="1.1" fill="#fff" />
     <path d="M100 95 Q97 102 101 103" fill="none" stroke="#000" stroke-opacity="0.22" stroke-width="2.2" stroke-linecap="round" />
-    {f.stil !== "bart" && <><ellipse cx="80" cy="103" rx="6" ry="3.5" fill="#e0607e" opacity="0.18" /><ellipse cx="120" cy="103" rx="6" ry="3.5" fill="#e0607e" opacity="0.18" /></>}
+    {!f.bart && <><ellipse cx="80" cy="103" rx="6" ry="3.5" fill="#e0607e" opacity="0.18" /><ellipse cx="120" cy="103" rx="6" ry="3.5" fill="#e0607e" opacity="0.18" /></>}
     {f.brille && (
-      <g fill="none" stroke="#0e2a33" stroke-width="2.6">
-        <rect x="76" y="83" width="21" height="17" rx="7" /><rect x="103" y="83" width="21" height="17" rx="7" /><path d="M97 90 Q100 88 103 90" />
+      <g fill="none" stroke={f.brille === "schwarz" ? "#111" : "#0e2a33"} stroke-width={f.brille === "schwarz" ? 3.6 : 2.4}>
+        {f.brille === "schwarz"
+          ? <><rect x="75" y="83" width="23" height="17" rx="4" /><rect x="102" y="83" width="23" height="17" rx="4" /></>
+          : <><circle cx="87" cy="92" r="10" /><circle cx="113" cy="92" r="10" /></>}
+        <path d="M98 90 Q100 88 102 90" />
       </g>
     )}
   </g>

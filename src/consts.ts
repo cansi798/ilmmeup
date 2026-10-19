@@ -27,16 +27,27 @@ export const VIDEOS: { id: string | null; titel: string; thema: string; hoch?: b
 
 // Team (von Jamil, 19.10.2026): vorerst gezeichnete Figuren statt Fotos.
 // TODO: Fachrichtungen der Ärztinnen, ggf. Titel, Porträttexte bestätigen, später echte Fotos.
-export type Person = { name: string; rolle: string; zusatz?: string; text: string; figur: { haut: string; haar: string; stil: "kurz" | "bart" | "tuch" | "locken" | "glatze"; kleid: string; tuch?: string; brille?: boolean } };
+export type Figur = {
+  haut: string;
+  haar: "kurz" | "seitenscheitel" | "voll" | "locken" | "lang" | "glatze" | "tuch";
+  haarFarbe?: string; straehnen?: string;
+  bart?: "voll" | "kurz" | "stoppel"; bartFarbe?: string; bartStraehnen?: string;
+  brauen?: "dick" | "normal" | "fein"; brauenFarbe?: string;
+  brille?: "schwarz" | "rund";
+  kleid: string; kragen?: "hemd" | "v" | "rund" | "jacke";
+  tuch?: string; tuchStil?: "seite" | "band" | "nadel"; tuchAkzent?: string;
+};
+export type Person = { name: string; rolle: string; zusatz?: string; text: string; figur: Figur };
+// Reihenfolge laut Jamil: er selbst ganz hinten. Aussehen von Jamil, Safian und Riswan nach seiner Beschreibung (20.10.2026).
 export const TEAM: Person[] = [
-  { name: "Jamil", rolle: "IT Service Manager", text: "Hält Technik, Abläufe und Plattform zusammen – damit Inhalte zuverlässig dort ankommen, wo Menschen sie suchen.", figur: { haut: "#c98e62", haar: "#1d1a19", stil: "bart", kleid: "#006780", brille: true } },
-  { name: "Sheeras", rolle: "Videograf", text: "Sorgt hinter der Kamera dafür, dass Wissen gut aussieht und gut klingt – vom ersten Bild bis zum fertigen Schnitt.", figur: { haut: "#b97a50", haar: "#241c18", stil: "kurz", kleid: "#0e2a33" } },
-  { name: "Arooj", rolle: "Ärztin", zusatz: "Fachrichtung folgt", text: "Bringt medizinisches Fachwissen ein und achtet darauf, dass Gesundheitsthemen verständlich und fundiert erklärt werden.", figur: { haut: "#d9a07a", haar: "#2b211c", stil: "tuch", kleid: "#1a8aa6", tuch: "#00495b" } },
-  { name: "Safian", rolle: "Arzt", text: "Übersetzt medizinische Fragen in klare Worte – sachlich, nahbar und mit Blick auf den Alltag der Menschen.", figur: { haut: "#c7875b", haar: "#16110f", stil: "bart", kleid: "#1a8aa6" } },
-  { name: "Aysha", rolle: "Ärztin", zusatz: "Fachrichtung folgt", text: "Steht für fundiertes Wissen aus der Medizin und dafür, Gesundheit ohne Scheu und mit Respekt zu besprechen.", figur: { haut: "#c58a63", haar: "#2b211c", stil: "tuch", kleid: "#0e2a33", tuch: "#1a8aa6" } },
-  { name: "Sadia", rolle: "Ärztin", zusatz: "Fachrichtung folgt", text: "Verbindet ärztliche Erfahrung mit dem Anliegen, Menschen gut informiert durch Gesundheitsfragen zu begleiten.", figur: { haut: "#e0ac86", haar: "#2b211c", stil: "tuch", kleid: "#006780", tuch: "#f2e6c9", brille: true } },
-  { name: "Muntazim", rolle: "Chemiker", text: "Denkt naturwissenschaftlich und bringt Neugier, Genauigkeit und Freude am Erklären komplexer Zusammenhänge mit.", figur: { haut: "#b5764c", haar: "#1d1a19", stil: "locken", kleid: "#00495b", brille: true } },
-  { name: "Riswan", rolle: "Arzt", text: "Bringt ärztliche Erfahrung und einen ruhigen, klaren Blick auf Gesundheitsthemen in die Plattform ein.", figur: { haut: "#c98e62", haar: "#16110f", stil: "kurz", kleid: "#0e2a33" } },
+  { name: "Sheeras", rolle: "Videograf", text: "Sorgt hinter der Kamera dafür, dass Wissen gut aussieht und gut klingt – vom ersten Bild bis zum fertigen Schnitt.", figur: { haut: "#b97a50", haar: "seitenscheitel", haarFarbe: "#241c18", kleid: "#0e2a33", kragen: "rund" } },
+  { name: "Arooj", rolle: "Ärztin", zusatz: "Fachrichtung folgt", text: "Bringt medizinisches Fachwissen ein und achtet darauf, dass Gesundheitsthemen verständlich und fundiert erklärt werden.", figur: { haut: "#d9a07a", haar: "tuch", tuch: "#00495b", tuchStil: "nadel", tuchAkzent: "#ffcc00", brauen: "fein", kleid: "#1a8aa6" } },
+  { name: "Safian", rolle: "Arzt", text: "Übersetzt medizinische Fragen in klare Worte – sachlich, nahbar und mit Blick auf den Alltag der Menschen.", figur: { haut: "#c7875b", haar: "voll", haarFarbe: "#16110f", bart: "stoppel", brille: "schwarz", kleid: "#1a8aa6", kragen: "hemd" } },
+  { name: "Aysha", rolle: "Ärztin", zusatz: "Fachrichtung folgt", text: "Steht für fundiertes Wissen aus der Medizin und dafür, Gesundheit ohne Scheu und mit Respekt zu besprechen.", figur: { haut: "#a8714a", haar: "tuch", tuch: "#1a8aa6", tuchStil: "seite", brauen: "fein", kleid: "#0e2a33" } },
+  { name: "Sadia", rolle: "Ärztin", zusatz: "Fachrichtung folgt", text: "Verbindet ärztliche Erfahrung mit dem Anliegen, Menschen gut informiert durch Gesundheitsfragen zu begleiten.", figur: { haut: "#e0ac86", haar: "tuch", tuch: "#f2e6c9", tuchStil: "band", tuchAkzent: "#006780", brauen: "fein", brille: "rund", kleid: "#006780" } },
+  { name: "Muntazim", rolle: "Chemiker", text: "Denkt naturwissenschaftlich und bringt Neugier, Genauigkeit und Freude am Erklären komplexer Zusammenhänge mit.", figur: { haut: "#b5764c", haar: "locken", haarFarbe: "#1d1a19", bart: "kurz", brille: "rund", kleid: "#00495b", kragen: "v" } },
+  { name: "Dr. Riswan", rolle: "Arzt", text: "Bringt ärztliche Erfahrung und einen ruhigen, klaren Blick auf Gesundheitsthemen in die Plattform ein.", figur: { haut: "#d29a6e", haar: "lang", haarFarbe: "#b9b6b0", straehnen: "#2a2522", bart: "voll", bartFarbe: "#b3afa8", bartStraehnen: "#2a2522", brauen: "dick", brauenFarbe: "#6e6a64", kleid: "#0e2a33", kragen: "jacke" } },
+  { name: "Jamil", rolle: "IT Service Manager", text: "Hält Technik, Abläufe und Plattform zusammen – damit Inhalte zuverlässig dort ankommen, wo Menschen sie suchen.", figur: { haut: "#c98e62", haar: "glatze", haarFarbe: "#2a2624", bart: "voll", bartFarbe: "#2a2624", bartStraehnen: "#a9a6a0", brauen: "dick", brauenFarbe: "#1d1a19", kleid: "#006780", kragen: "hemd" } },
 ];
 
 export const NAV = [
