@@ -60,7 +60,6 @@ const experten = ["Imame", "Gelehrte", "Ärztinnen & Ärzte", "Psychologinnen & 
           <li class="saeule" style={`--v:${300 + i * 380}ms; --i:${i}`}>
             <span class="saeule-icon"><Icon name={s.icon} /></span>
             <div class="saeule-karte">
-              <span class="saeule-nr">0{i + 1}</span>
               <h3>{s.titel}</h3>
               <p>{s.text}</p>
             </div>
@@ -213,7 +212,6 @@ const experten = ["Imame", "Gelehrte", "Ärztinnen & Ärzte", "Psychologinnen & 
   .saeule-karte::before { content: ""; position: absolute; left: 0; top: 0; height: 4px; width: 100%; background: linear-gradient(90deg, var(--gelb), var(--gelb-hell)); transform: scaleX(0); transform-origin: left; transition: transform 0.6s var(--kurve); }
   .saeule-karte::after { content: ""; position: absolute; width: 220px; height: 220px; right: -90px; bottom: -110px; border-radius: 50%; background: radial-gradient(circle, rgba(255, 204, 0, 0.35), transparent 65%); opacity: 0; transition: opacity 0.5s; }
   :global(.js) .saeulen.reveal:not(.sichtbar) .saeule-karte { opacity: 0; transform: translateY(24px); }
-  .saeule-nr { display: block; font-weight: 800; font-size: 0.8rem; letter-spacing: 0.16em; color: var(--petrol); opacity: 0.7; margin-bottom: 0.5rem; }
   .saeule h3 { margin-bottom: 0.45rem; font-size: clamp(1.25rem, 1.9vw, 1.5rem); }
   .saeule p { margin: 0; color: var(--leise); position: relative; }
   .saeule:hover .saeule-karte { transform: translateY(-6px); box-shadow: 0 24px 50px -24px rgba(4, 35, 45, 0.35); }
