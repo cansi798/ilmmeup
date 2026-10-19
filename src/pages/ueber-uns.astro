@@ -46,7 +46,7 @@ const fakten = [
           <li class="person reveal" style={`--v:${(i % 4) * 80}ms`}>
             <div class="person-bild"><Figur figur={p.figur} name={p.name} hinter={i} /></div>
             <h3>{p.name}</h3>
-            <p class="rolle">{p.rolle}{p.zusatz && <span class="zusatz"> · {p.zusatz}</span>}</p>
+            <p class="rolle">{p.rolle}{p.zusatz && <span class="zusatz"> · {p.zusatz}</span>}{p.spass && <span class="zusatz"> {p.spass}</span>}</p>
             <p class="portrait">{p.text}</p>
           </li>
         ))}
