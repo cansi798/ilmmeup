@@ -84,6 +84,7 @@ const experten = ["Imame", "Gelehrte", "Ärztinnen & Ärzte", "Psychologinnen & 
       <div class="experten-wolke reveal" aria-label="Wen wir suchen">
         <ul class="chips">
           {experten.map((e, i) => <li style={`--i:${i}`}>{e}</li>)}
+          <li class="weitere" style={`--i:${experten.length}`}>und weitere</li>
         </ul>
       </div>
     </div>
@@ -200,7 +201,7 @@ const experten = ["Imame", "Gelehrte", "Ärztinnen & Ärzte", "Psychologinnen & 
   .vorteile :global(svg) { width: 22px; height: 22px; flex: none; padding: 3px; border-radius: 50%; background: var(--gelb); color: var(--tinte); stroke-width: 3; margin-top: 0.15rem; }
   .experten-wolke .chips { gap: 0.7rem; }
   .experten-wolke .chips li { font-size: clamp(0.95rem, 1.4vw, 1.1rem); padding: 0.7em 1.2em; animation: schwebe 6s ease-in-out infinite; animation-delay: calc(var(--i) * -0.7s); }
-  .experten-wolke .chips li:nth-child(3n + 1) { background: var(--gelb); color: var(--tinte); border-color: var(--gelb); }
+  .experten-wolke .chips li.weitere { background: transparent; border-color: transparent; color: rgba(255, 255, 255, 0.75); font-weight: 600; }
   @keyframes schwebe { 50% { transform: translateY(-6px); } }
 
   /* Team */
