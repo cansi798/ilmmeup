@@ -78,7 +78,7 @@ const og = new URL(u("/assets/og-image.jpg"), Astro.site);
       const SVGNS = "http://www.w3.org/2000/svg";
       const bahnen = [...document.querySelectorAll<HTMLElement>("[data-bahn]")];
       const ruhig = matchMedia("(prefers-reduced-motion: reduce)");
-      const DAUER = 7000, STRICH = 110;
+      const DAUER = 7000, STRICH = 170;
       const bahnBauen = (bahn: HTMLElement) => {
         bahn.querySelector(":scope > .lichtbahn")?.remove();
         bahn.classList.remove("bahn-aktiv");
@@ -106,19 +106,29 @@ const og = new URL(u("/assets/og-image.jpg"), Astro.site);
         svg.innerHTML = `<defs><radialGradient id="lg-${bahnen.indexOf(bahn)}"><stop offset="0" stop-color="#ffe680" stop-opacity="0.85"/><stop offset="1" stop-color="#ffcc00" stop-opacity="0"/></radialGradient>
           <filter id="lf-${bahnen.indexOf(bahn)}" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>`;
         const gesamt: number[] = [];
+        // Kometen-Look: mehrere übereinanderliegende Striche um denselben Mittelpunkt –
+        // lang und blass außen, kurz und hell in der Mitte → weich auslaufende Enden vorne und hinten.
+        const SCHICHTEN: [number, number, number][] = Array.from({ length: 9 }, (_, k) => { const f = 1 - k / 9; return [STRICH * f, 0.06 + 0.11 * k, 7 - k * 0.5]; });
+        const farbe = bahn.dataset.bahnFarbe || "#fff0b4";
         for (const oben of [true, false]) {
-          const p = document.createElementNS(SVGNS, "path");
-          p.setAttribute("d", pfad(oben));
-          p.setAttribute("fill", "none");
-          p.setAttribute("stroke", bahn.dataset.bahnFarbe || "#fff0b4");
-          p.setAttribute("stroke-width", "3");
-          p.setAttribute("stroke-linecap", "round");
-          p.setAttribute("filter", `url(#lf-${bahnen.indexOf(bahn)})`);
-          svg.appendChild(p);
-          const L = p.getTotalLength();
-          gesamt.push(L);
-          p.setAttribute("stroke-dasharray", `${STRICH} ${L + STRICH}`);
-          p.animate([{ strokeDashoffset: STRICH }, { strokeDashoffset: -L }], { duration: DAUER, iterations: Infinity, easing: "linear", delay: 1500 });
+          const g = document.createElementNS(SVGNS, "g");
+          g.setAttribute("filter", `url(#lf-${bahnen.indexOf(bahn)})`);
+          svg.appendChild(g);
+          for (const [len, deck, breite] of SCHICHTEN) {
+            const p = document.createElementNS(SVGNS, "path");
+            p.setAttribute("d", pfad(oben));
+            p.setAttribute("fill", "none");
+            p.setAttribute("stroke", farbe);
+            p.setAttribute("stroke-opacity", String(deck));
+            p.setAttribute("stroke-width", String(breite));
+            p.setAttribute("stroke-linecap", "round");
+            g.appendChild(p);
+            const L = p.getTotalLength();
+            if (!gesamt.length) gesamt.push(L);
+            p.setAttribute("stroke-dasharray", `${len} ${L + STRICH * 2}`);
+            const versatz = (STRICH - len) / 2;
+            p.animate([{ strokeDashoffset: len + versatz }, { strokeDashoffset: len / 2 - L - STRICH / 2 }], { duration: DAUER, iterations: Infinity, easing: "linear", delay: 1500 });
+          }
         }
         // Aufleuchten der Kreise, zeitlich passend zur Position des Lichts
         const L = gesamt[0];
@@ -131,7 +141,7 @@ const og = new URL(u("/assets/og-image.jpg"), Astro.site);
           g.setAttribute("cx", String(k.cx)); g.setAttribute("cy", String(k.cy)); g.setAttribute("r", String(k.r * 1.9));
           g.setAttribute("fill", `url(#lg-${bahnen.indexOf(bahn)})`);
           g.style.opacity = "0";
-          svg.insertBefore(g, svg.querySelector("path"));
+          svg.insertBefore(g, svg.querySelector(":scope > g"));
           const a = Math.max(0, t - 0.05), e = Math.min(1, t + 0.09);
           g.animate([{ opacity: 0, offset: 0 }, { opacity: 0, offset: a }, { opacity: 1, offset: t }, { opacity: 0, offset: e }, { opacity: 0, offset: 1 }], { duration: DAUER, iterations: Infinity, easing: "linear", delay: 1500 });
         }
