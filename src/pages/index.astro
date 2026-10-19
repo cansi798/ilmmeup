@@ -220,14 +220,14 @@ const experten = ["Imame", "Gelehrte", "Ärztinnen & Ärzte", "Psychologinnen & 
   .saeule:hover .saeule-icon { background: var(--gelb); color: var(--tinte); border-color: var(--gelb); transform: scale(1.06); }
   @media (min-width: 900px) {
     .saeulen { grid-template-columns: repeat(3, 1fr); gap: 1.75rem; }
-    .saeulen::before { left: 36px; right: 36px; top: 35px; bottom: auto; width: auto; height: 2px; background: linear-gradient(90deg, var(--gelb), rgba(0, 103, 128, 0.25)); transform-origin: left center; }
+    .saeulen::before { left: calc(50% - 50vw); right: calc(50% - 50vw); top: 35px; bottom: auto; width: auto; height: 2px; background: linear-gradient(90deg, rgba(255, 204, 0, 0.35), var(--gelb) 20%, rgba(0, 103, 128, 0.3) 80%, rgba(0, 103, 128, 0.12)); transform-origin: left center; }
     :global(.js) .saeulen.reveal:not(.sichtbar)::before { transform: scaleX(0); }
-    .saeulen::after { left: 36px; right: 36px; top: 34px; bottom: auto; height: 4px; width: auto; background: linear-gradient(90deg, transparent, rgba(255, 230, 128, 1), transparent) no-repeat; background-size: 22% 100%; background-position: -40% 0; animation-name: s-glanz-x; }
+    .saeulen::after { left: calc(50% - 50vw); right: calc(50% - 50vw); top: 34px; bottom: auto; height: 4px; width: auto; background: linear-gradient(90deg, transparent, rgba(255, 230, 128, 1), transparent) no-repeat; background-size: 14% 100%; background-position: -20% 0; animation-name: s-glanz-x; animation-duration: 7s; }
     .saeule { grid-template-columns: 1fr; gap: 1.4rem; }
   }
   @keyframes s-glimmen { 0%, 40%, 100% { opacity: 0; transform: scale(1.3); } 15% { opacity: 1; transform: scale(1.9); } }
   @keyframes s-welle { 0% { opacity: 0.8; transform: scale(1); } 25%, 100% { opacity: 0; transform: scale(1.7); } }
-  @keyframes s-glanz-x { 0% { background-position: -40% 0; } 75%, 100% { background-position: 140% 0; } }
+  @keyframes s-glanz-x { 0% { background-position: -20% 0; } 80%, 100% { background-position: 120% 0; } }
   @keyframes s-glanz-y { 0% { background-position: 0 -40%; } 75%, 100% { background-position: 0 140%; } }
   @media (prefers-reduced-motion: reduce) { .saeulen::after, .saeule-icon::before, .saeule-icon::after, .mission-licht { animation: none; } }
   .mehr { margin: 2.5rem 0 0; }
