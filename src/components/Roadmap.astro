@@ -13,8 +13,7 @@ const stufen = [
     <li class:list={["stufe reveal", { aktiv: i === 0 }]} style={`--v:${i * 110}ms`}>
       <div class="stufe-kopf">
         <span class="stufe-punkt" aria-hidden="true"></span>
-        <span class="stufe-phase">{s.phase}</span>
-        <span class="stufe-status">{s.status}</span>
+        <span class="stufe-label"><span class="stufe-phase">{s.phase}</span><span class="stufe-status">{s.status}</span></span>
       </div>
       <h3>{s.titel}</h3>
       <p>{s.text}</p>
@@ -50,6 +49,8 @@ const stufen = [
   @keyframes glanz-x { 0% { background-position: -20% 0; } 80%, 100% { background-position: 120% 0; } }
   @keyframes glanz-y { 0% { background-position: 0 -20%; } 80%, 100% { background-position: 0 120%; } }
   @media (max-width: 999px) { .stufe .stufe-punkt { position: absolute; left: -12px; top: 0; } }
+  .stufe-label { display: inline-flex; align-items: center; gap: 0.7rem; flex-wrap: wrap; }
+  @media (min-width: 1000px) { .stufe-kopf { display: grid; justify-items: start; gap: 1.1rem; } }
   @media (prefers-reduced-motion: reduce) { .roadmap::after { display: none; } .aktiv .stufe-punkt::before { opacity: 0.7; } }
   .stufe-phase { font-weight: 800; color: #fff; letter-spacing: -0.01em; }
   .stufe-status { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.25em 0.7em; border-radius: 999px; border: 1px solid rgba(255, 255, 255, 0.22); color: rgba(255, 255, 255, 0.75); }
