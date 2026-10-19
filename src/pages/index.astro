@@ -11,7 +11,7 @@ import { VIDEOS, TEAM, u } from "../consts";
 const themen = ["Gesundheit", "Bildung", "Familie", "Psychologie", "Gesellschaft", "Erziehung", "Wissenschaft", "Glaube & Alltag", "Unternehmertum", "Jugend", "Medizin"];
 const saeulen = [
   { icon: "licht", titel: "Wissen sichtbar machen", text: "Fachleute teilen, was sie wissen und erlebt haben – verständlich aufbereitet und hochwertig produziert." },
-  { icon: "herz", titel: "Verständnis fördern", text: "Ehrliche Perspektiven statt Schlagzeilen – für alle, die verstehen wollen." },
+  { icon: "herz", titel: "Verständnis fördern", text: "Ehrliche Perspektiven und echte Gespräche – für alle, die verstehen wollen." },
   { icon: "personen", titel: "Gemeinschaft stärken", text: "Aus Zuschauern werden Mitwirkende: Wir vernetzen Menschen, die etwas Positives bewegen wollen." },
 ];
 const experten = ["Imame", "Gelehrte", "Ärztinnen & Ärzte", "Psychologinnen & Psychologen", "Pädagoginnen & Pädagogen", "Referentinnen & Referenten", "Unternehmerinnen & Unternehmer", "Autorinnen & Autoren", "Mentorinnen & Mentoren", "Community-Leader"];
@@ -50,19 +50,23 @@ const experten = ["Imame", "Gelehrte", "Ärztinnen & Ärzte", "Psychologinnen & 
   </section>
 
   <!-- MISSION -->
-  <section class="abschnitt">
+  <section class="abschnitt mission">
+    <div class="mission-licht" aria-hidden="true"></div>
     <div class="huelle">
       <p class="kicker reveal">Worum es uns geht</p>
       <p class="statement reveal" style="--v:80ms">Wir machen Wissen, Erfahrungen und positive Impulse sichtbar – und schaffen <em class="akzent">Mehrwert für alle wahrheitsliebenden und wissbegierigen Menschen.</em></p>
-      <div class="raster drei saeulen">
+      <ol class="saeulen reveal">
         {saeulen.map((s, i) => (
-          <article class="karte reveal" style={`--v:${i * 100}ms`}>
-            <div class="symbol"><Icon name={s.icon} /></div>
-            <h3>{s.titel}</h3>
-            <p>{s.text}</p>
-          </article>
+          <li class="saeule" style={`--v:${300 + i * 380}ms; --i:${i}`}>
+            <span class="saeule-icon"><Icon name={s.icon} /></span>
+            <div class="saeule-karte">
+              <span class="saeule-nr">0{i + 1}</span>
+              <h3>{s.titel}</h3>
+              <p>{s.text}</p>
+            </div>
+          </li>
         ))}
-      </div>
+      </ol>
       <p class="reveal mehr"><a class="textlink" href={u("/vision/")}>Unsere Vision & Werte <Icon name="pfeil" /></a></p>
     </div>
   </section>
@@ -75,9 +79,9 @@ const experten = ["Imame", "Gelehrte", "Ärztinnen & Ärzte", "Psychologinnen & 
         <h2 class="reveal">Wissen verdient eine <em class="akzent">Bühne.</em></h2>
         <p class="einleitung reveal">Unser Team übernimmt Planung, Dreh, Schnitt und Veröffentlichung – kostenlos. Für Fachleute, die ihr Wissen teilen und Menschen positiv erreichen möchten.</p>
         <ul class="vorteile reveal">
-          <li><Icon name="haken" />Professionelle Videoproduktion ohne Kosten</li>
+          <li><Icon name="haken" />Kostenfreie professionelle Videoproduktion</li>
           <li><Icon name="haken" />Reichweite über YouTube, Instagram und TikTok</li>
-          <li><Icon name="haken" />Unabhängig, respektvoll, keiner Strömung zugeordnet</li>
+          <li><Icon name="haken" />Unabhängig, respektvoll und offen für alle</li>
         </ul>
         <div class="knopfreihe reveal"><a class="knopf" href={u("/fuer-experten/#anfrage")}>Kooperation anfragen <Icon name="pfeil" class="pfeil" /></a></div>
       </div>
@@ -121,7 +125,7 @@ const experten = ["Imame", "Gelehrte", "Ärztinnen & Ärzte", "Psychologinnen & 
           <p class="kicker reveal">Folge uns</p>
           <h2 class="reveal">Dort, wo du <em class="akzent">zuschaust.</em></h2>
         </div>
-        <p class="einleitung reveal">Neue Videos erscheinen laufend auf unseren Kanälen. Folge uns, um keinen Impuls zu verpassen.</p>
+        <p class="einleitung reveal">Neue Videos erscheinen laufend auf unseren Kanälen. Folge uns und sei bei jedem neuen Impuls dabei.</p>
       </div>
       <SocialBereich />
     </div>
@@ -186,8 +190,48 @@ const experten = ["Imame", "Gelehrte", "Ärztinnen & Ärzte", "Psychologinnen & 
 
   /* Mission */
   .statement { font-family: var(--sans); font-weight: 700; font-size: clamp(1.7rem, 3.6vw, 3rem); line-height: 1.22; letter-spacing: -0.03em; color: var(--tinte); max-width: 26ch; margin-bottom: clamp(3rem, 6vw, 4.5rem); }
-  .saeulen h3 { margin-bottom: 0.4rem; }
-  .saeulen p { margin: 0; color: var(--leise); }
+  /* Mission: Hervorhebung „malt“ sich beim Einblenden in Petrol */
+  .mission { overflow: hidden; }
+  .mission-licht { position: absolute; width: 760px; height: 760px; right: -260px; top: -220px; border-radius: 50%; background: radial-gradient(circle, rgba(255, 204, 0, 0.22), rgba(255, 204, 0, 0) 62%); pointer-events: none; animation: atmen 10s ease-in-out infinite alternate; }
+  @media (max-width: 899px) { .mission-licht { width: 420px; height: 420px; right: -220px; top: -140px; opacity: 0.7; } }
+  .statement :global(em.akzent) { background: linear-gradient(90deg, var(--petrol) 0 50%, rgba(14, 42, 51, 0.18) 50% 100%); background-size: 200% 100%; background-position: 0 0; -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-box-decoration-break: clone; box-decoration-break: clone; transition: background-position 1.6s var(--kurve) 0.5s; }
+  :global(.js) .statement.reveal:not(.sichtbar) :global(em.akzent) { background-position: 100% 0; }
+
+  /* Drei Säulen: verbundene Stationen mit glimmenden Symbolen (Bildsprache wie Zeitleiste/Ablauf) */
+  .saeulen { list-style: none; margin: 0; padding: 0; position: relative; display: grid; gap: 1.5rem; }
+  .saeulen::before, .saeulen::after { content: ""; position: absolute; pointer-events: none; }
+  .saeulen::before { background: linear-gradient(var(--gelb), rgba(0, 103, 128, 0.25)); transform-origin: top center; transition: transform 1.6s var(--kurve) 0.2s; left: 35px; top: 36px; bottom: 36px; width: 2px; }
+  .saeulen::after { left: 34px; top: 36px; bottom: 36px; width: 4px; border-radius: 2px; filter: drop-shadow(0 0 4px rgba(255, 204, 0, 0.7)); background: linear-gradient(180deg, transparent, rgba(255, 230, 128, 1), transparent) no-repeat; background-size: 100% 26%; background-position: 0 -40%; animation: s-glanz-y 6s cubic-bezier(0.45, 0, 0.25, 1) 2s infinite; }
+  :global(.js) .saeulen.reveal:not(.sichtbar)::before { transform: scaleY(0); }
+  .saeule { position: relative; display: grid; grid-template-columns: 72px 1fr; gap: 1.1rem; align-items: start; align-content: start; }
+  .saeule-icon { position: relative; z-index: 1; width: 72px; height: 72px; border-radius: 50%; display: grid; place-items: center; background: var(--weiss); color: var(--petrol); border: 2px solid rgba(0, 103, 128, 0.18); box-shadow: var(--schatten); transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.35s, color 0.35s, border-color 0.35s, opacity 0.4s; transition-delay: var(--v), 0s, 0s, 0s, var(--v); }
+  .saeule-icon :global(svg) { width: 30px; height: 30px; }
+  .saeule-icon::before { content: ""; position: absolute; inset: 0; border-radius: 50%; z-index: -1; background: radial-gradient(circle, rgba(255, 220, 90, 0.75), rgba(255, 204, 0, 0) 70%); opacity: 0; animation: s-glimmen 4.8s ease-in-out infinite; animation-delay: calc(var(--i) * 1.2s + 2s); }
+  .saeule-icon::after { content: ""; position: absolute; inset: -2px; border-radius: 50%; border: 2px solid rgba(255, 204, 0, 0.65); opacity: 0; animation: s-welle 4.8s ease-out infinite; animation-delay: calc(var(--i) * 1.2s + 2s); }
+  :global(.js) .saeulen.reveal:not(.sichtbar) .saeule-icon { transform: scale(0.3); opacity: 0; }
+  .saeule-karte { position: relative; overflow: hidden; background: var(--weiss); border-radius: var(--radius); padding: 1.5rem 1.6rem 1.6rem; box-shadow: var(--schatten); border: 1px solid rgba(14, 42, 51, 0.05); transition: transform 0.45s var(--kurve), box-shadow 0.45s, opacity 0.8s var(--kurve); transition-delay: 0s, 0s, calc(var(--v) + 150ms); }
+  .saeule-karte::before { content: ""; position: absolute; left: 0; top: 0; height: 4px; width: 100%; background: linear-gradient(90deg, var(--gelb), var(--gelb-hell)); transform: scaleX(0); transform-origin: left; transition: transform 0.6s var(--kurve); }
+  .saeule-karte::after { content: ""; position: absolute; width: 220px; height: 220px; right: -90px; bottom: -110px; border-radius: 50%; background: radial-gradient(circle, rgba(255, 204, 0, 0.35), transparent 65%); opacity: 0; transition: opacity 0.5s; }
+  :global(.js) .saeulen.reveal:not(.sichtbar) .saeule-karte { opacity: 0; transform: translateY(24px); }
+  .saeule-nr { display: block; font-weight: 800; font-size: 0.8rem; letter-spacing: 0.16em; color: var(--petrol); opacity: 0.7; margin-bottom: 0.5rem; }
+  .saeule h3 { margin-bottom: 0.45rem; font-size: clamp(1.25rem, 1.9vw, 1.5rem); }
+  .saeule p { margin: 0; color: var(--leise); position: relative; }
+  .saeule:hover .saeule-karte { transform: translateY(-6px); box-shadow: 0 24px 50px -24px rgba(4, 35, 45, 0.35); }
+  .saeule:hover .saeule-karte::before { transform: scaleX(1); }
+  .saeule:hover .saeule-karte::after { opacity: 1; }
+  .saeule:hover .saeule-icon { background: var(--gelb); color: var(--tinte); border-color: var(--gelb); transform: scale(1.06); }
+  @media (min-width: 900px) {
+    .saeulen { grid-template-columns: repeat(3, 1fr); gap: 1.75rem; }
+    .saeulen::before { left: 36px; right: 36px; top: 35px; bottom: auto; width: auto; height: 2px; background: linear-gradient(90deg, var(--gelb), rgba(0, 103, 128, 0.25)); transform-origin: left center; }
+    :global(.js) .saeulen.reveal:not(.sichtbar)::before { transform: scaleX(0); }
+    .saeulen::after { left: 36px; right: 36px; top: 34px; bottom: auto; height: 4px; width: auto; background: linear-gradient(90deg, transparent, rgba(255, 230, 128, 1), transparent) no-repeat; background-size: 22% 100%; background-position: -40% 0; animation-name: s-glanz-x; }
+    .saeule { grid-template-columns: 1fr; gap: 1.4rem; }
+  }
+  @keyframes s-glimmen { 0%, 40%, 100% { opacity: 0; transform: scale(1.3); } 15% { opacity: 1; transform: scale(1.9); } }
+  @keyframes s-welle { 0% { opacity: 0.8; transform: scale(1); } 25%, 100% { opacity: 0; transform: scale(1.7); } }
+  @keyframes s-glanz-x { 0% { background-position: -40% 0; } 75%, 100% { background-position: 140% 0; } }
+  @keyframes s-glanz-y { 0% { background-position: 0 -40%; } 75%, 100% { background-position: 0 140%; } }
+  @media (prefers-reduced-motion: reduce) { .saeulen::after, .saeule-icon::before, .saeule-icon::after, .mission-licht { animation: none; } }
   .mehr { margin: 2.5rem 0 0; }
 
 
