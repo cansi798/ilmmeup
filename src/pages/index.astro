@@ -5,8 +5,7 @@ import Video from "../components/Video.astro";
 import Roadmap from "../components/Roadmap.astro";
 import SocialBereich from "../components/SocialBereich.astro";
 import Newsletter from "../components/Newsletter.astro";
-import Figur from "../components/Figur.astro";
-import { VIDEOS, TEAM, u } from "../consts";
+import { VIDEOS, u } from "../consts";
 
 const themen = ["Gesundheit", "Bildung", "Familie", "Psychologie", "Gesellschaft", "Erziehung", "Wissenschaft", "Glaube & Alltag", "Unternehmertum", "Jugend", "Medizin"];
 const saeulen = [
@@ -55,7 +54,7 @@ const experten = ["Imame", "Gelehrte", "Ärztinnen & Ärzte", "Psychologinnen & 
     <div class="huelle">
       <p class="kicker reveal">Worum es uns geht</p>
       <p class="statement reveal" style="--v:80ms">Wir machen Wissen, Erfahrungen und positive Impulse sichtbar – und schaffen <em class="akzent">Mehrwert für alle wahrheitsliebenden und wissbegierigen Menschen.</em></p>
-      <ol class="saeulen reveal" data-bahn data-bahn-farbe="#ffc400">
+      <ol class="saeulen reveal" data-bahn data-bahn-farbe="#ffd24a">
         {saeulen.map((s, i) => (
           <li class="saeule" style={`--v:${300 + i * 380}ms; --i:${i}`}>
             <span class="saeule-icon" data-knoten><Icon name={s.icon} /></span>
@@ -90,29 +89,6 @@ const experten = ["Imame", "Gelehrte", "Ärztinnen & Ärzte", "Psychologinnen & 
           <li class="weitere" style={`--i:${experten.length}`}>und weitere</li>
         </ul>
       </div>
-    </div>
-  </section>
-
-  <!-- TEAM -->
-  <section class="abschnitt">
-    <div class="huelle">
-      <div class="kopfzeile zweispaltig">
-        <div>
-          <p class="kicker reveal">Das Team</p>
-          <h2 class="reveal">Menschen mit Beruf, Erfahrung <em class="akzent">und Haltung.</em></h2>
-        </div>
-        <p class="einleitung reveal">Ärztinnen und Ärzte, Naturwissenschaft, Technik und Video: Hinter ilm me up steht ein Team beruflich etablierter Menschen, die ihr Können gemeinsam einbringen.</p>
-      </div>
-      <ul class="team-reihe">
-        {TEAM.map((p, i) => (
-          <li class="reveal" style={`--v:${i * 60}ms`}>
-            <Figur figur={p.figur} name={p.name} hinter={i} />
-            <strong>{p.name}</strong>
-            <span>{p.rolle}</span>
-          </li>
-        ))}
-      </ul>
-      <p class="reveal mehr"><a class="textlink" href={u("/ueber-uns/#team")}>Das ganze Team kennenlernen <Icon name="pfeil" /></a></p>
     </div>
   </section>
 
@@ -247,13 +223,4 @@ const experten = ["Imame", "Gelehrte", "Ärztinnen & Ärzte", "Psychologinnen & 
   .experten-wolke .chips li.weitere { background: transparent; border-color: transparent; color: rgba(255, 255, 255, 0.75); font-weight: 600; }
   @keyframes schwebe { 50% { transform: translateY(-6px); } }
 
-  /* Team */
-  .team-reihe { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem 1rem; }
-  @media (min-width: 640px) { .team-reihe { grid-template-columns: repeat(4, 1fr); } }
-  @media (min-width: 1100px) { .team-reihe { grid-template-columns: repeat(8, 1fr); } }
-  .team-reihe li { display: grid; justify-items: center; text-align: center; gap: 0.15rem; }
-  .team-reihe :global(.figur) { width: min(100%, 140px); margin-bottom: 0.6rem; border-radius: 50%; transition: transform 0.4s var(--kurve); }
-  .team-reihe li:hover :global(.figur) { transform: translateY(-4px) rotate(-3deg); }
-  .team-reihe strong { color: var(--tinte); font-size: 1.05rem; }
-  .team-reihe span { font-size: 0.88rem; color: var(--leise); line-height: 1.35; }
 </style>

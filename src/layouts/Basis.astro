@@ -87,7 +87,7 @@ const og = new URL(u("/assets/og-image.jpg"), Astro.site);
       const SVGNS = "http://www.w3.org/2000/svg";
       const bahnen = [...document.querySelectorAll<HTMLElement>("[data-bahn]")];
       const ruhig = matchMedia("(prefers-reduced-motion: reduce)");
-      const DAUER = 7000, STRICH = 170;
+      const DAUER = 9000, STRICH = 170;
       const bahnBauen = (bahn: HTMLElement) => {
         bahn.querySelector(":scope > .lichtbahn")?.remove();
         bahn.classList.remove("bahn-aktiv");
@@ -126,14 +126,14 @@ const og = new URL(u("/assets/og-image.jpg"), Astro.site);
         svg.setAttribute("width", String(bahn.offsetWidth)); svg.setAttribute("height", String(bahn.offsetHeight));
         svg.setAttribute("aria-hidden", "true");
         svg.innerHTML = `<defs><radialGradient id="lg-${bahnen.indexOf(bahn)}"><stop offset="0" stop-color="#ffe680" stop-opacity="0.85"/><stop offset="1" stop-color="#ffcc00" stop-opacity="0"/></radialGradient>
-          <filter id="lf-${bahnen.indexOf(bahn)}" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>`;
+          <filter id="lf-${bahnen.indexOf(bahn)}" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>`;
         const gesamt: number[] = [];
         // Kometen-Look: mehrere übereinanderliegende Striche um denselben Mittelpunkt –
         // lang und blass außen, kurz und hell in der Mitte → weich auslaufende Enden vorne und hinten.
         // auf dem Handy weniger Schichten und kein SVG-Weichzeichner (spart Rechenleistung beim Scrollen)
         const handy = innerWidth < 900;
         const n = handy ? 6 : 9;
-        const SCHICHTEN: [number, number, number][] = Array.from({ length: n }, (_, k) => { const f = 1 - k / n; return [STRICH * f, 0.06 + (0.95 / n) * k, (handy ? 8 : 7) - k * (handy ? 1.1 : 0.5)]; });
+        const SCHICHTEN: [number, number, number][] = Array.from({ length: n }, (_, k) => { const f = 1 - k / n; return [STRICH * f, 0.03 + (0.5 / n) * k, (handy ? 5 : 4.5) - k * (handy ? 0.65 : 0.35)]; });
         const farbe = bahn.dataset.bahnFarbe || "#fff0b4";
         for (const oben of [true, false]) {
           const g = document.createElementNS(SVGNS, "g");
@@ -149,7 +149,7 @@ const og = new URL(u("/assets/og-image.jpg"), Astro.site);
             p.setAttribute("stroke-linecap", "round");
             g.appendChild(p);
             const L = p.getTotalLength();
-            if (!gesamt.length) gesamt.push(L, Math.max(DAUER, L * 4.5));
+            if (!gesamt.length) gesamt.push(L, Math.max(DAUER, L * 6));
             p.setAttribute("stroke-dasharray", `${len} ${L + STRICH * 2}`);
             const versatz = (STRICH - len) / 2;
             p.animate([{ strokeDashoffset: len + versatz }, { strokeDashoffset: len / 2 - L - STRICH / 2 }], { duration: gesamt[1], iterations: Infinity, easing: "linear", delay: 1500 });
@@ -168,7 +168,7 @@ const og = new URL(u("/assets/og-image.jpg"), Astro.site);
           g.style.opacity = "0";
           svg.insertBefore(g, svg.querySelector(":scope > g"));
           const a = Math.max(0, t - 0.05), e = Math.min(1, t + 0.09);
-          g.animate([{ opacity: 0, offset: 0 }, { opacity: 0, offset: a }, { opacity: 1, offset: t }, { opacity: 0, offset: e }, { opacity: 0, offset: 1 }], { duration: gesamt[1], iterations: Infinity, easing: "linear", delay: 1500 });
+          g.animate([{ opacity: 0, offset: 0 }, { opacity: 0, offset: a }, { opacity: 0.55, offset: t }, { opacity: 0, offset: e }, { opacity: 0, offset: 1 }], { duration: gesamt[1], iterations: Infinity, easing: "linear", delay: 1500 });
         }
         bahn.appendChild(svg);
         bahn.classList.add("bahn-aktiv");
