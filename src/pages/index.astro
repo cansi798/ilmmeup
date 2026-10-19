@@ -8,10 +8,10 @@ import Newsletter from "../components/Newsletter.astro";
 import Figur from "../components/Figur.astro";
 import { VIDEOS, TEAM, u } from "../consts";
 
-const themen = ["Gesundheit", "Bildung", "Familie", "Psychologie", "Gesellschaft", "Erziehung", "Wissenschaft", "Glaube & Alltag", "Unternehmertum", "Ehrenamt", "Jugend", "Medizin"];
+const themen = ["Gesundheit", "Bildung", "Familie", "Psychologie", "Gesellschaft", "Erziehung", "Wissenschaft", "Glaube & Alltag", "Unternehmertum", "Jugend", "Medizin"];
 const saeulen = [
   { icon: "licht", titel: "Wissen sichtbar machen", text: "Fachleute teilen, was sie wissen und erlebt haben – verständlich aufbereitet und hochwertig produziert." },
-  { icon: "herz", titel: "Verständnis fördern", text: "Ehrliche Perspektiven statt Schlagzeilen. Für Muslime und Nichtmuslime gleichermaßen." },
+  { icon: "herz", titel: "Verständnis fördern", text: "Ehrliche Perspektiven statt Schlagzeilen – für alle, die verstehen wollen." },
   { icon: "personen", titel: "Gemeinschaft stärken", text: "Aus Zuschauern werden Mitwirkende: Wir vernetzen Menschen, die etwas Positives bewegen wollen." },
 ];
 const formate = [
@@ -59,7 +59,7 @@ const experten = ["Imame", "Gelehrte", "Ärztinnen & Ärzte", "Psychologinnen & 
   <section class="abschnitt">
     <div class="huelle">
       <p class="kicker reveal">Worum es uns geht</p>
-      <p class="statement reveal" style="--v:80ms">Wir machen Wissen, Erfahrungen und positive Impulse sichtbar – und schaffen <em class="akzent unterstrich">Mehrwert für alle Menschen</em>, Muslime und Nichtmuslime gleichermaßen.</p>
+      <p class="statement reveal" style="--v:80ms">Wir machen Wissen, Erfahrungen und positive Impulse sichtbar – und schaffen <em class="akzent unterstrich">Mehrwert für alle wahrheitsliebenden und wissbegierigen Menschen.</em></p>
       <div class="raster drei saeulen">
         {saeulen.map((s, i) => (
           <article class="karte reveal" style={`--v:${i * 100}ms`}>
@@ -226,7 +226,7 @@ const experten = ["Imame", "Gelehrte", "Ärztinnen & Ärzte", "Psychologinnen & 
   .format:hover::before { opacity: 1; }
   .format:hover h3 { color: #fff; }
   .format:hover .symbol { background: rgba(255, 204, 0, 0.14); color: var(--gelb); }
-  .format-nr { position: absolute; top: 1.4rem; right: 1.5rem; font-family: var(--serif); font-style: italic; font-size: 1.1rem; color: var(--leise); }
+  .format-nr { position: absolute; top: 1.4rem; right: 1.5rem; font-weight: 800; font-size: 1rem; color: var(--leise); }
   .format:hover .format-nr { color: var(--gelb); }
   .format h3 { margin-bottom: 0.35rem; transition: color 0.4s; }
   .format p { margin: 0 0 1.4rem; font-size: 0.98rem; }

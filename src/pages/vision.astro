@@ -14,7 +14,7 @@ const werte = [
 ];
 ---
 <Basis titel="Vision & Werte" beschreibung="Wofür ilm me up steht: Wissen sichtbar machen, Verständnis fördern, Gemeinschaft stärken – unabhängig und respektvoll.">
-  <SeitenKopf kicker="Vision & Werte" titel='Wissen, das <em class="akzent">verbindet.</em>' einleitung="Unser Ziel ist es, Wissen, Erfahrungen und positive Impulse sichtbar zu machen, Verständnis zu fördern und einen Mehrwert für Muslime und Nichtmuslime gleichermaßen zu schaffen." />
+  <SeitenKopf kicker="Vision & Werte" titel='Wissen, das <em class="akzent">verbindet.</em>' einleitung="Unser Ziel ist es, Wissen, Erfahrungen und positive Impulse sichtbar zu machen, Verständnis zu fördern und einen Mehrwert für alle wahrheitsliebenden und wissbegierigen Menschen zu schaffen." />
 
   <section class="abschnitt">
     <div class="huelle mission">
@@ -90,9 +90,9 @@ const werte = [
   @media (min-width: 960px) { .mission { grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; } }
   .gross { font-size: clamp(1.2rem, 1.8vw, 1.4rem); line-height: 1.6; color: var(--tinte); font-weight: 600; }
   .zitatflaeche { overflow: hidden; }
-  .zitatflaeche::before { content: "“"; position: absolute; right: 4%; top: 0.02em; font-family: var(--serif); font-size: clamp(16rem, 30vw, 28rem); line-height: 1; color: rgba(255, 204, 0, 0.18); pointer-events: none; }
+  .zitatflaeche::before { content: "“"; position: absolute; right: 4%; top: 0.02em; font-family: var(--sans); font-weight: 800; font-size: clamp(16rem, 30vw, 28rem); line-height: 1; color: rgba(255, 204, 0, 0.18); pointer-events: none; }
   .zitat { margin: 0; position: relative; }
-  .zitat p { font-family: var(--serif); font-style: italic; font-size: clamp(1.8rem, 3.8vw, 3.2rem); line-height: 1.22; color: #fff; letter-spacing: -0.02em; max-width: 24ch; }
+  .zitat p { font-weight: 700; font-size: clamp(1.7rem, 3.4vw, 2.8rem); line-height: 1.22; color: #fff; letter-spacing: -0.02em; max-width: 24ch; }
   .zitat footer { font-weight: 700; color: var(--gelb); }
   .wert p { margin: 0; color: var(--leise); }
   .cta { text-align: center; display: grid; justify-items: center; }

@@ -11,7 +11,6 @@ const aktiv = (href: string) => {
   <div class="kopf-innen huelle">
     <a class="marke" href={u("/")} aria-label="ilm me up – zur Startseite">
       <img src={u("/assets/logo.svg")} alt="" width="46" height="55" />
-      <span class="marke-text" aria-hidden="true">ilm me up</span>
     </a>
     <nav class="hauptnav" aria-label="Hauptnavigation">
       <ul>
@@ -45,7 +44,6 @@ const aktiv = (href: string) => {
   .marke img { height: 52px; width: auto; transition: height 0.3s, transform 0.4s var(--kurve); }
   .kopf.fest .marke img { height: 44px; }
   .marke:hover img { transform: rotate(-6deg); }
-  .marke-text { font-weight: 800; font-size: 1.15rem; letter-spacing: -0.03em; }
   .hauptnav ul { display: flex; gap: 0.2rem; list-style: none; margin: 0; padding: 0; }
   .hauptnav a { display: block; padding: 0.55em 0.85em; border-radius: 999px; color: rgba(255, 255, 255, 0.86); text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: color 0.2s, background 0.2s; }
   .hauptnav a:hover { color: #fff; background: rgba(255, 255, 255, 0.08); }
