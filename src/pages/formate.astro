@@ -1,0 +1,88 @@
+---
+import Basis from "../layouts/Basis.astro";
+import SeitenKopf from "../components/SeitenKopf.astro";
+import Icon from "../components/Icon.astro";
+import Video from "../components/Video.astro";
+import { VIDEOS, VORSCHAU, u } from "../consts";
+const formate = [
+  { icon: "gespraech", titel: "Im Gespräch", laenge: "20–60 Min.", kanal: "YouTube", text: "Ausführliche Interviews mit Menschen, die etwas zu sagen haben: Werdegang, Erfahrungen, Haltung – Raum für Tiefe statt Schlagzeilen." },
+  { icon: "blitz", titel: "Kurzimpulse", laenge: "30–90 Sek.", kanal: "Shorts, Reels, TikTok", text: "Ein Gedanke, ein Thema, eine Minute. Kompakte Impulse, die zum Weiterdenken anregen – ideal für unterwegs." },
+  { icon: "mikro", titel: "Fachvorträge", laenge: "10–30 Min.", kanal: "YouTube", text: "Fundiertes Wissen aus Medizin, Psychologie, Pädagogik, Naturwissenschaft und mehr – verständlich erklärt von Fachleuten." },
+  { icon: "frage", titel: "Fragen & Antworten", laenge: "5–15 Min.", kanal: "YouTube, Instagram", text: "Fragen aus der Community, beantwortet von Expertinnen und Experten. Ehrlich, sachlich und auf Augenhöhe." },
+  { icon: "person", titel: "Porträts", laenge: "5–10 Min.", kanal: "YouTube", text: "Menschen und ihre Wege: Wer sie sind, was sie antreibt und was andere von ihnen lernen können." },
+  { icon: "kamera", titel: "Hinter der Kamera", laenge: "1–3 Min.", kanal: "Instagram, TikTok", text: "Einblicke in unsere Arbeit – wie Inhalte entstehen und wer daran mitwirkt." },
+];
+const spaeter = [["mikro", "Podcast"], ["bibliothek", "Mediathek"], ["kalender", "Live-Veranstaltungen"], ["welt", "Mehrsprachige Inhalte"]];
+---
+<Basis titel="Unsere Formate" beschreibung="Gespräche, Kurzimpulse, Fachvorträge, Fragen & Antworten: die Formate von ilm me up auf YouTube, Instagram und TikTok.">
+  <SeitenKopf kicker="Unsere Formate" titel='Jedes Thema in <em class="akzent">seiner Form.</em>' einleitung="Vom Impuls in 60 Sekunden bis zum ausführlichen Gespräch: Wir produzieren Inhalte, die zu ihrem Thema und zu den Menschen passen, die sie sehen." />
+
+  <section class="abschnitt">
+    <div class="huelle">
+      {VORSCHAU && <p class="platzhalter-hinweis hinweis-oben">Formatnamen und Längen sind Arbeitstitel – bitte bestätigen oder anpassen.</p>}
+      <div class="formate">
+        {formate.map((f, i) => (
+          <article class="format-zeile reveal">
+            <span class="nr">{String(i + 1).padStart(2, "0")}</span>
+            <div class="symbol"><Icon name={f.icon} /></div>
+            <div class="format-haupt">
+              <h2>{f.titel}</h2>
+              <p>{f.text}</p>
+            </div>
+            <dl class="format-meta">
+              <div><dt>Länge</dt><dd>{f.laenge}</dd></div>
+              <div><dt>Wo</dt><dd>{f.kanal}</dd></div>
+            </dl>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="abschnitt dunkel">
+    <div class="huelle videos-raster">
+      <div>
+        <p class="kicker reveal">Reinschauen</p>
+        <h2 class="reveal">So klingt <em class="akzent">ilm me up.</em></h2>
+        <p class="einleitung reveal">Zwei unserer aktuellen Kurzimpulse. Das Video wird erst geladen, wenn du auf „Abspielen“ tippst.</p>
+        <a class="knopf reveal" href={u("/#kanaele")}>Alle Kanäle <Icon name="pfeil" class="pfeil" /></a>
+      </div>
+      <div class="videos">
+        {VIDEOS.map((v, i) => <div class="reveal" style={`--v:${i * 120}ms`}><Video id={v.id} titel={v.titel} thema={v.thema} variante={i + 1} hoch={v.hoch} /></div>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="abschnitt eng">
+    <div class="huelle">
+      <p class="kicker reveal">Später geplant</p>
+      <ul class="chips spaeter reveal">
+        {spaeter.map(([icon, t]) => <li><Icon name={icon} />{t}</li>)}
+      </ul>
+    </div>
+  </section>
+</Basis>
+
+<style>
+  .hinweis-oben { margin-bottom: 2rem; }
+  .formate { border-top: 1px solid var(--linie); }
+  .format-zeile { display: grid; grid-template-columns: auto 1fr; gap: 0.5rem 1.25rem; padding-block: clamp(1.75rem, 3vw, 2.5rem); border-bottom: 1px solid var(--linie); align-items: start; transition: background 0.3s; }
+  .format-zeile .symbol { margin: 0; }
+  .nr { display: none; }
+  .format-haupt h2 { font-size: clamp(1.5rem, 2.6vw, 2.1rem); margin-bottom: 0.4rem; }
+  .format-haupt p { margin: 0; color: var(--leise); max-width: 58ch; }
+  .format-meta { grid-column: 2; display: flex; gap: 1.5rem; margin: 0.6rem 0 0; }
+  .format-meta dt { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--leise); }
+  .format-meta dd { margin: 0; font-weight: 700; color: var(--tinte); }
+  @media (min-width: 900px) {
+    .format-zeile { grid-template-columns: 4rem auto 1fr 220px; gap: 2rem; align-items: center; }
+    .nr { display: block; font-family: var(--serif); font-style: italic; font-size: 1.6rem; color: var(--petrol); }
+    .format-meta { grid-column: auto; flex-direction: column; gap: 0.6rem; margin: 0; }
+    .format-zeile:hover { background: linear-gradient(90deg, transparent, var(--gelb-zart) 30%, transparent); }
+  }
+  .videos-raster { display: grid; gap: 3rem; align-items: center; }
+  @media (min-width: 900px) { .videos-raster { grid-template-columns: 1fr 1fr; gap: 4rem; } }
+  .videos { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; max-width: 480px; }
+  .spaeter li { display: inline-flex; align-items: center; gap: 0.5rem; }
+  .spaeter :global(svg) { width: 18px; height: 18px; color: var(--petrol); }
+</style>

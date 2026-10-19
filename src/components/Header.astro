@@ -1,0 +1,72 @@
+---
+import { NAV, u } from "../consts";
+import Icon from "./Icon.astro";
+const pfad = Astro.url.pathname.replace(/\/?$/, "/");
+const aktiv = (href: string) => {
+  const ziel = u(href).replace(/\/?$/, "/");
+  return href === "/" ? pfad === ziel : pfad.startsWith(ziel);
+};
+---
+<header class="kopf" data-kopf>
+  <div class="kopf-innen huelle">
+    <a class="marke" href={u("/")} aria-label="ilm me up – zur Startseite">
+      <img src={u("/assets/logo.svg")} alt="" width="46" height="55" />
+      <span class="marke-text" aria-hidden="true">ilm me up</span>
+    </a>
+    <nav class="hauptnav" aria-label="Hauptnavigation">
+      <ul>
+        {NAV.filter((n) => n.href !== "/kontakt/").map((n) => (
+          <li><a href={u(n.href)} aria-current={aktiv(n.href) ? "page" : undefined}>{n.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+    <a class="knopf kopf-cta" href={u("/kontakt/")}>Kontakt</a>
+    <button class="menue-knopf" type="button" aria-expanded="false" aria-controls="mobilnav" data-menue>
+      <Icon name="menue" class="auf" /><Icon name="schliessen" class="zu" />
+      <span class="sr-only">Menü</span>
+    </button>
+  </div>
+  <div class="mobilnav" id="mobilnav" hidden>
+    <ul class="huelle">
+      {NAV.map((n, i) => (
+        <li style={`--i:${i}`}><a href={u(n.href)} aria-current={aktiv(n.href) ? "page" : undefined}>{n.label}<Icon name="pfeil" /></a></li>
+      ))}
+    </ul>
+  </div>
+</header>
+
+<style>
+  .kopf { position: fixed; inset: 0 0 auto; z-index: 50; color: #fff; transition: background 0.35s, box-shadow 0.35s, backdrop-filter 0.35s; }
+  .kopf.fest, .kopf.offen { background: rgba(4, 35, 45, 0.88); backdrop-filter: blur(14px) saturate(140%); -webkit-backdrop-filter: blur(14px) saturate(140%); box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08); }
+  .kopf.offen { background: var(--nacht); }
+  .kopf-innen { display: flex; align-items: center; gap: 1.5rem; height: 84px; transition: height 0.3s; }
+  .kopf.fest .kopf-innen { height: 70px; }
+  .marke { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; color: #fff; margin-right: auto; }
+  .marke img { height: 52px; width: auto; transition: height 0.3s, transform 0.4s var(--kurve); }
+  .kopf.fest .marke img { height: 44px; }
+  .marke:hover img { transform: rotate(-6deg); }
+  .marke-text { font-weight: 800; font-size: 1.15rem; letter-spacing: -0.03em; }
+  .hauptnav ul { display: flex; gap: 0.2rem; list-style: none; margin: 0; padding: 0; }
+  .hauptnav a { display: block; padding: 0.55em 0.85em; border-radius: 999px; color: rgba(255, 255, 255, 0.86); text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: color 0.2s, background 0.2s; }
+  .hauptnav a:hover { color: #fff; background: rgba(255, 255, 255, 0.08); }
+  .hauptnav a[aria-current="page"] { color: var(--tinte); background: var(--gelb); }
+  .kopf-cta { min-height: 44px; padding: 0.6em 1.25em; font-size: 0.95rem; }
+  .menue-knopf { display: none; width: 48px; height: 48px; border-radius: 14px; border: 1px solid rgba(255, 255, 255, 0.25); background: rgba(255, 255, 255, 0.06); color: #fff; place-items: center; cursor: pointer; }
+  .menue-knopf :global(svg) { width: 24px; height: 24px; grid-area: 1 / 1; }
+  .menue-knopf :global(.zu) { display: none; }
+  .kopf.offen .menue-knopf :global(.zu) { display: block; }
+  .kopf.offen .menue-knopf :global(.auf) { display: none; }
+  .mobilnav { border-top: 1px solid rgba(255, 255, 255, 0.08); height: calc(100dvh - 70px); overflow-y: auto; }
+  .mobilnav ul { list-style: none; padding: 1.5rem 0 3rem; margin: 0 auto; }
+  .mobilnav a { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0.25rem; font-size: 1.6rem; font-weight: 700; letter-spacing: -0.03em; color: #fff; text-decoration: none; border-bottom: 1px solid rgba(255, 255, 255, 0.08); animation: rein 0.5s var(--kurve) both; animation-delay: calc(var(--i) * 45ms); }
+  .mobilnav a :global(svg) { width: 22px; height: 22px; color: var(--gelb); }
+  .mobilnav a[aria-current="page"] { color: var(--gelb); }
+  @keyframes rein { from { opacity: 0; transform: translateY(12px); } }
+  @media (max-width: 1080px) {
+    .hauptnav, .kopf-cta { display: none; }
+    .menue-knopf { display: grid; }
+    .kopf-innen { height: 70px; }
+    .marke img { height: 44px; }
+  }
+  @media (min-width: 1081px) { .mobilnav { display: none !important; } }
+</style>

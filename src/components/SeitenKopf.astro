@@ -1,0 +1,27 @@
+---
+// Einstieg der Unterseiten: dunkle Medienfläche mit Lichtkegel aus dem Logo.
+interface Props { kicker: string; titel: string; einleitung?: string }
+const { kicker, titel, einleitung } = Astro.props;
+---
+<section class="seitenkopf">
+  <div class="licht" aria-hidden="true"><span></span><span></span></div>
+  <div class="huelle seitenkopf-innen">
+    <p class="kicker">{kicker}</p>
+    <h1 set:html={titel} />
+    {einleitung && <p class="einleitung">{einleitung}</p>}
+    <slot />
+  </div>
+</section>
+
+<style>
+  .seitenkopf { position: relative; overflow: hidden; background: var(--nacht); color: rgba(255, 255, 255, 0.82); padding: clamp(9rem, 18vw, 12.5rem) 0 clamp(4rem, 9vw, 7rem); isolation: isolate; }
+  .seitenkopf :global(h1) { color: #fff; max-width: 16ch; }
+  .seitenkopf-innen { position: relative; }
+  .einleitung { max-width: 54ch; }
+  .licht { position: absolute; inset: 0; z-index: -1; }
+  .licht span { position: absolute; border-radius: 50%; filter: blur(10px); }
+  .licht span:first-child { width: 60vmax; height: 60vmax; right: -18vmax; top: -30vmax; background: radial-gradient(circle, rgba(255, 204, 0, 0.32), transparent 62%); animation: schweben 14s ease-in-out infinite alternate; }
+  .licht span:last-child { width: 70vmax; height: 70vmax; left: -30vmax; bottom: -50vmax; background: radial-gradient(circle, rgba(0, 103, 128, 0.7), transparent 60%); animation: schweben 18s ease-in-out infinite alternate-reverse; }
+  .seitenkopf::after { content: ""; position: absolute; inset: 0; z-index: -1; background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.03) 0 1px, transparent 1px 96px); mask-image: linear-gradient(to bottom, #000, transparent); }
+  @keyframes schweben { to { transform: translate3d(-4vmax, 3vmax, 0) scale(1.08); } }
+</style>

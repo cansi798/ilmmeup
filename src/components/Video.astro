@@ -1,0 +1,60 @@
+---
+// Datenschutzfreundliches Video: vor dem Klick keine Verbindung zu YouTube.
+// id = null → klar gekennzeichneter Platzhalter.
+import Icon from "./Icon.astro";
+import { VORSCHAU, u } from "../consts";
+interface Props { id: string | null; titel: string; thema?: string; variante?: number; gross?: boolean; hoch?: boolean }
+const { id, titel, thema, variante = 0, gross = false, hoch = false } = Astro.props;
+---
+<figure class:list={["video", `v${variante % 3}`, { gross, hoch }]}>
+  <div class="video-rahmen">
+    {id ? (
+      <button type="button" class="video-start" data-yt={id} data-titel={titel} aria-label={`Video abspielen: ${titel}`}>
+        <span class="video-kunst" aria-hidden="true"><img class="video-logo" src={u("/assets/logo.svg")} alt="" loading="lazy" /></span>
+        <span class="video-play" aria-hidden="true"><Icon name="play" /></span>
+        <span class="video-hinweis">Abspielen lädt das Video von YouTube.</span>
+      </button>
+    ) : (
+      <div class="video-start platzhalter" role="img" aria-label={`Platzhalter für Video: ${titel}`}>
+        <span class="video-kunst" aria-hidden="true"><img class="video-logo" src={u("/assets/logo.svg")} alt="" loading="lazy" /></span>
+        <span class="video-play" aria-hidden="true"><Icon name="play" /></span>
+        {VORSCHAU && <span class="platzhalter-hinweis video-badge">Platzhalter – Video folgt</span>}
+      </div>
+    )}
+  </div>
+  <figcaption>
+    {thema && <span class="video-thema">{thema}</span>}
+    <span class="video-titel">{titel}</span>
+  </figcaption>
+</figure>
+
+<style>
+  .video { margin: 0; }
+  .hoch .video-rahmen { aspect-ratio: 9 / 16; }
+  .hoch .video-hinweis { right: 1rem; text-align: center; }
+  .video-rahmen { position: relative; aspect-ratio: 16 / 9; border-radius: var(--radius); overflow: hidden; background: var(--nacht); box-shadow: var(--schatten); isolation: isolate; }
+  .gross .video-rahmen { border-radius: var(--radius-gross); box-shadow: var(--schatten-gross); }
+  .video-start { all: unset; position: absolute; inset: 0; display: grid; place-items: center; cursor: pointer; }
+  .video-start.platzhalter { cursor: default; }
+  .video-start:focus-visible { outline: 3px solid var(--gelb); outline-offset: -3px; }
+  .video-kunst { position: absolute; inset: 0; z-index: -1; transition: transform 1.2s var(--kurve); }
+  .v0 .video-kunst { background: radial-gradient(60% 80% at 75% 20%, rgba(255, 204, 0, 0.55), transparent 60%), radial-gradient(70% 90% at 10% 100%, #1a8aa6, transparent 60%), linear-gradient(135deg, #00495b, #04232d); }
+  .v1 .video-kunst { background: radial-gradient(55% 70% at 20% 25%, rgba(255, 204, 0, 0.45), transparent 60%), radial-gradient(80% 90% at 100% 100%, #006780, transparent 60%), linear-gradient(160deg, #0a3341, #04232d); }
+  .v2 .video-kunst { background: radial-gradient(50% 60% at 50% 50%, rgba(255, 204, 0, 0.42), transparent 62%), conic-gradient(from 210deg at 50% 50%, #04232d, #006780, #04232d, #00495b, #04232d); }
+  .video-kunst::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.035) 0 1px, transparent 1px 72px); }
+  .video-logo { position: absolute; left: 50%; top: 50%; width: 46%; transform: translate(-50%, -54%); opacity: 0.13; }
+  .video:hover .video-kunst { transform: scale(1.05); }
+  .video-play { width: 76px; height: 76px; border-radius: 50%; display: grid; place-items: center; background: var(--gelb); color: var(--tinte); box-shadow: 0 0 0 10px rgba(255, 204, 0, 0.18), 0 16px 40px -10px rgba(0, 0, 0, 0.5); transition: transform 0.35s var(--kurve), box-shadow 0.35s; }
+  .gross .video-play { width: 96px; height: 96px; }
+  .video-play :global(svg) { width: 34%; height: 34%; margin-left: 6%; }
+  .video-start:hover .video-play { transform: scale(1.08); box-shadow: 0 0 0 16px rgba(255, 204, 0, 0.16), 0 16px 40px -10px rgba(0, 0, 0, 0.5); }
+  .platzhalter .video-play { opacity: 0.9; }
+  .video-hinweis { position: absolute; left: 1rem; bottom: 0.8rem; font-size: 0.78rem; color: rgba(255, 255, 255, 0.75); }
+  .video-badge { position: absolute; left: 1rem; top: 1rem; }
+  :global(.video-iframe) { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  figcaption { display: grid; gap: 0.15rem; padding: 1rem 0.25rem 0; }
+  .video-thema { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--petrol); }
+  :global(.dunkel) .video-thema { color: var(--gelb); }
+  .video-titel { font-weight: 700; font-size: 1.12rem; letter-spacing: -0.015em; color: var(--tinte); }
+  :global(.dunkel) .video-titel { color: #fff; }
+</style>

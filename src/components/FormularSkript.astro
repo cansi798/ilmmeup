@@ -1,0 +1,43 @@
+---
+// Formular-Logik ohne Fremddienst: prüft die Eingaben und öffnet dann das E-Mail-Programm
+// mit vorausgefüllter Nachricht an die hinterlegte Adresse (mailto). Später durch ein
+// eigenes Formular-Backend ersetzbar.
+---
+<script>
+  document.querySelectorAll<HTMLFormElement>("form[data-mailto]").forEach((form) => {
+    form.noValidate = true;
+    const ok = form.parentElement?.querySelector<HTMLElement>(".formular-ok");
+    const pruefeFeld = (el: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement) => {
+      const feld = el.closest(".feld, .haken");
+      const gueltig = el.checkValidity();
+      feld?.classList.toggle("ungueltig", !gueltig);
+      el.setAttribute("aria-invalid", String(!gueltig));
+      return gueltig;
+    };
+    const felder = [...form.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>("input, select, textarea")];
+    felder.forEach((el) => el.addEventListener("blur", () => el.closest(".ungueltig") && pruefeFeld(el)));
+    felder.forEach((el) => el.addEventListener("input", () => el.closest(".ungueltig") && pruefeFeld(el)));
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const ungueltig = felder.filter((el) => !pruefeFeld(el));
+      if (ungueltig.length) { ungueltig[0].focus(); return; }
+      const zeilen: string[] = [];
+      for (const el of felder) {
+        if (el.type === "checkbox") continue;
+        const wert = el.value.trim();
+        if (!wert) continue;
+        const label = form.querySelector(`label[for="${el.id}"]`)?.textContent?.replace("*", "").trim() || el.name;
+        zeilen.push(el.tagName === "TEXTAREA" ? `\n${label}:\n${wert}\n` : `${label}: ${wert}`);
+      }
+      const name = (form.querySelector<HTMLInputElement>("[name=name]")?.value || "").trim();
+      const betreff = `${form.dataset.betreff || "Anfrage über die Website"}${name ? " – " + name : ""}`;
+      const text = zeilen.join("\n") + "\n\n— gesendet über das Formular auf der ilm-me-up-Website";
+      const ziel = `mailto:${form.dataset.mailto}?subject=${encodeURIComponent(betreff)}&body=${encodeURIComponent(text)}`;
+      ok?.classList.add("zeigen");
+      ok?.querySelector<HTMLAnchorElement>("a[data-mailto-link]")?.setAttribute("href", ziel);
+      ok?.focus();
+      location.href = ziel;
+    });
+  });
+</script>

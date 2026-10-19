@@ -1,0 +1,91 @@
+---
+import Basis from "../layouts/Basis.astro";
+import SeitenKopf from "../components/SeitenKopf.astro";
+import Icon from "../components/Icon.astro";
+import Figur from "../components/Figur.astro";
+import { TEAM, VORSCHAU, u } from "../consts";
+const fakten = [
+  ["Unabhängig", "keiner Gruppierung, Strömung oder Partei zugeordnet"],
+  ["Interdisziplinär", "Medizin, Naturwissenschaft, Technik und Medien in einem Team"],
+  ["Selbst produziert", "eigene Medienkompetenz und Videoproduktion"],
+];
+---
+<Basis titel="Über uns" beschreibung="Wer hinter ilm me up steht: ein Team muslimischer, beruflich etablierter Menschen mit unterschiedlichen Kompetenzen.">
+  <SeitenKopf kicker="Über uns" titel='Ein Team. <em class="akzent">Viele Kompetenzen.</em>' einleitung="Wir sind muslimische, beruflich etablierte Menschen mit unterschiedlichen fachlichen Hintergründen – und dem gemeinsamen Wunsch, Wissen zu teilen und Gutes zu bewirken." />
+
+  <section class="abschnitt">
+    <div class="huelle wer">
+      <div>
+        <p class="kicker reveal">Wer wir sind</p>
+        <h2 class="reveal">Aus Beruf und Erfahrung wird <em class="akzent">Mehrwert für viele.</em></h2>
+      </div>
+      <div class="reveal">
+        <p>Es gibt so viele Menschen mit wertvollem Wissen – in Praxen und Kliniken, in Laboren, Schulen, Unternehmen und Gemeinden. Aber nur wenige haben die Möglichkeit, es professionell und mit Reichweite zu teilen.</p>
+        <p>Genau hier setzen wir an. Mit eigener Videoproduktion und Medienkompetenz geben wir diesem Wissen eine Bühne – sachlich, respektvoll und nah an den Fragen der Menschen.</p>
+        <ul class="fakten">
+          {fakten.map(([t, s]) => <li><strong>{t}</strong><span>{s}</span></li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="abschnitt weiss" id="team">
+    <div class="huelle">
+      <div class="kopfzeile zweispaltig">
+        <div>
+          <p class="kicker reveal">Das Team</p>
+          <h2 class="reveal">Die Menschen hinter <em class="akzent">ilm me up.</em></h2>
+        </div>
+        <div class="reveal">
+          <p class="einleitung">Ärztinnen und Ärzte, ein Chemiker, ein Videograf und ein IT-Experte – vereint durch das Anliegen, Wissen weiterzugeben.</p>
+          {VORSCHAU && <p class="platzhalter-hinweis">Vorläufig: gezeichnete Figuren statt Fotos, Porträttexte als Entwurf</p>}
+        </div>
+      </div>
+      <ul class="team">
+        {TEAM.map((p, i) => (
+          <li class="person reveal" style={`--v:${(i % 4) * 80}ms`}>
+            <div class="person-bild"><Figur figur={p.figur} name={p.name} hinter={i} /></div>
+            <h3>{p.name}</h3>
+            <p class="rolle">{p.rolle}{p.zusatz && <span class="zusatz"> · {p.zusatz}</span>}</p>
+            <p class="portrait">{p.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="abschnitt eng">
+    <div class="huelle mitmachen reveal">
+      <div>
+        <h2>Du möchtest <em class="akzent">mitwirken?</em></h2>
+        <p>Ob vor oder hinter der Kamera, als Unterstützer oder mit einer Idee: Wir freuen uns, von dir zu hören.</p>
+      </div>
+      <div class="knopfreihe">
+        <a class="knopf petrol-knopf" href={u("/kontakt/")}>Kontakt aufnehmen <Icon name="pfeil" class="pfeil" /></a>
+        <a class="knopf rahmen" href={u("/fuer-experten/")}>Für Experten</a>
+      </div>
+    </div>
+  </section>
+</Basis>
+
+<style>
+  .wer { display: grid; gap: 2rem; }
+  @media (min-width: 960px) { .wer { grid-template-columns: 1fr 1fr; gap: 5rem; } }
+  .fakten { list-style: none; padding: 0; margin: 2rem 0 0; display: grid; gap: 1rem; }
+  .fakten li { display: grid; gap: 0.1rem; padding-left: 1.2rem; border-left: 3px solid var(--gelb); }
+  .fakten strong { color: var(--tinte); font-size: 1.1rem; }
+  .fakten span { color: var(--leise); }
+  .team { list-style: none; margin: 0; padding: 0; display: grid; gap: 2.5rem 1.5rem; grid-template-columns: 1fr; }
+  @media (min-width: 560px) { .team { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1000px) { .team { grid-template-columns: repeat(4, 1fr); } }
+  .person-bild { max-width: 200px; margin-bottom: 1.2rem; border-radius: 50%; transition: transform 0.45s var(--kurve); }
+  .person:hover .person-bild { transform: translateY(-5px) rotate(-2deg); }
+  .person h3 { font-size: 1.4rem; margin-bottom: 0.15rem; }
+  .rolle { font-weight: 700; color: var(--petrol); margin-bottom: 0.7rem; }
+  .zusatz { font-weight: 500; color: var(--leise); font-style: italic; }
+  .portrait { color: var(--leise); font-size: 0.97rem; margin: 0; }
+  .mitmachen { display: grid; gap: 1.5rem; align-items: center; padding: clamp(2rem, 5vw, 3.5rem); border-radius: var(--radius-gross); background: var(--weiss); box-shadow: var(--schatten); }
+  @media (min-width: 900px) { .mitmachen { grid-template-columns: 1.3fr auto; } }
+  .mitmachen h2 { font-size: clamp(1.8rem, 3.2vw, 2.5rem); }
+  .mitmachen p { color: var(--leise); margin: 0; }
+</style>

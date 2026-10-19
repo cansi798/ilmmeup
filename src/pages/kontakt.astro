@@ -1,0 +1,96 @@
+---
+import Basis from "../layouts/Basis.astro";
+import SeitenKopf from "../components/SeitenKopf.astro";
+import Icon from "../components/Icon.astro";
+import FormularSkript from "../components/FormularSkript.astro";
+import { MAIL, SOCIAL, u } from "../consts";
+const anliegen = ["Allgemeine Frage", "Themenvorschlag", "Mitwirken / Ehrenamt", "Unterstützung & Förderung", "Presse", "Sonstiges"];
+---
+<Basis titel="Kontakt" beschreibung="Kontakt zu ilm me up: Fragen, Ideen, Themenvorschläge oder Unterstützung – schreib uns.">
+  <SeitenKopf kicker="Kontakt" titel='Schreib uns. <em class="akzent">Wir hören zu.</em>' einleitung="Eine Frage, eine Themenidee oder Lust mitzuwirken? Wir freuen uns auf deine Nachricht." />
+
+  <section class="abschnitt">
+    <div class="huelle kontakt-raster">
+      <aside class="kontakt-seite">
+        <div class="karte reveal">
+          <div class="symbol"><Icon name="mail" /></div>
+          <h2 class="klein">E-Mail</h2>
+          <p><a href={`mailto:${MAIL}`} class="mail">{MAIL}</a></p>
+        </div>
+        <div class="karte reveal" style="--v:80ms">
+          <div class="symbol"><Icon name="netz" /></div>
+          <h2 class="klein">Social Media</h2>
+          <ul class="social-liste">
+            {SOCIAL.map((s) => <li><a href={s.url} target="_blank" rel="noopener"><Icon name={s.id} /> {s.name}<span>{s.handle}</span></a></li>)}
+          </ul>
+        </div>
+        <div class="karte experten-hinweis reveal" style="--v:160ms">
+          <h2 class="klein">Du bist Expertin oder Experte?</h2>
+          <p>Für Kooperationen gibt es ein eigenes Anfrageformular.</p>
+          <a class="textlink" href={u("/fuer-experten/#anfrage")}>Zur Kooperationsanfrage <Icon name="pfeil" /></a>
+        </div>
+      </aside>
+
+      <div class="formular-karte reveal">
+        <form class="formular" data-mailto={MAIL} data-betreff="Nachricht über die Website" novalidate>
+          <div class="feldgruppe zwei">
+            <div class="feld">
+              <label for="k-name">Name <span class="pflicht">*</span></label>
+              <input id="k-name" name="name" type="text" autocomplete="name" required />
+              <span class="fehler">Bitte gib deinen Namen an.</span>
+            </div>
+            <div class="feld">
+              <label for="k-mail">E-Mail <span class="pflicht">*</span></label>
+              <input id="k-mail" name="email" type="email" autocomplete="email" required />
+              <span class="fehler">Bitte gib eine gültige E-Mail-Adresse an.</span>
+            </div>
+          </div>
+          <div class="feld">
+            <label for="k-anliegen">Anliegen</label>
+            <select id="k-anliegen" name="anliegen">
+              {anliegen.map((a) => <option>{a}</option>)}
+            </select>
+          </div>
+          <div class="feld">
+            <label for="k-text">Nachricht <span class="pflicht">*</span></label>
+            <textarea id="k-text" name="nachricht" rows="7" required minlength="10"></textarea>
+            <span class="fehler">Bitte schreib uns ein paar Worte (mind. 10 Zeichen).</span>
+          </div>
+          <label class="haken feld-haken">
+            <input type="checkbox" name="einwilligung" required />
+            <span>Ich bin einverstanden, dass meine Angaben zur Beantwortung meiner Nachricht verwendet werden. Mehr in der <a href={u("/datenschutz/")}>Datenschutzerklärung</a>. <span class="pflicht">*</span><span class="fehler">Bitte bestätige die Einwilligung.</span></span>
+          </label>
+          <button class="knopf petrol-knopf senden" type="submit">Nachricht senden <Icon name="pfeil" class="pfeil" /></button>
+          <p class="formular-info"><Icon name="mail" /> Beim Senden öffnet sich dein E-Mail-Programm mit der vorbereiteten Nachricht an {MAIL}.</p>
+        </form>
+        <div class="formular-ok" tabindex="-1" role="status">
+          <strong>Danke!</strong>
+          Dein E-Mail-Programm sollte sich jetzt öffnen – bitte dort noch auf „Senden“ tippen. Falls nichts passiert: <a data-mailto-link href={`mailto:${MAIL}`}>E-Mail manuell öffnen</a> oder direkt an {MAIL} schreiben.
+        </div>
+      </div>
+    </div>
+  </section>
+  <FormularSkript />
+</Basis>
+
+<style>
+  .kontakt-raster { display: grid; gap: 2rem; }
+  @media (min-width: 1000px) { .kontakt-raster { grid-template-columns: 1fr 1.6fr; gap: 3rem; align-items: start; } }
+  .kontakt-seite { display: grid; gap: 1rem; order: 2; }
+  .kontakt-seite .karte { padding: 1.6rem; }
+  .klein { font-size: 1.15rem; margin-bottom: 0.4rem; }
+  .karte p { margin: 0; }
+  .mail { font-weight: 700; font-size: 1.1rem; word-break: break-all; }
+  .social-liste { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.3rem; }
+  .social-liste a { display: flex; align-items: center; gap: 0.6rem; font-weight: 700; text-decoration: none; padding: 0.3rem 0; }
+  .social-liste a span { margin-left: auto; font-weight: 500; color: var(--leise); font-size: 0.9rem; }
+  .social-liste :global(svg) { width: 20px; height: 20px; }
+  .experten-hinweis { background: var(--gelb-zart); border-color: #f3df9a; }
+  .experten-hinweis p { margin-bottom: 0.8rem; }
+  .formular-karte { background: var(--weiss); border-radius: var(--radius-gross); padding: clamp(1.5rem, 4vw, 2.5rem); box-shadow: var(--schatten); }
+  .feld-haken .fehler { display: none; color: #b42318; font-weight: 600; font-size: 0.88rem; margin-top: 0.3rem; }
+  .feld-haken.ungueltig .fehler { display: block; }
+  .senden { justify-self: start; }
+  .formular-info { display: flex; gap: 0.5rem; align-items: flex-start; font-size: 0.88rem; color: var(--leise); margin: 0; }
+  .formular-info :global(svg) { width: 18px; height: 18px; flex: none; margin-top: 0.2rem; }
+</style>

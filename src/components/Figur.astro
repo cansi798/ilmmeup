@@ -1,0 +1,70 @@
+---
+// Gezeichnete Team-Figur (Comic-Stil, Markenfarben). Vorläufig statt Fotos – Wunsch von Jamil.
+import type { Person } from "../consts";
+interface Props { figur: Person["figur"]; name: string; hinter?: number }
+const { figur: f, name, hinter = 0 } = Astro.props;
+const hintergruende = ["#ffe680", "#cfe7ec", "#fff1b8", "#d9eef2"];
+const bg = hintergruende[hinter % hintergruende.length];
+const tuch = f.stil === "tuch";
+const uid = "f" + name.toLowerCase().replace(/[^a-z]/g, "");
+---
+<svg class="figur" viewBox="0 0 200 200" role="img" aria-label={`Gezeichnete Figur: ${name}`}>
+  <defs><clipPath id={uid}><circle cx="100" cy="100" r="100" /></clipPath></defs>
+  <g clip-path={`url(#${uid})`}>
+    <rect width="200" height="200" fill={bg} />
+    <circle cx="150" cy="44" r="46" fill="#fff" opacity="0.45" />
+    <!-- Oberkörper -->
+    <path d="M24 210 C28 160 60 140 100 140 C140 140 172 160 176 210 Z" fill={f.kleid} />
+    {!tuch && <path d="M86 140 L100 160 L114 140 Z" fill="#fff" opacity="0.9" />}
+    {!tuch && <rect x="89" y="116" width="22" height="28" rx="8" fill={f.haut} />}
+    {!tuch && <ellipse cx="65" cy="94" rx="6" ry="9" fill={f.haut} />}
+    {!tuch && <ellipse cx="135" cy="94" rx="6" ry="9" fill={f.haut} />}
+    {tuch && (
+      <>
+        <path d="M100 32 C142 32 150 68 148 100 C146 128 152 150 176 210 L24 210 C48 150 54 128 52 100 C50 68 58 32 100 32 Z" fill={f.tuch} />
+        <path d="M60 128 C80 150 120 150 140 128" fill="none" stroke="#000" stroke-opacity="0.12" stroke-width="3" stroke-linecap="round" />
+      </>
+    )}
+    <!-- Kopf -->
+    <ellipse cx="100" cy={tuch ? 92 : 90} rx={tuch ? 30 : 34} ry={tuch ? 36 : 40} fill={f.haut} />
+    {f.stil === "kurz" && <path d="M64 88 C60 50 80 40 100 40 C124 40 142 52 136 88 C132 70 120 60 100 60 C84 60 70 68 64 88 Z" fill={f.haar} />}
+    {f.stil === "bart" && (
+      <>
+        <path d="M64 86 C60 50 80 40 100 40 C124 40 142 52 136 86 C130 68 118 60 100 60 C84 60 70 68 64 86 Z" fill={f.haar} />
+        <path d="M66 92 C66 126 84 134 100 134 C116 134 134 126 134 92 C130 108 122 116 100 116 C78 116 70 108 66 92 Z" fill={f.haar} />
+        <path d="M88 108 Q100 102 112 108" fill="none" stroke={f.haar} stroke-width="5" stroke-linecap="round" />
+      </>
+    )}
+    {f.stil === "locken" && (
+      <g fill={f.haar}>
+        <circle cx="70" cy="72" r="13" /><circle cx="80" cy="56" r="14" /><circle cx="98" cy="48" r="15" />
+        <circle cx="117" cy="52" r="14" /><circle cx="131" cy="66" r="13" /><circle cx="135" cy="82" r="9" /><circle cx="65" cy="86" r="9" />
+        <path d="M68 78 C80 62 120 60 132 78 L132 66 L68 66 Z" />
+      </g>
+    )}
+    {f.stil === "glatze" && <path d="M68 70 C76 52 124 52 132 70" fill="none" stroke="#fff" stroke-opacity="0.25" stroke-width="5" stroke-linecap="round" />}
+    {tuch && <path d="M70 70 C80 56 120 56 130 70" fill="none" stroke="#000" stroke-opacity="0.1" stroke-width="4" stroke-linecap="round" />}
+    <!-- Gesicht -->
+    <g fill="none" stroke="#1d1a19" stroke-linecap="round">
+      <path d="M80 82 Q87 78 94 81" stroke-width="3" />
+      <path d="M106 81 Q113 78 120 82" stroke-width="3" />
+      {f.stil !== "bart" && <path d="M90 108 Q100 117 110 108" stroke-width="3.2" />}
+      {f.stil === "bart" && <path d="M92 111 Q100 116 108 111" stroke="#fff" stroke-opacity="0.85" stroke-width="2.6" />}
+    </g>
+    <circle cx="87" cy="92" r="3.8" fill="#1d1a19" />
+    <circle cx="113" cy="92" r="3.8" fill="#1d1a19" />
+    <circle cx="88.3" cy="90.8" r="1.1" fill="#fff" />
+    <circle cx="114.3" cy="90.8" r="1.1" fill="#fff" />
+    <path d="M100 95 Q97 102 101 103" fill="none" stroke="#000" stroke-opacity="0.22" stroke-width="2.2" stroke-linecap="round" />
+    {f.stil !== "bart" && <><ellipse cx="80" cy="103" rx="6" ry="3.5" fill="#e0607e" opacity="0.18" /><ellipse cx="120" cy="103" rx="6" ry="3.5" fill="#e0607e" opacity="0.18" /></>}
+    {f.brille && (
+      <g fill="none" stroke="#0e2a33" stroke-width="2.6">
+        <rect x="76" y="83" width="21" height="17" rx="7" /><rect x="103" y="83" width="21" height="17" rx="7" /><path d="M97 90 Q100 88 103 90" />
+      </g>
+    )}
+  </g>
+</svg>
+
+<style>
+  .figur { width: 100%; height: auto; display: block; }
+</style>

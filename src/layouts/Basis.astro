@@ -1,0 +1,91 @@
+---
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { BESCHREIBUNG, NAME, VORSCHAU, u } from "../consts";
+import fontJakarta from "../styles/fonts/plus-jakarta-sans-latin-800-normal.woff2?url";
+import fontJakarta4 from "../styles/fonts/plus-jakarta-sans-latin-400-normal.woff2?url";
+interface Props { titel?: string; beschreibung?: string }
+const { titel, beschreibung = BESCHREIBUNG } = Astro.props;
+const voll = titel ? `${titel} · ${NAME}` : `${NAME} – Wissen sichtbar machen`;
+const kanon = new URL(Astro.url.pathname, Astro.site);
+const og = new URL(u("/assets/og-image.jpg"), Astro.site);
+---
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{voll}</title>
+    <meta name="description" content={beschreibung} />
+    {VORSCHAU && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="canonical" href={kanon} />
+    <meta name="theme-color" content="#04232d" />
+    <link rel="icon" href={u("/favicon.svg")} type="image/svg+xml" />
+    <link rel="icon" href={u("/assets/favicon-32.png")} sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href={u("/assets/apple-touch-icon.png")} />
+    <link rel="preload" href={fontJakarta} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={fontJakarta4} as="font" type="font/woff2" crossorigin />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="de_DE" />
+    <meta property="og:site_name" content={NAME} />
+    <meta property="og:title" content={voll} />
+    <meta property="og:description" content={beschreibung} />
+    <meta property="og:image" content={og} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script is:inline>document.documentElement.classList.add("js");</script>
+  </head>
+  <body>
+    <a class="skip" href="#inhalt">Zum Inhalt springen</a>
+    <Header />
+    <main id="inhalt">
+      <slot />
+    </main>
+    <Footer />
+    <script>
+      // Kopfzeile beim Scrollen verfestigen
+      const kopf = document.querySelector<HTMLElement>("[data-kopf]");
+      const pruefen = () => kopf?.classList.toggle("fest", scrollY > 24);
+      addEventListener("scroll", pruefen, { passive: true });
+      pruefen();
+
+      // Mobiles Menü
+      const knopf = document.querySelector<HTMLButtonElement>("[data-menue]");
+      const nav = document.getElementById("mobilnav");
+      const setzen = (auf: boolean) => {
+        if (!knopf || !nav) return;
+        knopf.setAttribute("aria-expanded", String(auf));
+        nav.hidden = !auf;
+        kopf?.classList.toggle("offen", auf);
+        document.body.style.overflow = auf ? "hidden" : "";
+      };
+      knopf?.addEventListener("click", () => setzen(knopf.getAttribute("aria-expanded") !== "true"));
+      addEventListener("keydown", (e) => { if (e.key === "Escape") setzen(false); });
+      matchMedia("(min-width: 1081px)").addEventListener("change", (m) => m.matches && setzen(false));
+
+      // Sanftes Einblenden beim Scrollen
+      const elemente = document.querySelectorAll<HTMLElement>(".reveal");
+      if ("IntersectionObserver" in window && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        const io = new IntersectionObserver((eintraege) => {
+          for (const e of eintraege) if (e.isIntersecting) { e.target.classList.add("sichtbar"); io.unobserve(e.target); }
+        }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
+        elemente.forEach((el) => io.observe(el));
+      } else elemente.forEach((el) => el.classList.add("sichtbar"));
+
+      // Videos: erst nach Klick von YouTube (youtube-nocookie) laden
+      document.querySelectorAll<HTMLButtonElement>("[data-yt]").forEach((b) => {
+        b.addEventListener("click", () => {
+          const id = b.dataset.yt;
+          if (!id) return;
+          const f = document.createElement("iframe");
+          f.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?autoplay=1&rel=0`;
+          f.title = b.dataset.titel || "YouTube-Video";
+          f.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+          f.allowFullscreen = true;
+          f.className = "video-iframe";
+          b.replaceWith(f);
+        });
+      });
+    </script>
+  </body>
+</html>

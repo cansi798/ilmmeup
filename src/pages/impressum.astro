@@ -1,0 +1,27 @@
+---
+import Basis from "../layouts/Basis.astro";
+import SeitenKopf from "../components/SeitenKopf.astro";
+import { MAIL } from "../consts";
+---
+<Basis titel="Impressum">
+  <SeitenKopf kicker="Rechtliches" titel="Impressum" />
+  <section class="abschnitt eng">
+    <div class="huelle schmal recht">
+      <p class="platzhalter-hinweis">Platzhalter – TODO: Angaben von ilm me up (Anbieter, Anschrift, Vertretung, Register) fehlen noch.</p>
+      <h2>Angaben gemäß § 5 DDG</h2>
+      <p>[Name bzw. Organisation / Rechtsform]<br />[Straße, Hausnummer]<br />[PLZ Ort]</p>
+      <h2>Vertreten durch</h2>
+      <p>[Vertretungsberechtigte Person(en)]</p>
+      <h2>Kontakt</h2>
+      <p>E-Mail: <a href={`mailto:${MAIL}`}>{MAIL}</a><br />Telefon: [optional]</p>
+      <h2>Registereintrag</h2>
+      <p>[falls vorhanden: Registergericht, Registernummer]</p>
+      <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
+      <p>[Name, Anschrift]</p>
+    </div>
+  </section>
+</Basis>
+<style>
+  .recht h2 { font-size: 1.3rem; margin-top: 2rem; }
+  .recht .platzhalter-hinweis { margin-bottom: 1rem; }
+</style>

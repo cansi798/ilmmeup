@@ -1,0 +1,180 @@
+---
+// Ansprache auf dieser Seite: „Sie“ (Fachpublikum). Übrige Seiten: „du“ (Community).
+import Basis from "../layouts/Basis.astro";
+import SeitenKopf from "../components/SeitenKopf.astro";
+import Icon from "../components/Icon.astro";
+import FormularSkript from "../components/FormularSkript.astro";
+import { MAIL, u } from "../consts";
+const leistungen = [
+  { icon: "kompass", titel: "Konzept & Vorbereitung", text: "Wir entwickeln mit Ihnen Thema, Format und Ablauf – Sie bringen das Wissen mit, wir den Rahmen." },
+  { icon: "kamera", titel: "Professioneller Dreh", text: "Kamera, Licht und Ton von unserem eigenen Produktionsteam – bei uns oder an einem passenden Ort." },
+  { icon: "schnitt", titel: "Schnitt & Gestaltung", text: "Sorgfältiger Schnitt, Untertitel und Kurzfassungen für Social Media – im einheitlichen Look von ilm me up." },
+  { icon: "netz", titel: "Veröffentlichung & Reichweite", text: "Wir veröffentlichen auf YouTube, Instagram und TikTok und machen Ihre Inhalte für viele Menschen sichtbar." },
+];
+const schritte = [
+  ["Anfrage senden", "Erzählen Sie uns kurz, wer Sie sind und welches Thema Ihnen am Herzen liegt."],
+  ["Kennenlernen", "In einem unverbindlichen Gespräch klären wir Idee, Format und Erwartungen."],
+  ["Aufnahme", "Wir planen den Dreh gemeinsam und produzieren in entspannter Atmosphäre."],
+  ["Veröffentlichung", "Sie erhalten die Inhalte vorab zur Freigabe – danach gehen sie online."],
+];
+const fachgebiete = ["Imam / Gelehrte(r)", "Medizin", "Psychologie / Psychotherapie", "Pädagogik / Bildung", "Unternehmertum / Wirtschaft", "Autorin / Autor", "Mentoring / Coaching", "Community-Arbeit / Ehrenamt", "Anderes Fachgebiet"];
+const fragen = [
+  ["Was kostet die Zusammenarbeit?", "Nichts. Die Produktion und Veröffentlichung ist für Sie kostenlos. Unser Ziel ist gesellschaftlicher Mehrwert, nicht Umsatz."],
+  ["Muss ich Erfahrung vor der Kamera haben?", "Nein. Wir bereiten Sie gut vor und nehmen uns Zeit – gerade dann, wenn Sie zum ersten Mal vor der Kamera stehen."],
+  ["Wer entscheidet über die Inhalte?", "Wir stimmen Thema und Ablauf gemeinsam ab. Vor der Veröffentlichung sehen Sie das Ergebnis und geben es frei."],
+  ["Gehören Sie einer bestimmten Richtung an?", "Nein. ilm me up ist unabhängig und keiner muslimischen Gruppierung, Strömung oder Partei zugeordnet. Respektvoller Umgang ist für uns Grundlage."],
+];
+---
+<Basis titel="Für Experten" beschreibung="Kostenlose professionelle Videoproduktion für Expertinnen und Experten: Teilen Sie Ihr Wissen auf der Medienplattform ilm me up.">
+  <SeitenKopf kicker="Für Expertinnen & Experten" titel='Ihr Wissen. <em class="akzent">Unsere Bühne.</em>' einleitung="Sie haben Wissen und Erfahrung, die Menschen weiterbringen? Wir produzieren und veröffentlichen Ihre Inhalte professionell – als kostenlose Dienstleistung unserer Videoplattform.">
+    <div class="knopfreihe kopf-knoepfe">
+      <a class="knopf" href="#anfrage">Jetzt anfragen <Icon name="pfeil" class="pfeil" /></a>
+      <a class="knopf rahmen" href="#ablauf">So läuft es ab</a>
+    </div>
+  </SeitenKopf>
+
+  <section class="abschnitt">
+    <div class="huelle">
+      <div class="kopfzeile zweispaltig">
+        <div>
+          <p class="kicker reveal">Was wir für Sie übernehmen</p>
+          <h2 class="reveal">Sie sprechen. <em class="akzent">Wir kümmern uns um den Rest.</em></h2>
+        </div>
+        <p class="einleitung reveal">Von der ersten Idee bis zum fertigen Video: Unser Team bringt Medienkompetenz und eigene Videoproduktion mit.</p>
+      </div>
+      <div class="raster vier">
+        {leistungen.map((l, i) => (
+          <article class="karte reveal" style={`--v:${i * 80}ms`}>
+            <div class="symbol"><Icon name={l.icon} /></div>
+            <h3>{l.titel}</h3>
+            <p class="leise">{l.text}</p>
+          </article>
+        ))}
+      </div>
+      <div class="kostenlos reveal">
+        <span class="kostenlos-wert">0 €</span>
+        <p><strong>Kostenlos für Sie.</strong> Wir verstehen ilm me up als Beitrag für die Gesellschaft. Sie investieren Ihr Wissen und Ihre Zeit – um alles andere kümmern wir uns.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="abschnitt dunkel" id="ablauf">
+    <div class="huelle">
+      <p class="kicker reveal">Ablauf</p>
+      <h2 class="reveal">In vier Schritten <em class="akzent">zu Ihrem Beitrag.</em></h2>
+      <ol class="schritte">
+        {schritte.map(([t, s], i) => (
+          <li class="reveal" style={`--v:${i * 100}ms`}>
+            <span class="schritt-nr">{i + 1}</span>
+            <h3>{t}</h3>
+            <p>{s}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="abschnitt weiss" id="anfrage">
+    <div class="huelle anfrage-raster">
+      <div class="anfrage-text">
+        <p class="kicker reveal">Kooperationsanfrage</p>
+        <h2 class="reveal">Lassen Sie uns <em class="akzent">sprechen.</em></h2>
+        <p class="reveal">Wir freuen uns über Anfragen von Imamen, Gelehrten, Referentinnen und Referenten, Pädagoginnen und Pädagogen, Psychologinnen und Psychologen, Ärztinnen und Ärzten, Unternehmerinnen und Unternehmern, Autorinnen und Autoren, Mentorinnen und Mentoren sowie Community-Leadern.</p>
+        <p class="reveal leise">Wir melden uns so bald wie möglich bei Ihnen. Lieber direkt per E-Mail? <a href={`mailto:${MAIL}`}>{MAIL}</a></p>
+        <div class="faq reveal">
+          {fragen.map(([f, a]) => (
+            <details>
+              <summary>{f}<Icon name="plus" /></summary>
+              <p>{a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+      <div class="formular-karte reveal">
+        <form class="formular" data-mailto={MAIL} data-betreff="Kooperationsanfrage Experte" novalidate>
+          <div class="feldgruppe zwei">
+            <div class="feld">
+              <label for="e-name">Name <span class="pflicht">*</span></label>
+              <input id="e-name" name="name" type="text" autocomplete="name" required />
+              <span class="fehler">Bitte geben Sie Ihren Namen an.</span>
+            </div>
+            <div class="feld">
+              <label for="e-mail">E-Mail <span class="pflicht">*</span></label>
+              <input id="e-mail" name="email" type="email" autocomplete="email" required />
+              <span class="fehler">Bitte geben Sie eine gültige E-Mail-Adresse an.</span>
+            </div>
+          </div>
+          <div class="feldgruppe zwei">
+            <div class="feld">
+              <label for="e-fach">Fachgebiet <span class="pflicht">*</span></label>
+              <select id="e-fach" name="fachgebiet" required>
+                <option value="">Bitte wählen</option>
+                {fachgebiete.map((f) => <option>{f}</option>)}
+              </select>
+              <span class="fehler">Bitte wählen Sie ein Fachgebiet.</span>
+            </div>
+            <div class="feld">
+              <label for="e-tel">Telefon</label>
+              <input id="e-tel" name="telefon" type="tel" autocomplete="tel" />
+              <span class="hilfe">Optional – für eine schnelle Rückmeldung.</span>
+            </div>
+          </div>
+          <div class="feld">
+            <label for="e-beruf">Beruf / Tätigkeit <span class="pflicht">*</span></label>
+            <input id="e-beruf" name="beruf" type="text" placeholder="z. B. Fachärztin für Kinderheilkunde" required />
+            <span class="fehler">Bitte beschreiben Sie kurz Ihre Tätigkeit.</span>
+          </div>
+          <div class="feld">
+            <label for="e-thema">Themenidee <span class="pflicht">*</span></label>
+            <textarea id="e-thema" name="thema" rows="5" placeholder="Worüber möchten Sie sprechen? Für wen ist das Thema wichtig?" required minlength="20"></textarea>
+            <span class="fehler">Bitte beschreiben Sie Ihre Idee in ein paar Sätzen (mind. 20 Zeichen).</span>
+          </div>
+          <div class="feld">
+            <label for="e-links">Website oder Social-Media-Profil</label>
+            <input id="e-links" name="links" type="text" placeholder="Optional" />
+          </div>
+          <label class="haken feld-haken">
+            <input type="checkbox" name="einwilligung" required />
+            <span>Ich bin einverstanden, dass meine Angaben zur Bearbeitung der Anfrage verwendet werden. Mehr in der <a href={u("/datenschutz/")}>Datenschutzerklärung</a>. <span class="pflicht">*</span><span class="fehler">Bitte bestätigen Sie die Einwilligung.</span></span>
+          </label>
+          <button class="knopf petrol-knopf senden" type="submit">Anfrage senden <Icon name="pfeil" class="pfeil" /></button>
+          <p class="formular-info"><Icon name="mail" /> Beim Senden öffnet sich Ihr E-Mail-Programm mit der vorbereiteten Nachricht an {MAIL}.</p>
+        </form>
+        <div class="formular-ok" tabindex="-1" role="status">
+          <strong>Fast geschafft!</strong>
+          Ihr E-Mail-Programm sollte sich jetzt mit der vorbereiteten Nachricht öffnen – bitte dort noch auf „Senden“ klicken. Falls nichts passiert: <a data-mailto-link href={`mailto:${MAIL}`}>E-Mail manuell öffnen</a> oder direkt an {MAIL} schreiben.
+        </div>
+      </div>
+    </div>
+  </section>
+  <FormularSkript />
+</Basis>
+
+<style>
+  .kopf-knoepfe { margin-top: 2rem; }
+  .leise { color: var(--leise); margin: 0; }
+  .kostenlos { margin-top: clamp(2rem, 4vw, 3rem); display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 2rem; padding: 1.75rem 2rem; border-radius: var(--radius); background: var(--gelb); color: var(--tinte); }
+  .kostenlos-wert { font-weight: 800; font-size: clamp(2.6rem, 5vw, 3.6rem); letter-spacing: -0.05em; line-height: 1; }
+  .kostenlos p { margin: 0; max-width: 60ch; flex: 1 1 280px; }
+  .schritte { list-style: none; padding: 0; margin: clamp(2.5rem, 5vw, 4rem) 0 0; display: grid; gap: 1.5rem; counter-reset: s; }
+  @media (min-width: 800px) { .schritte { grid-template-columns: repeat(4, 1fr); } }
+  .schritte li { position: relative; padding-top: 1rem; border-top: 2px solid rgba(255, 255, 255, 0.15); }
+  .schritte li:first-child { border-top-color: var(--gelb); }
+  .schritt-nr { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; background: var(--gelb); color: var(--tinte); font-weight: 800; font-size: 1.3rem; margin: 0.5rem 0 1.2rem; }
+  .schritte p { color: rgba(255, 255, 255, 0.72); margin: 0; }
+  .anfrage-raster { display: grid; gap: 3rem; }
+  @media (min-width: 1000px) { .anfrage-raster { grid-template-columns: 1fr 1.15fr; gap: 4.5rem; align-items: start; } .anfrage-text { position: sticky; top: 110px; } }
+  .formular-karte { background: var(--papier); border-radius: var(--radius-gross); padding: clamp(1.5rem, 4vw, 2.5rem); border: 1px solid var(--linie); }
+  .feld-haken .fehler { display: none; color: #b42318; font-weight: 600; font-size: 0.88rem; margin-top: 0.3rem; }
+  .feld-haken.ungueltig .fehler { display: block; }
+  .senden { justify-self: start; }
+  .formular-info { display: flex; gap: 0.5rem; align-items: flex-start; font-size: 0.88rem; color: var(--leise); margin: 0; }
+  .formular-info :global(svg) { width: 18px; height: 18px; flex: none; margin-top: 0.2rem; }
+  .faq { margin-top: 2rem; border-top: 1px solid var(--linie); }
+  .faq details { border-bottom: 1px solid var(--linie); }
+  .faq summary { list-style: none; display: flex; justify-content: space-between; gap: 1rem; align-items: center; padding: 1.1rem 0; font-weight: 700; color: var(--tinte); cursor: pointer; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary :global(svg) { width: 20px; height: 20px; flex: none; color: var(--petrol); transition: transform 0.3s var(--kurve); }
+  .faq details[open] summary :global(svg) { transform: rotate(45deg); }
+  .faq details p { color: var(--leise); margin: 0 0 1.2rem; }
+</style>

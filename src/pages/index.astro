@@ -1,0 +1,259 @@
+---
+import Basis from "../layouts/Basis.astro";
+import Icon from "../components/Icon.astro";
+import Video from "../components/Video.astro";
+import Roadmap from "../components/Roadmap.astro";
+import SocialBereich from "../components/SocialBereich.astro";
+import Newsletter from "../components/Newsletter.astro";
+import Figur from "../components/Figur.astro";
+import { VIDEOS, TEAM, u } from "../consts";
+
+const themen = ["Gesundheit", "Bildung", "Familie", "Psychologie", "Gesellschaft", "Erziehung", "Wissenschaft", "Glaube & Alltag", "Unternehmertum", "Ehrenamt", "Jugend", "Medizin"];
+const saeulen = [
+  { icon: "licht", titel: "Wissen sichtbar machen", text: "Fachleute teilen, was sie wissen und erlebt haben – verständlich aufbereitet und hochwertig produziert." },
+  { icon: "herz", titel: "Verständnis fördern", text: "Ehrliche Perspektiven statt Schlagzeilen. Für Muslime und Nichtmuslime gleichermaßen." },
+  { icon: "personen", titel: "Gemeinschaft stärken", text: "Aus Zuschauern werden Mitwirkende: Wir vernetzen Menschen, die etwas Positives bewegen wollen." },
+];
+const formate = [
+  { icon: "gespraech", titel: "Im Gespräch", text: "Ausführliche Interviews mit Menschen, die etwas zu sagen haben." },
+  { icon: "blitz", titel: "Kurzimpulse", text: "Ein Gedanke, ein Thema, eine Minute – als Short, Reel und TikTok." },
+  { icon: "mikro", titel: "Fachvorträge", text: "Fundiertes Wissen aus Medizin, Psychologie, Pädagogik und mehr." },
+  { icon: "frage", titel: "Fragen & Antworten", text: "Fragen aus der Community, beantwortet von Expertinnen und Experten." },
+];
+const experten = ["Imame", "Gelehrte", "Ärztinnen & Ärzte", "Psychologinnen & Psychologen", "Pädagoginnen & Pädagogen", "Referentinnen & Referenten", "Unternehmerinnen & Unternehmer", "Autorinnen & Autoren", "Mentorinnen & Mentoren", "Community-Leader"];
+---
+<Basis>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-licht" aria-hidden="true"><span class="strahl s1"></span><span class="strahl s2"></span><span class="glut"></span></div>
+    <div class="huelle hero-raster">
+      <div class="hero-text">
+        <p class="kicker reveal">Unabhängige Medienplattform</p>
+        <h1 class="reveal" style="--v:80ms">Wissen sichtbar machen. <em class="akzent">Menschen verbinden.</em></h1>
+        <p class="einleitung reveal" style="--v:160ms">ilm me up gibt Expertinnen, Experten und engagierten Persönlichkeiten eine professionelle Bühne – für Wissen, Erfahrungen und Perspektiven, die Menschen weiterbringen.</p>
+        <div class="knopfreihe reveal" style="--v:240ms">
+          <a class="knopf" href="#kanaele">Unsere Kanäle <Icon name="pfeil" class="pfeil" /></a>
+          <a class="knopf rahmen" href={u("/fuer-experten/")}>Für Experten</a>
+        </div>
+      </div>
+      <div class="hero-videos" aria-label="Aktuelle Videos">
+        {VIDEOS.slice(0, 2).map((v, i) => (
+          <div class:list={["hero-video reveal", `hv${i}`]} style={`--v:${300 + i * 150}ms`}>
+            <Video id={v.id} titel={v.titel} thema={v.thema} variante={i} hoch={v.hoch} />
+          </div>
+        ))}
+      </div>
+    </div>
+    <div class="themenband" aria-label="Themen">
+      <div class="themen-spur">
+        {[0, 1].map((k) => (
+          <ul aria-hidden={k === 1 ? "true" : undefined}>
+            {themen.map((t) => <li>{t}</li>)}
+          </ul>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- MISSION -->
+  <section class="abschnitt">
+    <div class="huelle">
+      <p class="kicker reveal">Worum es uns geht</p>
+      <p class="statement reveal" style="--v:80ms">Wir machen Wissen, Erfahrungen und positive Impulse sichtbar – und schaffen <em class="akzent unterstrich">Mehrwert für alle Menschen</em>, Muslime und Nichtmuslime gleichermaßen.</p>
+      <div class="raster drei saeulen">
+        {saeulen.map((s, i) => (
+          <article class="karte reveal" style={`--v:${i * 100}ms`}>
+            <div class="symbol"><Icon name={s.icon} /></div>
+            <h3>{s.titel}</h3>
+            <p>{s.text}</p>
+          </article>
+        ))}
+      </div>
+      <p class="reveal mehr"><a class="textlink" href={u("/vision/")}>Unsere Vision & Werte <Icon name="pfeil" /></a></p>
+    </div>
+  </section>
+
+  <!-- FORMATE -->
+  <section class="abschnitt weiss">
+    <div class="huelle">
+      <div class="kopfzeile zweispaltig">
+        <div>
+          <p class="kicker reveal">Unsere Formate</p>
+          <h2 class="reveal">Vom Kurzimpuls bis zum <em class="akzent">langen Gespräch.</em></h2>
+        </div>
+        <p class="einleitung reveal">Jedes Thema bekommt die Form, die zu ihm passt – professionell gefilmt, sorgfältig geschnitten und dort veröffentlicht, wo Menschen zuschauen.</p>
+      </div>
+      <div class="raster vier">
+        {formate.map((f, i) => (
+          <a class="format reveal" href={u("/formate/")} style={`--v:${i * 80}ms`}>
+            <span class="format-nr">0{i + 1}</span>
+            <span class="symbol"><Icon name={f.icon} /></span>
+            <h3>{f.titel}</h3>
+            <p>{f.text}</p>
+            <span class="format-pfeil"><Icon name="pfeil" /></span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- FÜR EXPERTEN -->
+  <section class="abschnitt dunkel experten">
+    <div class="huelle experten-raster">
+      <div>
+        <p class="kicker reveal">Für Expertinnen & Experten</p>
+        <h2 class="reveal">Wissen verdient eine <em class="akzent">Bühne.</em></h2>
+        <p class="einleitung reveal">Unser Team übernimmt Planung, Dreh, Schnitt und Veröffentlichung – kostenlos. Für Fachleute, die ihr Wissen teilen und Menschen positiv erreichen möchten.</p>
+        <ul class="vorteile reveal">
+          <li><Icon name="haken" />Professionelle Videoproduktion ohne Kosten</li>
+          <li><Icon name="haken" />Reichweite über YouTube, Instagram und TikTok</li>
+          <li><Icon name="haken" />Unabhängig, respektvoll, keiner Strömung zugeordnet</li>
+        </ul>
+        <div class="knopfreihe reveal"><a class="knopf" href={u("/fuer-experten/#anfrage")}>Kooperation anfragen <Icon name="pfeil" class="pfeil" /></a></div>
+      </div>
+      <div class="experten-wolke reveal" aria-label="Wen wir suchen">
+        <ul class="chips">
+          {experten.map((e, i) => <li style={`--i:${i}`}>{e}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section class="abschnitt">
+    <div class="huelle">
+      <div class="kopfzeile zweispaltig">
+        <div>
+          <p class="kicker reveal">Das Team</p>
+          <h2 class="reveal">Menschen mit Beruf, Erfahrung <em class="akzent">und Haltung.</em></h2>
+        </div>
+        <p class="einleitung reveal">Ärztinnen und Ärzte, Naturwissenschaft, Technik und Video: Hinter ilm me up steht ein Team beruflich etablierter Menschen, die ihr Können gemeinsam einbringen.</p>
+      </div>
+      <ul class="team-reihe">
+        {TEAM.map((p, i) => (
+          <li class="reveal" style={`--v:${i * 60}ms`}>
+            <Figur figur={p.figur} name={p.name} hinter={i} />
+            <strong>{p.name}</strong>
+            <span>{p.rolle}</span>
+          </li>
+        ))}
+      </ul>
+      <p class="reveal mehr"><a class="textlink" href={u("/ueber-uns/#team")}>Das ganze Team kennenlernen <Icon name="pfeil" /></a></p>
+    </div>
+  </section>
+
+  <!-- SOCIAL -->
+  <section class="abschnitt weiss" id="kanaele">
+    <div class="huelle">
+      <div class="kopfzeile zweispaltig">
+        <div>
+          <p class="kicker reveal">Folge uns</p>
+          <h2 class="reveal">Dort, wo du <em class="akzent">zuschaust.</em></h2>
+        </div>
+        <p class="einleitung reveal">Neue Videos erscheinen laufend auf unseren Kanälen. Folge uns, um keinen Impuls zu verpassen.</p>
+      </div>
+      <SocialBereich />
+    </div>
+  </section>
+
+  <!-- WAS ENTSTEHT -->
+  <section class="abschnitt dunkel entsteht">
+    <div class="huelle">
+      <div class="kopfzeile zweispaltig">
+        <div>
+          <p class="kicker reveal">Was entsteht</p>
+          <h2 class="reveal">Die Medienplattform ist <em class="akzent">der erste Schritt.</em></h2>
+        </div>
+        <p class="einleitung reveal">Heute bauen wir Reichweite, Vertrauen und Gemeinschaft auf. Daraus soll eine nachhaltige Infrastruktur für Bildung, Vernetzung und gesellschaftlichen Mehrwert wachsen.</p>
+      </div>
+      <Roadmap />
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section class="abschnitt eng">
+    <div class="huelle"><Newsletter /></div>
+  </section>
+</Basis>
+
+<style>
+  /* Hero */
+  .hero { position: relative; overflow: hidden; background: var(--nacht); color: rgba(255, 255, 255, 0.82); padding-top: clamp(7rem, 14vw, 9rem); isolation: isolate; }
+  .hero h1 { color: #fff; max-width: 13ch; }
+  .hero-raster { display: grid; gap: 3rem; align-items: center; padding-bottom: clamp(3rem, 7vw, 5rem); }
+  @media (min-width: 960px) { .hero-raster { grid-template-columns: 1.15fr 1fr; min-height: min(78vh, 720px); } }
+  .hero .einleitung { max-width: 44ch; margin-bottom: 2rem; color: rgba(255, 255, 255, 0.9); }
+  @media (max-width: 959px) { .glut { width: 620px; height: 620px; right: -300px; top: -260px; opacity: 0.7; } .strahl { opacity: 0.5; } }
+  .hero-licht { position: absolute; inset: 0; z-index: -1; }
+  .glut { position: absolute; width: 900px; height: 900px; right: -220px; top: -180px; border-radius: 50%; background: radial-gradient(circle, rgba(255, 204, 0, 0.28), rgba(0, 103, 128, 0.35) 35%, transparent 66%); animation: atmen 9s ease-in-out infinite alternate; }
+  .strahl { position: absolute; top: -20%; height: 140%; width: 34vw; background: linear-gradient(180deg, rgba(255, 230, 128, 0.12), transparent 70%); filter: blur(30px); transform-origin: top center; }
+  .s1 { right: 18%; transform: rotate(18deg); animation: wiegen 12s ease-in-out infinite alternate; }
+  .s2 { right: 2%; transform: rotate(-12deg); animation: wiegen 15s ease-in-out infinite alternate-reverse; }
+  .hero::after { content: ""; position: absolute; inset: 0; z-index: -1; background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.03) 0 1px, transparent 1px 96px); mask-image: linear-gradient(to bottom, #000 30%, transparent); }
+  @keyframes atmen { to { transform: scale(1.12) translate(-30px, 20px); opacity: 0.85; } }
+  @keyframes wiegen { to { transform: rotate(4deg); } }
+
+  .hero-videos { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; max-width: 520px; width: 100%; justify-self: center; }
+  .hero-video :global(.video-rahmen) { border: 1px solid rgba(255, 255, 255, 0.12); box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.7); }
+  .hero-video :global(.video-titel) { color: #fff; font-size: 1rem; }
+  .hero-video :global(.video-thema) { color: var(--gelb); }
+  @media (min-width: 960px) {
+    .hv0 { transform: translateY(-1.5rem); }
+    .hv1 { transform: translateY(2.5rem); }
+    .js .hv0.reveal:not(.sichtbar) { transform: translateY(1rem); }
+    .js .hv1.reveal:not(.sichtbar) { transform: translateY(5rem); }
+  }
+
+  .themenband { border-block: 1px solid rgba(255, 255, 255, 0.1); background: rgba(255, 255, 255, 0.03); overflow: hidden; padding-block: 1.1rem; }
+  .themen-spur { display: flex; width: max-content; animation: laufen 48s linear infinite; }
+  .themenband:hover .themen-spur { animation-play-state: paused; }
+  .themen-spur ul { display: flex; list-style: none; margin: 0; padding: 0; }
+  .themen-spur li { display: flex; align-items: center; gap: 2.2rem; padding-right: 2.2rem; font-weight: 700; font-size: clamp(1.1rem, 2vw, 1.5rem); letter-spacing: -0.02em; color: rgba(255, 255, 255, 0.85); white-space: nowrap; }
+  .themen-spur li::after { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--gelb); }
+  @keyframes laufen { to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .themen-spur { animation: none; flex-wrap: wrap; width: auto; } .themen-spur ul + ul { display: none; } .themen-spur ul { flex-wrap: wrap; padding-inline: var(--rand); row-gap: 0.5rem; } }
+
+  /* Mission */
+  .statement { font-family: var(--sans); font-weight: 700; font-size: clamp(1.7rem, 3.6vw, 3rem); line-height: 1.22; letter-spacing: -0.03em; color: var(--tinte); max-width: 26ch; margin-bottom: clamp(3rem, 6vw, 4.5rem); }
+  .saeulen h3 { margin-bottom: 0.4rem; }
+  .saeulen p { margin: 0; color: var(--leise); }
+  .mehr { margin: 2.5rem 0 0; }
+
+  /* Formate */
+  .format { position: relative; display: block; padding: 2rem 1.6rem 1.8rem; border-radius: var(--radius); background: var(--papier); text-decoration: none; color: var(--text); overflow: hidden; transition: transform 0.4s var(--kurve), background 0.4s, color 0.4s; }
+  .format::before { content: ""; position: absolute; inset: auto -40% -60% auto; width: 220px; height: 220px; border-radius: 50%; background: radial-gradient(circle, rgba(255, 204, 0, 0.5), transparent 65%); opacity: 0; transition: opacity 0.4s; }
+  .format:hover { transform: translateY(-6px); background: var(--nacht); color: rgba(255, 255, 255, 0.78); }
+  .format:hover::before { opacity: 1; }
+  .format:hover h3 { color: #fff; }
+  .format:hover .symbol { background: rgba(255, 204, 0, 0.14); color: var(--gelb); }
+  .format-nr { position: absolute; top: 1.4rem; right: 1.5rem; font-family: var(--serif); font-style: italic; font-size: 1.1rem; color: var(--leise); }
+  .format:hover .format-nr { color: var(--gelb); }
+  .format h3 { margin-bottom: 0.35rem; transition: color 0.4s; }
+  .format p { margin: 0 0 1.4rem; font-size: 0.98rem; }
+  .format-pfeil { display: inline-grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; border: 1.5px solid currentColor; opacity: 0.7; }
+  .format-pfeil :global(svg) { width: 18px; height: 18px; }
+  .format:hover .format-pfeil { background: var(--gelb); border-color: var(--gelb); color: var(--tinte); opacity: 1; }
+
+  /* Experten */
+  .experten { overflow: hidden; }
+  .experten::before { content: ""; position: absolute; width: 760px; height: 760px; left: -280px; bottom: -420px; border-radius: 50%; background: radial-gradient(circle, rgba(0, 103, 128, 0.75), transparent 65%); }
+  .experten-raster { position: relative; display: grid; gap: 3rem; align-items: center; }
+  @media (min-width: 960px) { .experten-raster { grid-template-columns: 1fr 1fr; gap: 5rem; } }
+  .vorteile { list-style: none; padding: 0; margin: 0 0 2rem; display: grid; gap: 0.7rem; }
+  .vorteile li { display: flex; gap: 0.75rem; align-items: flex-start; color: #fff; font-weight: 600; }
+  .vorteile :global(svg) { width: 22px; height: 22px; flex: none; padding: 3px; border-radius: 50%; background: var(--gelb); color: var(--tinte); stroke-width: 3; margin-top: 0.15rem; }
+  .experten-wolke .chips { gap: 0.7rem; }
+  .experten-wolke .chips li { font-size: clamp(0.95rem, 1.4vw, 1.1rem); padding: 0.7em 1.2em; animation: schwebe 6s ease-in-out infinite; animation-delay: calc(var(--i) * -0.7s); }
+  .experten-wolke .chips li:nth-child(3n + 1) { background: var(--gelb); color: var(--tinte); border-color: var(--gelb); }
+  @keyframes schwebe { 50% { transform: translateY(-6px); } }
+
+  /* Team */
+  .team-reihe { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem 1rem; }
+  @media (min-width: 640px) { .team-reihe { grid-template-columns: repeat(4, 1fr); } }
+  @media (min-width: 1100px) { .team-reihe { grid-template-columns: repeat(8, 1fr); } }
+  .team-reihe li { display: grid; justify-items: center; text-align: center; gap: 0.15rem; }
+  .team-reihe :global(.figur) { width: min(100%, 140px); margin-bottom: 0.6rem; border-radius: 50%; transition: transform 0.4s var(--kurve); }
+  .team-reihe li:hover :global(.figur) { transform: translateY(-4px) rotate(-3deg); }
+  .team-reihe strong { color: var(--tinte); font-size: 1.05rem; }
+  .team-reihe span { font-size: 0.88rem; color: var(--leise); line-height: 1.35; }
+</style>

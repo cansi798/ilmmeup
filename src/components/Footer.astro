@@ -1,0 +1,54 @@
+---
+import { NAV, SOCIAL, u, VORSCHAU, CLAIM } from "../consts";
+import Icon from "./Icon.astro";
+const jahr = new Date().getFullYear();
+---
+<footer class="fuss dunkel">
+  <div class="huelle fuss-raster">
+    <div class="fuss-marke">
+      <a href={u("/")} class="fuss-logo" aria-label="ilm me up – zur Startseite"><img src={u("/assets/logo.svg")} alt="" width="84" height="100" loading="lazy" /></a>
+      <p class="fuss-claim">{CLAIM}</p>
+      <p class="fuss-klein">Unabhängig. Keiner Gruppierung oder Strömung zugeordnet. Für Muslime und Nichtmuslime gleichermaßen.</p>
+    </div>
+    <nav aria-label="Seiten">
+      <h2 class="fuss-titel">Seiten</h2>
+      <ul>{NAV.map((n) => <li><a href={u(n.href)}>{n.label}</a></li>)}</ul>
+    </nav>
+    <div>
+      <h2 class="fuss-titel">Folge uns</h2>
+      <ul class="fuss-social">
+        {SOCIAL.map((s) => (
+          <li><a href={s.url} rel="noopener" target="_blank"><Icon name={s.id} /><span>{s.name}</span></a></li>
+        ))}
+      </ul>
+      
+    </div>
+  </div>
+  <div class="huelle fuss-unten">
+    <p>© {jahr} ilm me up</p>
+    <ul>
+      <li><a href={u("/impressum/")}>Impressum</a></li>
+      <li><a href={u("/datenschutz/")}>Datenschutz</a></li>
+    </ul>
+  </div>
+</footer>
+
+<style>
+  .fuss { padding-block: clamp(3.5rem, 7vw, 5.5rem) 2rem; position: relative; overflow: hidden; }
+  .fuss::before { content: ""; position: absolute; width: 640px; height: 640px; right: -220px; top: -260px; background: radial-gradient(circle, rgba(0, 103, 128, 0.55), transparent 65%); pointer-events: none; }
+  .fuss-raster { display: grid; gap: 2.5rem; position: relative; }
+  @media (min-width: 800px) { .fuss-raster { grid-template-columns: 1.6fr 1fr 1fr; } }
+  .fuss-logo img { height: 92px; width: auto; margin-bottom: 1.2rem; }
+  .fuss-claim { font-family: var(--serif); font-style: italic; font-size: 1.45rem; line-height: 1.35; color: #fff; max-width: 22ch; margin-bottom: 0.8rem; }
+  .fuss-klein { font-size: 0.92rem; color: rgba(255, 255, 255, 0.62); max-width: 40ch; }
+  .fuss-titel { font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gelb); margin-bottom: 1rem; font-weight: 700; }
+  .fuss ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.35rem; }
+  .fuss a { color: rgba(255, 255, 255, 0.82) !important; text-decoration: none; }
+  .fuss a:hover { color: #fff !important; text-decoration: underline; }
+  .fuss-social a { display: inline-flex; align-items: center; gap: 0.65rem; padding: 0.25rem 0; }
+  .fuss-social :global(svg) { width: 22px; height: 22px; color: var(--gelb); }
+  .fuss .platzhalter-hinweis { margin-top: 1rem; }
+  .fuss-unten { position: relative; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; margin-top: 3.5rem; padding-top: 1.5rem; border-top: 1px solid var(--linie-dunkel); font-size: 0.9rem; color: rgba(255, 255, 255, 0.6); }
+  .fuss-unten p { margin: 0; }
+  .fuss-unten ul { display: flex; gap: 1.5rem; }
+</style>

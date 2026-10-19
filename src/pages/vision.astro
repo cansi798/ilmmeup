@@ -1,0 +1,101 @@
+---
+import Basis from "../layouts/Basis.astro";
+import SeitenKopf from "../components/SeitenKopf.astro";
+import Icon from "../components/Icon.astro";
+import Roadmap from "../components/Roadmap.astro";
+import { u } from "../consts";
+const werte = [
+  { icon: "kompass", titel: "Aufrichtigkeit", text: "Wir sagen, was wir denken, und zeigen, wer wir sind. Ehrliche Inhalte statt Inszenierung." },
+  { icon: "buch", titel: "Bildung", text: "Wissen ist der Kern von allem – „ilm“ heißt Wissen. Wir machen es zugänglich und verständlich." },
+  { icon: "stern", titel: "Professionalität", text: "Sorgfältige Vorbereitung, hochwertige Produktion und verlässliche Zusammenarbeit." },
+  { icon: "welt", titel: "Gesellschaftlicher Mehrwert", text: "Unsere Inhalte sollen Menschen stärken – unabhängig von Herkunft, Glaube oder Lebenslage." },
+  { icon: "hand", titel: "Respekt", text: "Wir begegnen allen Menschen und Meinungen mit Respekt. Ohne Polemik, ohne Lagerdenken." },
+  { icon: "schild", titel: "Unabhängigkeit", text: "Wir gehören keiner bestimmten muslimischen Gruppierung oder Strömung an – und keiner Partei." },
+];
+---
+<Basis titel="Vision & Werte" beschreibung="Wofür ilm me up steht: Wissen sichtbar machen, Verständnis fördern, Gemeinschaft stärken – unabhängig und respektvoll.">
+  <SeitenKopf kicker="Vision & Werte" titel='Wissen, das <em class="akzent">verbindet.</em>' einleitung="Unser Ziel ist es, Wissen, Erfahrungen und positive Impulse sichtbar zu machen, Verständnis zu fördern und einen Mehrwert für Muslime und Nichtmuslime gleichermaßen zu schaffen." />
+
+  <section class="abschnitt">
+    <div class="huelle mission">
+      <div>
+        <p class="kicker reveal">Mission</p>
+        <h2 class="reveal">Eine Bühne für Menschen, die <em class="akzent">etwas zu sagen haben.</em></h2>
+      </div>
+      <div class="reveal">
+        <p class="gross">Wir sind ein Team muslimischer, beruflich etablierter Menschen mit unterschiedlichen Kompetenzen und fachlichen Hintergründen.</p>
+        <p>Mit ilm me up bauen wir eine unabhängige Medienplattform auf, die Expertinnen, Experten, Fachleuten und engagierten Persönlichkeiten eine professionelle Möglichkeit bietet, Wissen, Erfahrungen und relevante Perspektiven sichtbar zu machen.</p>
+        <p>Wir produzieren selbst, mit eigener Medienkompetenz und eigener Videoproduktion – damit gute Inhalte so wirken können, wie sie es verdienen.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="abschnitt petrol zitatflaeche">
+    <div class="huelle">
+      <blockquote class="zitat reveal">
+        <p>„Im Mittelpunkt stehen Aufrichtigkeit, Bildung, Professionalität, gesellschaftlicher Mehrwert und ein respektvoller Umgang miteinander.“</p>
+        <footer>— Das Team von ilm me up</footer>
+      </blockquote>
+    </div>
+  </section>
+
+  <section class="abschnitt weiss">
+    <div class="huelle">
+      <div class="kopfzeile zweispaltig">
+        <div>
+          <p class="kicker reveal">Unsere Werte</p>
+          <h2 class="reveal">Woran du uns <em class="akzent">erkennst.</em></h2>
+        </div>
+        <p class="einleitung reveal">Sechs Grundsätze, die jede Folge, jedes Gespräch und jede Zusammenarbeit prägen.</p>
+      </div>
+      <div class="raster drei">
+        {werte.map((w, i) => (
+          <article class="karte wert reveal" style={`--v:${(i % 3) * 90}ms`}>
+            <div class="symbol"><Icon name={w.icon} /></div>
+            <h3>{w.titel}</h3>
+            <p>{w.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="abschnitt dunkel">
+    <div class="huelle">
+      <div class="kopfzeile zweispaltig">
+        <div>
+          <p class="kicker reveal">Was entsteht</p>
+          <h2 class="reveal">Heute Reichweite. <em class="akzent">Morgen Gemeinschaft.</em></h2>
+        </div>
+        <p class="einleitung reveal">Langfristig möchten wir Menschen vernetzen, Gemeinschaft stärken und Projekte aufbauen, die einen nachhaltigen Beitrag für die muslimische Community und die Gesellschaft leisten.</p>
+      </div>
+      <Roadmap />
+    </div>
+  </section>
+
+  <section class="abschnitt eng">
+    <div class="huelle cta reveal">
+      <h2>Mach mit – <em class="akzent">auf deine Weise.</em></h2>
+      <p>Ob als Expertin oder Experte vor der Kamera, als Unterstützer im Hintergrund oder als Zuschauer mit einer guten Frage.</p>
+      <div class="knopfreihe">
+        <a class="knopf petrol-knopf" href={u("/fuer-experten/")}>Für Experten <Icon name="pfeil" class="pfeil" /></a>
+        <a class="knopf rahmen" href={u("/kontakt/")}>Kontakt aufnehmen</a>
+      </div>
+    </div>
+  </section>
+</Basis>
+
+<style>
+  .mission { display: grid; gap: 2rem; }
+  @media (min-width: 960px) { .mission { grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; } }
+  .gross { font-size: clamp(1.2rem, 1.8vw, 1.4rem); line-height: 1.6; color: var(--tinte); font-weight: 600; }
+  .zitatflaeche { overflow: hidden; }
+  .zitatflaeche::before { content: "“"; position: absolute; right: 4%; top: 0.02em; font-family: var(--serif); font-size: clamp(16rem, 30vw, 28rem); line-height: 1; color: rgba(255, 204, 0, 0.18); pointer-events: none; }
+  .zitat { margin: 0; position: relative; }
+  .zitat p { font-family: var(--serif); font-style: italic; font-size: clamp(1.8rem, 3.8vw, 3.2rem); line-height: 1.22; color: #fff; letter-spacing: -0.02em; max-width: 24ch; }
+  .zitat footer { font-weight: 700; color: var(--gelb); }
+  .wert p { margin: 0; color: var(--leise); }
+  .cta { text-align: center; display: grid; justify-items: center; }
+  .cta p { max-width: 52ch; color: var(--leise); }
+  .cta .knopfreihe { justify-content: center; }
+</style>

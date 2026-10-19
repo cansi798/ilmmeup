@@ -1,0 +1,69 @@
+---
+// Kanäle + „Aktuelle Beiträge“ ohne Live-Einbettung (keine Tracker). Beitragskacheln sind Platzhalter.
+import Icon from "./Icon.astro";
+import { SOCIAL, VORSCHAU } from "../consts";
+const beitraege = [
+  { kanal: "instagram", art: "Reel", text: "Ein Gedanke für den Tag" },
+  { kanal: "tiktok", art: "Kurzvideo", text: "Frag die Ärztin" },
+  { kanal: "youtube", art: "Short", text: "Wissen in 60 Sekunden" },
+  { kanal: "instagram", art: "Beitrag", text: "Hinter der Kamera" },
+];
+const kanal = (id: string) => SOCIAL.find((s) => s.id === id)!;
+---
+<div class="kanaele">
+  {SOCIAL.map((s, i) => (
+    <a class:list={["kanal reveal", s.id]} href={s.url} target="_blank" rel="noopener" style={`--v:${i * 90}ms`}>
+      <span class="kanal-icon"><Icon name={s.id} /></span>
+      <span class="kanal-name">{s.name}</span>
+      <span class="kanal-text">{s.text}</span>
+      <span class="kanal-folgen">Kanal öffnen <Icon name="pfeil" /></span>
+    </a>
+  ))}
+</div>
+
+<div class="beitraege-kopf">
+  <h3>Aktuelle Beiträge</h3>
+  {VORSCHAU && <span class="platzhalter-hinweis">Platzhalter – hier erscheinen später ausgewählte Beiträge</span>}
+</div>
+<ul class="beitraege">
+  {beitraege.map((b, i) => (
+    <li class="beitrag reveal" style={`--v:${i * 70}ms`}>
+      <a href={kanal(b.kanal).url} target="_blank" rel="noopener">
+        <span class:list={["beitrag-flaeche", `b${i % 4}`]} aria-hidden="true"><Icon name="play" /></span>
+        <span class="beitrag-info"><Icon name={b.kanal} /><span><strong>{b.text}</strong><small>{b.art} auf {kanal(b.kanal).name}</small></span></span>
+      </a>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .kanaele { display: grid; gap: 1rem; margin-bottom: clamp(3rem, 6vw, 4.5rem); }
+  @media (min-width: 800px) { .kanaele { grid-template-columns: repeat(3, 1fr); } }
+  .kanal { position: relative; display: grid; gap: 0.35rem; padding: 1.75rem; border-radius: var(--radius); background: var(--weiss); border: 1px solid var(--linie); text-decoration: none; color: var(--text); overflow: hidden; transition: transform 0.35s var(--kurve), box-shadow 0.35s, border-color 0.35s; }
+  .kanal:hover { transform: translateY(-4px); box-shadow: var(--schatten); border-color: transparent; color: var(--text); }
+  .kanal-icon { width: 54px; height: 54px; border-radius: 16px; display: grid; place-items: center; background: var(--nacht); color: #fff; margin-bottom: 0.8rem; transition: background 0.3s, color 0.3s; }
+  .kanal-icon :global(svg) { width: 28px; height: 28px; }
+  .kanal:hover .kanal-icon { background: var(--gelb); color: var(--tinte); }
+  .kanal-name { font-weight: 800; font-size: 1.35rem; color: var(--tinte); letter-spacing: -0.02em; }
+  .kanal-text { color: var(--leise); font-size: 0.98rem; }
+  .kanal-folgen { display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 700; color: var(--petrol); margin-top: 0.6rem; }
+  .kanal-folgen :global(svg) { width: 1em; height: 1em; transition: transform 0.25s; }
+  .kanal:hover .kanal-folgen :global(svg) { transform: translateX(3px); }
+  .beitraege-kopf { display: flex; flex-wrap: wrap; align-items: center; gap: 0.8rem 1.2rem; margin-bottom: 1.25rem; }
+  .beitraege-kopf h3 { margin: 0; }
+  .beitraege { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+  @media (min-width: 900px) { .beitraege { grid-template-columns: repeat(4, 1fr); } }
+  .beitrag a { display: block; text-decoration: none; color: var(--text); }
+  .beitrag-flaeche { display: grid; place-items: center; aspect-ratio: 4 / 5; border-radius: 16px; color: rgba(255, 255, 255, 0.92); transition: transform 0.4s var(--kurve); position: relative; overflow: hidden; }
+  .beitrag-flaeche :global(svg) { width: 38px; height: 38px; padding: 9px; border-radius: 50%; background: rgba(255, 255, 255, 0.16); backdrop-filter: blur(4px); }
+  .beitrag a:hover .beitrag-flaeche { transform: scale(0.98); }
+  .b0 { background: radial-gradient(70% 60% at 30% 25%, rgba(255, 204, 0, 0.6), transparent 60%), linear-gradient(160deg, #006780, #04232d); }
+  .b1 { background: radial-gradient(70% 60% at 70% 75%, rgba(255, 204, 0, 0.45), transparent 60%), linear-gradient(200deg, #0a3341, #00495b); }
+  .b2 { background: linear-gradient(170deg, #ffcc00, #f0a500 55%, #c27a00); }
+  .b2 :global(svg) { color: var(--tinte); background: rgba(255, 255, 255, 0.4) !important; }
+  .b3 { background: radial-gradient(60% 60% at 50% 40%, rgba(26, 138, 166, 0.9), transparent 70%), linear-gradient(180deg, #04232d, #0a3341); }
+  .beitrag-info { display: flex; gap: 0.6rem; align-items: flex-start; padding: 0.8rem 0.15rem 0; }
+  .beitrag-info > :global(svg) { width: 18px; height: 18px; color: var(--petrol); flex: none; margin-top: 0.2rem; }
+  .beitrag-info strong { display: block; color: var(--tinte); font-size: 0.97rem; line-height: 1.35; }
+  .beitrag-info small { color: var(--leise); font-size: 0.85rem; }
+</style>

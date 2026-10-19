@@ -1,0 +1,31 @@
+---
+import Basis from "../layouts/Basis.astro";
+import SeitenKopf from "../components/SeitenKopf.astro";
+import { MAIL } from "../consts";
+---
+<Basis titel="Datenschutz">
+  <SeitenKopf kicker="Rechtliches" titel="Datenschutzerklärung" />
+  <section class="abschnitt eng">
+    <div class="huelle schmal recht">
+      <p class="platzhalter-hinweis">Entwurf – TODO: Verantwortliche Stelle und Hosting-Angaben von ilm me up ergänzen und vor dem Livegang rechtlich prüfen lassen.</p>
+      <h2>1. Verantwortliche Stelle</h2>
+      <p>[Name / Organisation, Anschrift]<br />E-Mail: <a href={`mailto:${MAIL}`}>{MAIL}</a></p>
+      <h2>2. Grundsatz</h2>
+      <p>Diese Website kommt ohne Cookies, ohne Analyse- oder Tracking-Werkzeuge und ohne eingebundene Schriftarten von Drittanbietern aus. Schriften werden von unserem eigenen Server geladen.</p>
+      <h2>3. Hosting und Server-Logdateien</h2>
+      <p>[TODO: Anbieter des Hostings nennen.] Beim Aufruf der Seiten verarbeitet der Hosting-Anbieter technisch notwendige Daten (z. B. IP-Adresse, Zeitpunkt, aufgerufene Seite), um die Website auszuliefern und ihre Sicherheit zu gewährleisten (Art. 6 Abs. 1 lit. f DSGVO).</p>
+      <h2>4. Kontakt- und Anfrageformular</h2>
+      <p>Die Formulare übertragen keine Daten an einen Server. Beim Absenden öffnet sich Ihr eigenes E-Mail-Programm mit einer vorbereiteten Nachricht. Erst wenn Sie diese E-Mail selbst versenden, erhalten wir Ihre Angaben und verwenden sie ausschließlich zur Bearbeitung Ihrer Anfrage (Art. 6 Abs. 1 lit. a und b DSGVO).</p>
+      <h2>5. YouTube-Videos</h2>
+      <p>Videos sind datenschutzfreundlich eingebunden: Vor dem Klick auf „Abspielen“ wird keine Verbindung zu YouTube aufgebaut. Erst nach dem Klick wird das Video über youtube-nocookie.com von YouTube (Google Ireland Limited) geladen; dabei werden Daten wie Ihre IP-Adresse an YouTube übermittelt.</p>
+      <h2>6. Links zu sozialen Netzwerken</h2>
+      <p>Unsere Links zu YouTube, Instagram und TikTok sind einfache Verweise. Daten werden erst übertragen, wenn Sie einen Link anklicken und die jeweilige Plattform besuchen.</p>
+      <h2>7. Ihre Rechte</h2>
+      <p>Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit und Widerspruch sowie das Recht auf Beschwerde bei einer Datenschutz-Aufsichtsbehörde.</p>
+    </div>
+  </section>
+</Basis>
+<style>
+  .recht h2 { font-size: 1.3rem; margin-top: 2rem; }
+  .recht .platzhalter-hinweis { margin-bottom: 1rem; }
+</style>

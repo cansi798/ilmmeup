@@ -1,0 +1,48 @@
+---
+// Newsletter: noch ohne Versanddienst – bewusst als „kommt bald“ gekennzeichnet.
+import Icon from "./Icon.astro";
+import { SOCIAL } from "../consts";
+---
+<div class="newsletter reveal">
+  <div class="nl-text">
+    <p class="kicker">Newsletter</p>
+    <h2>Neues aus ilm me up – <em class="akzent">kommt bald.</em></h2>
+    <p>Neue Gespräche, Formate und Termine gesammelt in einer ruhigen Mail im Monat. Der Newsletter startet in Kürze. Bis dahin bist du auf unseren Kanälen immer aktuell.</p>
+    <ul class="nl-kanaele">
+      {SOCIAL.map((s) => <li><a href={s.url} target="_blank" rel="noopener" aria-label={s.name}><Icon name={s.id} /></a></li>)}
+    </ul>
+  </div>
+  <form class="nl-form" aria-describedby="nl-hinweis" onsubmit="return false">
+    <label for="nl-mail" class="nl-label">E-Mail-Adresse</label>
+    <div class="nl-zeile">
+      <input id="nl-mail" type="email" placeholder="name@beispiel.de" disabled />
+      <button class="knopf" type="submit" disabled>Bald verfügbar</button>
+    </div>
+    <p id="nl-hinweis" class="nl-hinweis"><Icon name="licht" /> Die Anmeldung wird freigeschaltet, sobald der Newsletter startet.</p>
+  </form>
+</div>
+
+<style>
+  .newsletter { display: grid; gap: 2rem; align-items: center; padding: clamp(2rem, 5vw, 3.5rem); border-radius: var(--radius-gross); background: var(--gelb); color: var(--tinte); position: relative; overflow: hidden; }
+  .newsletter::after { content: ""; position: absolute; width: 420px; height: 420px; right: -120px; bottom: -220px; border-radius: 50%; border: 60px solid rgba(255, 255, 255, 0.25); pointer-events: none; }
+  @media (min-width: 900px) { .newsletter { grid-template-columns: 1.2fr 1fr; gap: 3rem; } }
+  .newsletter .kicker { color: var(--tinte); }
+  .newsletter .kicker::before { background: var(--tinte); }
+  .newsletter h2 { font-size: clamp(1.8rem, 3.4vw, 2.6rem); }
+  .newsletter em.akzent { color: var(--petrol-dunkel); }
+  .newsletter p { color: #3a3000; }
+  .nl-kanaele { list-style: none; display: flex; gap: 0.6rem; margin: 0; padding: 0; }
+  .nl-kanaele a { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; background: var(--tinte); color: var(--gelb); transition: transform 0.25s; }
+  .nl-kanaele a:hover { transform: translateY(-3px); color: #fff; }
+  .nl-kanaele :global(svg) { width: 22px; height: 22px; }
+  .nl-form { position: relative; z-index: 1; background: rgba(255, 255, 255, 0.55); padding: 1.5rem; border-radius: 20px; }
+  .nl-label { display: block; font-weight: 700; margin-bottom: 0.5rem; }
+  .nl-zeile { display: grid; gap: 0.6rem; }
+  @media (min-width: 520px) { .nl-zeile { grid-template-columns: 1fr auto; } }
+  .nl-zeile input { min-height: 52px; border-radius: 999px; border: 1.5px solid rgba(14, 42, 51, 0.2); padding: 0 1.2rem; font: 500 1rem var(--sans); background: #fff; color: var(--tinte); }
+  .nl-zeile input:disabled { background: rgba(255, 255, 255, 0.8); cursor: not-allowed; }
+  .nl-form .knopf { --k-bg: var(--tinte); --k-fg: #fff; }
+  .nl-form .knopf:disabled { opacity: 0.85; cursor: not-allowed; transform: none; box-shadow: none; }
+  .nl-hinweis { display: flex; gap: 0.5rem; align-items: center; font-size: 0.88rem; margin: 0.8rem 0 0; color: #3a3000; }
+  .nl-hinweis :global(svg) { width: 18px; height: 18px; flex: none; }
+</style>

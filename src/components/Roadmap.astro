@@ -1,0 +1,46 @@
+---
+// „Was entsteht“: die langfristige Vision als Ausblick – bewusst ohne eigene Unterseiten.
+import Icon from "./Icon.astro";
+const stufen = [
+  { phase: "Heute", status: "aktiv", titel: "Medienplattform", text: "Gespräche, Impulse und Fachbeiträge – professionell produziert und auf YouTube, Instagram und TikTok veröffentlicht.", punkte: [["kamera", "Videoproduktion"], ["netz", "Social Media"], ["personen", "Expertennetzwerk"]] },
+  { phase: "Als Nächstes", status: "in Planung", titel: "Wissen bündeln", text: "Inhalte geordnet auffindbar machen und Menschen auch offline zusammenbringen.", punkte: [["bibliothek", "Mediathek"], ["mikro", "Podcast"], ["kalender", "Veranstaltungen"]] },
+  { phase: "Perspektivisch", status: "Vision", titel: "Gemeinschaft stärken", text: "Aus Reichweite wird Begleitung: Lernen, Austausch und Unterstützung für alle Generationen.", punkte: [["personen", "Community"], ["schule", "Bildungsangebote"], ["kompass", "Mentoring"], ["familie", "Familien- & Jugendarbeit"], ["hand", "Partner & Kooperationen"]] },
+  { phase: "Langfristig", status: "Vision", titel: "Community Center", text: "Ein Ort für Begegnung, Lernen und gemeinschaftliches Engagement – offen für alle, die etwas bewegen wollen.", punkte: [["haus", "Ort der Begegnung"]] },
+];
+---
+<ol class="roadmap">
+  {stufen.map((s, i) => (
+    <li class:list={["stufe reveal", { aktiv: i === 0 }]} style={`--v:${i * 110}ms`}>
+      <div class="stufe-kopf">
+        <span class="stufe-punkt" aria-hidden="true"></span>
+        <span class="stufe-phase">{s.phase}</span>
+        <span class="stufe-status">{s.status}</span>
+      </div>
+      <h3>{s.titel}</h3>
+      <p>{s.text}</p>
+      <ul class="stufe-liste">
+        {s.punkte.map(([icon, label]) => <li><Icon name={icon} />{label}</li>)}
+      </ul>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .roadmap { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.25rem; position: relative; }
+  @media (min-width: 1000px) { .roadmap { grid-template-columns: repeat(4, 1fr); gap: 1.5rem; } .roadmap::before { content: ""; position: absolute; left: 0; right: 0; top: 11px; height: 2px; background: linear-gradient(90deg, var(--gelb), rgba(255, 255, 255, 0.15) 40%, rgba(255, 255, 255, 0.08)); } }
+  .stufe { position: relative; padding: 0 0 0 0; }
+  @media (max-width: 999px) { .stufe { padding-left: 2rem; border-left: 2px solid rgba(255, 255, 255, 0.12); padding-bottom: 1.5rem; } .stufe.aktiv { border-left-color: var(--gelb); } .stufe-punkt { position: absolute; left: -12px; top: 0; } }
+  .stufe-kopf { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 1.4rem; flex-wrap: wrap; }
+  .stufe-punkt { width: 22px; height: 22px; border-radius: 50%; background: var(--nacht); border: 2px solid rgba(255, 255, 255, 0.35); flex: none; position: relative; }
+  .aktiv .stufe-punkt { background: var(--gelb); border-color: var(--gelb); box-shadow: 0 0 0 6px rgba(255, 204, 0, 0.2); animation: puls 2.6s ease-in-out infinite; }
+  @keyframes puls { 50% { box-shadow: 0 0 0 12px rgba(255, 204, 0, 0.05); } }
+  .stufe-phase { font-weight: 800; color: #fff; letter-spacing: -0.01em; }
+  .stufe-status { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.25em 0.7em; border-radius: 999px; border: 1px solid rgba(255, 255, 255, 0.22); color: rgba(255, 255, 255, 0.75); }
+  .aktiv .stufe-status { background: var(--gelb); color: var(--tinte); border-color: var(--gelb); }
+  .stufe h3 { font-size: 1.45rem; margin-bottom: 0.5rem; }
+  .stufe p { color: rgba(255, 255, 255, 0.72); font-size: 0.98rem; }
+  .stufe-liste { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.45rem; }
+  .stufe-liste li { display: flex; align-items: center; gap: 0.6rem; font-size: 0.95rem; font-weight: 600; color: #fff; }
+  .stufe-liste :global(svg) { width: 20px; height: 20px; color: var(--gelb); flex: none; }
+  .stufe:not(.aktiv) .stufe-liste li { color: rgba(255, 255, 255, 0.8); }
+</style>
