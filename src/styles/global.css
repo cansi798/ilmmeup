@@ -106,7 +106,7 @@ em.akzent { font-style: normal; font-weight: 800; color: var(--petrol); }
 .dunkel .knopf.rahmen:hover, .seitenkopf .knopf.rahmen:hover, .hero .knopf.rahmen:hover, .petrol .knopf.rahmen:hover { border-color: #fff; }
 .knopfreihe { display: flex; flex-wrap: wrap; gap: 0.8rem; }
 
-.textlink { display: inline-flex; align-items: center; gap: 0.4em; font-weight: 700; text-decoration: none; color: var(--petrol); }
+.textlink { display: inline-flex; align-items: center; gap: 0.4em; min-height: 44px; font-weight: 700; text-decoration: none; color: var(--petrol); }
 .textlink svg { width: 1em; height: 1em; transition: transform 0.25s var(--kurve); }
 .textlink:hover svg { transform: translateX(3px); }
 
@@ -176,3 +176,8 @@ fieldset { border: 0; padding: 0; margin: 0; }
 /* Lichtbahn (JS): ersetzt den einfachen CSS-Lichtschein, Licht teilt sich an jedem Kreis */
 .bahn-aktiv::after { display: none !important; }
 .lichtbahn { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; z-index: 2; }
+
+/* Handy: teure Dauer-Animationen mit großen Weichzeichnern abschalten (flüssiges Scrollen) */
+@media (max-width: 899px) {
+  .kopf.fest, .kopf.offen { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; background: rgba(4, 35, 45, 0.97) !important; }
+}

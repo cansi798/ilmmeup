@@ -55,7 +55,7 @@ const experten = ["Imame", "Gelehrte", "Ärztinnen & Ärzte", "Psychologinnen & 
     <div class="huelle">
       <p class="kicker reveal">Worum es uns geht</p>
       <p class="statement reveal" style="--v:80ms">Wir machen Wissen, Erfahrungen und positive Impulse sichtbar – und schaffen <em class="akzent">Mehrwert für alle wahrheitsliebenden und wissbegierigen Menschen.</em></p>
-      <ol class="saeulen reveal" data-bahn data-bahn-min="900" data-bahn-farbe="#ffc400">
+      <ol class="saeulen reveal" data-bahn data-bahn-farbe="#ffc400">
         {saeulen.map((s, i) => (
           <li class="saeule" style={`--v:${300 + i * 380}ms; --i:${i}`}>
             <span class="saeule-icon" data-knoten><Icon name={s.icon} /></span>
@@ -157,6 +157,7 @@ const experten = ["Imame", "Gelehrte", "Ärztinnen & Ärzte", "Psychologinnen & 
   .hero-raster { display: grid; gap: 3rem; align-items: center; padding-bottom: clamp(3rem, 7vw, 5rem); }
   @media (min-width: 960px) { .hero-raster { grid-template-columns: 1.15fr 1fr; min-height: min(78vh, 720px); } }
   .hero .einleitung { max-width: 44ch; margin-bottom: 2rem; color: rgba(255, 255, 255, 0.9); }
+  @media (max-width: 899px) { .strahl { display: none; } .glut, .mission-licht { animation: none !important; } }
   @media (max-width: 959px) { .glut { width: 620px; height: 620px; right: -300px; top: -260px; opacity: 0.7; } .strahl { opacity: 0.5; } }
   .hero-licht { position: absolute; inset: 0; z-index: -1; }
   .glut { position: absolute; width: 900px; height: 900px; right: -220px; top: -180px; border-radius: 50%; background: radial-gradient(circle, rgba(255, 204, 0, 0.28), rgba(0, 103, 128, 0.35) 35%, transparent 66%); animation: atmen 9s ease-in-out infinite alternate; }

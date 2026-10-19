@@ -23,5 +23,6 @@ const { kicker, titel, einleitung } = Astro.props;
   .licht span:first-child { width: 60vmax; height: 60vmax; right: -18vmax; top: -30vmax; background: radial-gradient(circle, rgba(255, 204, 0, 0.32), transparent 62%); animation: schweben 14s ease-in-out infinite alternate; }
   .licht span:last-child { width: 70vmax; height: 70vmax; left: -30vmax; bottom: -50vmax; background: radial-gradient(circle, rgba(0, 103, 128, 0.7), transparent 60%); animation: schweben 18s ease-in-out infinite alternate-reverse; }
   .seitenkopf::after { content: ""; position: absolute; inset: 0; z-index: -1; background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.03) 0 1px, transparent 1px 96px); mask-image: linear-gradient(to bottom, #000, transparent); }
+  @media (max-width: 899px) { .licht span { animation: none; } }
   @keyframes schweben { to { transform: translate3d(-4vmax, 3vmax, 0) scale(1.08); } }
 </style>

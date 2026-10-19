@@ -68,8 +68,17 @@ const og = new URL(u("/assets/og-image.jpg"), Astro.site);
       if ("IntersectionObserver" in window && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
         const io = new IntersectionObserver((eintraege) => {
           for (const e of eintraege) if (e.isIntersecting) { e.target.classList.add("sichtbar"); io.unobserve(e.target); }
-        }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
+        }, { rootMargin: "0px 0px -5% 0px", threshold: 0 });
         elemente.forEach((el) => io.observe(el));
+        // Absicherung (schnelles Wischen auf dem Handy, iOS): alles, was schon im oder über dem Bildschirm ist, einblenden
+        let wartet = false;
+        const nachziehen = () => {
+          wartet = false;
+          for (const el of elemente) if (!el.classList.contains("sichtbar") && el.getBoundingClientRect().top < innerHeight * 0.98) { el.classList.add("sichtbar"); io.unobserve(el); }
+        };
+        addEventListener("scroll", () => { if (!wartet) { wartet = true; requestAnimationFrame(nachziehen); } }, { passive: true });
+        addEventListener("load", nachziehen);
+        setTimeout(nachziehen, 400);
       } else elemente.forEach((el) => el.classList.add("sichtbar"));
 
       // Lichtbahn: Ein Lichtblitz läuft über die volle Breite der Linie, teilt sich an jedem Kreis
@@ -85,34 +94,50 @@ const og = new URL(u("/assets/og-image.jpg"), Astro.site);
         const min = Number(bahn.dataset.bahnMin || 0);
         if (ruhig.matches || innerWidth < min) return;
         const box = bahn.getBoundingClientRect();
+        // Lage ohne CSS-Transformationen messen (Einblend-Animationen verschieben/skalieren noch)
+        const lage = (el: HTMLElement) => {
+          let x = 0, y = 0, e: HTMLElement | null = el;
+          while (e && e !== bahn) { x += e.offsetLeft; y += e.offsetTop; e = e.offsetParent as HTMLElement | null; }
+          return e === bahn ? { x, y } : null;
+        };
         const knoten = [...bahn.querySelectorAll<HTMLElement>("[data-knoten]")].map((k) => {
+          const l = lage(k);
           const r = k.getBoundingClientRect();
-          // ohne Skalierung durch Einblend-Animation messen
-          const w = k.offsetWidth;
-          return { cx: r.left + r.width / 2 - box.left, cy: r.top + r.height / 2 - box.top, r: w / 2 + 1 };
+          const w = k.offsetWidth, h = k.offsetHeight;
+          return l ? { cx: l.x + w / 2, cy: l.y + h / 2, r: w / 2 + 1 } : { cx: r.left + r.width / 2 - box.left, cy: r.top + r.height / 2 - box.top, r: w / 2 + 1 };
         });
         if (!knoten.length) return;
-        const y = knoten[0].cy;
-        const x0 = -box.left, x1 = innerWidth - box.left;
+        // waagerecht (Desktop, über die volle Fensterbreite) oder senkrecht (Handy, Stationen untereinander)
+        const senkrecht = knoten.length > 1 && Math.abs(knoten[1].cx - knoten[0].cx) < Math.abs(knoten[1].cy - knoten[0].cy);
+        const y = knoten[0].cy, x = knoten[0].cx;
+        const a0 = senkrecht ? 0 : -box.left, a1 = senkrecht ? bahn.offsetHeight : innerWidth - box.left;
         const pfad = (oben: boolean) => {
-          let d = `M ${x0} ${y}`;
+          if (senkrecht) {
+            let d = `M ${x} ${a0}`;
+            for (const k of knoten) d += ` V ${k.cy - k.r} A ${k.r} ${k.r} 0 0 ${oben ? 1 : 0} ${x} ${k.cy + k.r}`;
+            return d + ` V ${a1}`;
+          }
+          let d = `M ${a0} ${y}`;
           for (const k of knoten) d += ` H ${k.cx - k.r} A ${k.r} ${k.r} 0 0 ${oben ? 1 : 0} ${k.cx + k.r} ${y}`;
-          return d + ` H ${x1}`;
+          return d + ` H ${a1}`;
         };
         const svg = document.createElementNS(SVGNS, "svg");
         svg.classList.add("lichtbahn");
-        svg.setAttribute("width", String(box.width)); svg.setAttribute("height", String(box.height));
+        svg.setAttribute("width", String(bahn.offsetWidth)); svg.setAttribute("height", String(bahn.offsetHeight));
         svg.setAttribute("aria-hidden", "true");
         svg.innerHTML = `<defs><radialGradient id="lg-${bahnen.indexOf(bahn)}"><stop offset="0" stop-color="#ffe680" stop-opacity="0.85"/><stop offset="1" stop-color="#ffcc00" stop-opacity="0"/></radialGradient>
           <filter id="lf-${bahnen.indexOf(bahn)}" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>`;
         const gesamt: number[] = [];
         // Kometen-Look: mehrere übereinanderliegende Striche um denselben Mittelpunkt –
         // lang und blass außen, kurz und hell in der Mitte → weich auslaufende Enden vorne und hinten.
-        const SCHICHTEN: [number, number, number][] = Array.from({ length: 9 }, (_, k) => { const f = 1 - k / 9; return [STRICH * f, 0.06 + 0.11 * k, 7 - k * 0.5]; });
+        // auf dem Handy weniger Schichten und kein SVG-Weichzeichner (spart Rechenleistung beim Scrollen)
+        const handy = innerWidth < 900;
+        const n = handy ? 6 : 9;
+        const SCHICHTEN: [number, number, number][] = Array.from({ length: n }, (_, k) => { const f = 1 - k / n; return [STRICH * f, 0.06 + (0.95 / n) * k, (handy ? 8 : 7) - k * (handy ? 1.1 : 0.5)]; });
         const farbe = bahn.dataset.bahnFarbe || "#fff0b4";
         for (const oben of [true, false]) {
           const g = document.createElementNS(SVGNS, "g");
-          g.setAttribute("filter", `url(#lf-${bahnen.indexOf(bahn)})`);
+          if (!handy) g.setAttribute("filter", `url(#lf-${bahnen.indexOf(bahn)})`);
           svg.appendChild(g);
           for (const [len, deck, breite] of SCHICHTEN) {
             const p = document.createElementNS(SVGNS, "path");
@@ -124,17 +149,17 @@ const og = new URL(u("/assets/og-image.jpg"), Astro.site);
             p.setAttribute("stroke-linecap", "round");
             g.appendChild(p);
             const L = p.getTotalLength();
-            if (!gesamt.length) gesamt.push(L);
+            if (!gesamt.length) gesamt.push(L, Math.max(DAUER, L * 4.5));
             p.setAttribute("stroke-dasharray", `${len} ${L + STRICH * 2}`);
             const versatz = (STRICH - len) / 2;
-            p.animate([{ strokeDashoffset: len + versatz }, { strokeDashoffset: len / 2 - L - STRICH / 2 }], { duration: DAUER, iterations: Infinity, easing: "linear", delay: 1500 });
+            p.animate([{ strokeDashoffset: len + versatz }, { strokeDashoffset: len / 2 - L - STRICH / 2 }], { duration: gesamt[1], iterations: Infinity, easing: "linear", delay: 1500 });
           }
         }
         // Aufleuchten der Kreise, zeitlich passend zur Position des Lichts
         const L = gesamt[0];
         let extra = 0;
         for (const k of knoten) {
-          const s = k.cx - x0 + extra + (Math.PI * k.r) / 2 - k.r;
+          const s = (senkrecht ? k.cy : k.cx) - a0 + extra + (Math.PI * k.r) / 2 - k.r;
           extra += Math.PI * k.r - 2 * k.r;
           const t = Math.min(0.999, Math.max(0.001, (s + STRICH / 2) / (L + STRICH)));
           const g = document.createElementNS(SVGNS, "circle");
@@ -143,14 +168,15 @@ const og = new URL(u("/assets/og-image.jpg"), Astro.site);
           g.style.opacity = "0";
           svg.insertBefore(g, svg.querySelector(":scope > g"));
           const a = Math.max(0, t - 0.05), e = Math.min(1, t + 0.09);
-          g.animate([{ opacity: 0, offset: 0 }, { opacity: 0, offset: a }, { opacity: 1, offset: t }, { opacity: 0, offset: e }, { opacity: 0, offset: 1 }], { duration: DAUER, iterations: Infinity, easing: "linear", delay: 1500 });
+          g.animate([{ opacity: 0, offset: 0 }, { opacity: 0, offset: a }, { opacity: 1, offset: t }, { opacity: 0, offset: e }, { opacity: 0, offset: 1 }], { duration: gesamt[1], iterations: Infinity, easing: "linear", delay: 1500 });
         }
         bahn.appendChild(svg);
         bahn.classList.add("bahn-aktiv");
       };
       let bahnTimer = 0;
       const alleBahnen = () => bahnen.forEach(bahnBauen);
-      addEventListener("resize", () => { clearTimeout(bahnTimer); bahnTimer = window.setTimeout(alleBahnen, 250); });
+      let bahnBreite = innerWidth;
+      addEventListener("resize", () => { if (innerWidth === bahnBreite) return; bahnBreite = innerWidth; clearTimeout(bahnTimer); bahnTimer = window.setTimeout(alleBahnen, 250); });
       ruhig.addEventListener("change", alleBahnen);
       // nach Schriften und Einblend-Animationen messen
       document.fonts?.ready.then(() => setTimeout(alleBahnen, 50));

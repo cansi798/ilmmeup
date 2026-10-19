@@ -40,7 +40,7 @@ const aktiv = (href: string) => {
   .kopf.offen { background: var(--nacht); }
   .kopf-innen { display: flex; align-items: center; gap: 1.5rem; height: 84px; transition: height 0.3s; }
   .kopf.fest .kopf-innen { height: 70px; }
-  .marke { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; color: #fff; margin-right: auto; }
+  .marke { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; color: #fff; margin-right: auto; min-width: 48px; min-height: 48px; }
   .marke img { height: 52px; width: auto; transition: height 0.3s, transform 0.4s var(--kurve); }
   .kopf.fest .marke img { height: 44px; }
   .marke:hover img { transform: rotate(-6deg); }
