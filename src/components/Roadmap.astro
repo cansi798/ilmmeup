@@ -32,8 +32,25 @@ const stufen = [
   @media (max-width: 999px) { .stufe { padding-left: 2rem; border-left: 2px solid rgba(255, 255, 255, 0.12); padding-bottom: 1.5rem; } .stufe.aktiv { border-left-color: var(--gelb); } .stufe-punkt { position: absolute; left: -12px; top: 0; } }
   .stufe-kopf { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 1.4rem; flex-wrap: wrap; }
   .stufe-punkt { width: 22px; height: 22px; border-radius: 50%; background: var(--nacht); border: 2px solid rgba(255, 255, 255, 0.35); flex: none; position: relative; }
-  .aktiv .stufe-punkt { background: var(--gelb); border-color: var(--gelb); box-shadow: 0 0 0 6px rgba(255, 204, 0, 0.2); animation: puls 2.6s ease-in-out infinite; }
-  @keyframes puls { 50% { box-shadow: 0 0 0 12px rgba(255, 204, 0, 0.05); } }
+  .aktiv .stufe-punkt { background: var(--gelb); border-color: var(--gelb); box-shadow: 0 0 10px 2px rgba(255, 204, 0, 0.55); }
+  /* Glimmen: weicher Lichthof, nur opacity/transform animiert */
+  .aktiv .stufe-punkt::before, .aktiv .stufe-punkt::after { content: ""; position: absolute; inset: -2px; border-radius: 50%; pointer-events: none; }
+  .aktiv .stufe-punkt::before { background: radial-gradient(circle, rgba(255, 220, 90, 0.75), rgba(255, 204, 0, 0) 70%); transform: scale(2.6); animation: glimmen 2.8s ease-in-out infinite; }
+  .aktiv .stufe-punkt::after { border: 2px solid rgba(255, 204, 0, 0.6); animation: welle 2.8s ease-out infinite; }
+  @keyframes glimmen { 0%, 100% { opacity: 0.45; transform: scale(2.2); } 50% { opacity: 1; transform: scale(3); } }
+  @keyframes welle { 0% { opacity: 0.8; transform: scale(1); } 100% { opacity: 0; transform: scale(2.8); } }
+  /* Glanz, der über die Zeitleiste läuft */
+  .roadmap::after { content: ""; position: absolute; pointer-events: none; border-radius: 2px; background: linear-gradient(90deg, transparent, rgba(255, 240, 180, 0.95), transparent); box-shadow: 0 0 12px rgba(255, 220, 90, 0.6); }
+  @media (min-width: 1000px) {
+    .roadmap::after { left: 0; top: 11px; height: 2px; width: 22%; animation: glanz-x 5.5s cubic-bezier(0.45, 0, 0.25, 1) infinite; }
+  }
+  @media (max-width: 999px) {
+    .roadmap::after { left: 0; top: 0; width: 2px; height: 18%; background: linear-gradient(180deg, transparent, rgba(255, 240, 180, 0.95), transparent); animation: glanz-y 6s cubic-bezier(0.45, 0, 0.25, 1) infinite; }
+  }
+  @keyframes glanz-x { 0% { transform: translateX(-110%); opacity: 0; } 10% { opacity: 1; } 70% { opacity: 1; } 80%, 100% { transform: translateX(455%); opacity: 0; } }
+  @keyframes glanz-y { 0% { transform: translateY(-110%); opacity: 0; } 10% { opacity: 1; } 70% { opacity: 1; } 80%, 100% { transform: translateY(460%); opacity: 0; } }
+  @media (max-width: 999px) { .stufe .stufe-punkt { position: absolute; left: -12px; top: 0; } }
+  @media (prefers-reduced-motion: reduce) { .roadmap::after { display: none; } .aktiv .stufe-punkt::before { opacity: 0.7; } }
   .stufe-phase { font-weight: 800; color: #fff; letter-spacing: -0.01em; }
   .stufe-status { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.25em 0.7em; border-radius: 999px; border: 1px solid rgba(255, 255, 255, 0.22); color: rgba(255, 255, 255, 0.75); }
   .aktiv .stufe-status { background: var(--gelb); color: var(--tinte); border-color: var(--gelb); }

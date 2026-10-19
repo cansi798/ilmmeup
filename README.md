@@ -13,7 +13,6 @@ Offen (TODO): Fachrichtungen der Ärztinnen, Titel/Porträttexte bestätigen, Vi
 
 ## Vor dem Livegang (Checkliste)
 
-- [ ] **Spaß-Zusatz bei Sadia entfernen** („verteilt gerne Krankschreibungen“, Feld `spass` in `src/consts.ts`) – nur für die Team-Vorschau gedacht
 - [ ] `VORSCHAU = false` in `src/consts.ts` (noindex aus, Platzhalter-Hinweise weg), `public/robots.txt` freigeben
 - [ ] Impressum und Datenschutz mit echten Angaben, rechtlich prüfen lassen
 - [ ] Eigene Domain: `site`/`base` in `astro.config.mjs` anpassen

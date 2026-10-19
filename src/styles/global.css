@@ -144,7 +144,7 @@ em.akzent { font-style: normal; font-weight: 800; color: var(--petrol); }
 .formular { display: grid; gap: 1.15rem; }
 .feldgruppe { display: grid; gap: 1.15rem; }
 @media (min-width: 640px) { .feldgruppe.zwei { grid-template-columns: 1fr 1fr; } }
-.feld { display: grid; gap: 0.4rem; }
+.feld { display: grid; gap: 0.4rem; align-content: start; }
 .feld label, .feld legend { font-weight: 700; font-size: 0.95rem; color: var(--tinte); }
 .feld .pflicht { color: var(--petrol); }
 .feld input, .feld select, .feld textarea {

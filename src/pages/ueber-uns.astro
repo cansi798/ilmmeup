@@ -5,7 +5,7 @@ import Icon from "../components/Icon.astro";
 import Figur from "../components/Figur.astro";
 import { TEAM, VORSCHAU, u } from "../consts";
 const fakten = [
-  ["Unabhängig", "keiner Gruppierung, Strömung oder Partei zugeordnet"],
+  ["Unabhängig & selbst finanziert", "keiner Gruppierung, Strömung oder Partei zugeordnet"],
   ["Interdisziplinär", "Medizin, Naturwissenschaft, Technik und Medien in einem Team"],
   ["Selbst produziert", "eigene Medienkompetenz und Videoproduktion"],
 ];
@@ -46,7 +46,7 @@ const fakten = [
           <li class="person reveal" style={`--v:${(i % 4) * 80}ms`}>
             <div class="person-bild"><Figur figur={p.figur} name={p.name} hinter={i} /></div>
             <h3>{p.name}</h3>
-            <p class="rolle">{p.rolle}{p.zusatz && <span class="zusatz"> · {p.zusatz}</span>}{p.spass && <span class="zusatz"> {p.spass}</span>}</p>
+            <p class="rolle">{p.rolle}{p.zusatz && <span class="zusatz"> · {p.zusatz}</span>}</p>
             <p class="portrait">{p.text}</p>
           </li>
         ))}

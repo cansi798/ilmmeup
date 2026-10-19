@@ -19,7 +19,7 @@ const schritte = [
 ];
 const fachgebiete = ["Imam / Gelehrte(r)", "Medizin", "Psychologie / Psychotherapie", "Pädagogik / Bildung", "Unternehmertum / Wirtschaft", "Autorin / Autor", "Mentoring / Coaching", "Community-Arbeit / Ehrenamt", "Anderes Fachgebiet"];
 const fragen = [
-  ["Was kostet die Zusammenarbeit?", "Nichts. Die Produktion und Veröffentlichung ist für Sie kostenlos. Unser Ziel ist gesellschaftlicher Mehrwert, nicht Umsatz."],
+  ["Was kostet die Zusammenarbeit?", "Nichts. Die Produktion und Veröffentlichung ist für Sie kostenlos – wir finanzieren die Plattform selbst. Unser Ziel ist gesellschaftlicher Mehrwert, nicht Umsatz."],
   ["Muss ich Erfahrung vor der Kamera haben?", "Nein. Wir bereiten Sie gut vor und nehmen uns Zeit – gerade dann, wenn Sie zum ersten Mal vor der Kamera stehen."],
   ["Wer entscheidet über die Inhalte?", "Wir stimmen Thema und Ablauf gemeinsam ab. Vor der Veröffentlichung sehen Sie das Ergebnis und geben es frei."],
   ["Gehören Sie einer bestimmten Richtung an?", "Nein. ilm me up ist unabhängig und keiner muslimischen Gruppierung, Strömung oder Partei zugeordnet. Respektvoller Umgang ist für uns Grundlage."],
@@ -53,7 +53,7 @@ const fragen = [
       </div>
       <div class="kostenlos reveal">
         <span class="kostenlos-wert">0 €</span>
-        <p><strong>Kostenlos für Sie.</strong> Wir verstehen ilm me up als Beitrag für die Gesellschaft. Sie investieren Ihr Wissen und Ihre Zeit – um alles andere kümmern wir uns.</p>
+        <p><strong>Kostenlos für Sie.</strong> Wir finanzieren die Plattform selbst und verstehen ilm me up als Beitrag für die Gesellschaft. Sie investieren Ihr Wissen und Ihre Zeit – um alles andere kümmern wir uns.</p>
       </div>
     </div>
   </section>
@@ -64,7 +64,7 @@ const fragen = [
       <h2 class="reveal">In vier Schritten <em class="akzent">zu Ihrem Beitrag.</em></h2>
       <ol class="schritte">
         {schritte.map(([t, s], i) => (
-          <li class="reveal" style={`--v:${i * 100}ms`}>
+          <li class="reveal schritt" style={`--v:${i * 380}ms; --i:${i}`}>
             <span class="schritt-nr">{i + 1}</span>
             <h3>{t}</h3>
             <p>{s}</p>
@@ -159,8 +159,16 @@ const fragen = [
   .schritte { list-style: none; padding: 0; margin: clamp(2.5rem, 5vw, 4rem) 0 0; display: grid; gap: 1.5rem; counter-reset: s; }
   @media (min-width: 800px) { .schritte { grid-template-columns: repeat(4, 1fr); } }
   .schritte li { position: relative; padding-top: 1rem; border-top: 2px solid rgba(255, 255, 255, 0.15); }
-  .schritte li:first-child { border-top-color: var(--gelb); }
-  .schritt-nr { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; background: var(--gelb); color: var(--tinte); font-weight: 800; font-size: 1.3rem; margin: 0.5rem 0 1.2rem; }
+  /* Ablauf-Animation: Linie zeichnet sich Schritt für Schritt, Nummern ploppen auf und glimmen nacheinander */
+  .schritte li::before { content: ""; position: absolute; left: 0; right: 0; top: -2px; height: 2px; background: linear-gradient(90deg, var(--gelb), var(--gelb-hell)); box-shadow: 0 0 10px rgba(255, 204, 0, 0.55); transform-origin: left center; transition: transform 0.9s var(--kurve); transition-delay: calc(var(--v) + 150ms); }
+  :global(.js) .schritte li.reveal:not(.sichtbar)::before { transform: scaleX(0); }
+  .schritt-nr { position: relative; display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; background: var(--gelb); color: var(--tinte); font-weight: 800; font-size: 1.3rem; margin: 0.5rem 0 1.2rem; box-shadow: 0 0 12px 2px rgba(255, 204, 0, 0.45); transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s; transition-delay: calc(var(--v) + 250ms); }
+  :global(.js) .schritte li.reveal:not(.sichtbar) .schritt-nr { transform: scale(0.3); opacity: 0; }
+  .schritt-nr::before { content: ""; position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(circle, rgba(255, 220, 90, 0.7), rgba(255, 204, 0, 0) 70%); z-index: -1; opacity: 0; animation: nr-glimmen 4.8s ease-in-out infinite; animation-delay: calc(var(--i) * 1.2s + 1.6s); }
+  .schritt-nr::after { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 2px solid rgba(255, 204, 0, 0.6); opacity: 0; animation: nr-welle 4.8s ease-out infinite; animation-delay: calc(var(--i) * 1.2s + 1.6s); }
+  @keyframes nr-glimmen { 0%, 40%, 100% { opacity: 0; transform: scale(1.4); } 15% { opacity: 1; transform: scale(2.1); } }
+  @keyframes nr-welle { 0% { opacity: 0.8; transform: scale(1); } 25%, 100% { opacity: 0; transform: scale(1.9); } }
+  @media (prefers-reduced-motion: reduce) { .schritt-nr::before, .schritt-nr::after { animation: none; } }
   .schritte p { color: rgba(255, 255, 255, 0.72); margin: 0; }
   .anfrage-raster { display: grid; gap: 3rem; }
   @media (min-width: 1000px) { .anfrage-raster { grid-template-columns: 1fr 1.15fr; gap: 4.5rem; align-items: start; } .anfrage-text { position: sticky; top: 110px; } }

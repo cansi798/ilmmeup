@@ -70,6 +70,19 @@ const haarStraehnenLang = ["M72 50 q-12 30 -12 90", "M88 42 q-6 20 -4 24", "M118
         <path d="M92 32 C102 26 118 26 128 34" fill="none" stroke="#fff" stroke-opacity="0.18" stroke-width="4" stroke-linecap="round" />
       </>
     )}
+    {f.haar === "vollkurz" && (
+      <>
+        <path d="M62 96 C56 76 58 56 70 46 C80 36 96 30 112 31 C130 33 142 44 141 62 C143 74 141 86 138 96 C135 84 132 76 127 71 C112 74 90 74 74 71 C68 78 64 86 62 96 Z" fill={haarFarbe} />
+        <path d="M94 38 C104 34 116 35 126 41" fill="none" stroke="#fff" stroke-opacity="0.16" stroke-width="4" stroke-linecap="round" />
+        {f.straehnen && <path d="M84 46 q8 -6 16 -8 M110 38 q8 0 14 5 M72 64 q2 -7 6 -11 M132 62 q3 5 4 11" fill="none" stroke={f.straehnen} stroke-width="1.8" stroke-linecap="round" opacity="0.55" />}
+      </>
+    )}
+    {f.haar === "wellig" && (
+      <>
+        <path d="M63 92 C58 70 62 52 74 44 C84 36 96 34 106 35 C124 36 140 48 138 70 C140 80 139 88 136 94 C134 86 132 80 128 76 C122 72 118 72 114 74 C108 70 102 70 96 73 C90 70 84 70 78 73 C72 76 66 82 63 92 Z" fill={haarFarbe} />
+        <path d="M76 50 q6 6 12 0 q6 -6 12 0 q6 6 12 0 q6 -6 12 2" fill="none" stroke="#fff" stroke-opacity="0.16" stroke-width="3" stroke-linecap="round" />
+      </>
+    )}
     {f.haar === "locken" && (
       <g fill={haarFarbe}>
         <circle cx="70" cy="72" r="13" /><circle cx="80" cy="56" r="14" /><circle cx="98" cy="48" r="15" />
@@ -102,6 +115,7 @@ const haarStraehnenLang = ["M72 50 q-12 30 -12 90", "M88 42 q-6 20 -4 24", "M118
       <>
         <path d="M66 92 C66 126 84 134 100 134 C116 134 134 126 134 92 C130 108 122 116 100 116 C78 116 70 108 66 92 Z" fill={bartFarbe} />
         <path d="M88 108 Q100 102 112 108" fill="none" stroke={bartFarbe} stroke-width="5" stroke-linecap="round" />
+        {f.bartStraehnen && <path d="M74 108 q3 8 8 14 M92 124 q2 4 4 7 M106 124 q-1 4 -3 7 M126 108 q-3 8 -8 14 M70 98 q1 6 3 10 M130 98 q-1 6 -3 10" fill="none" stroke={f.bartStraehnen} stroke-width="2" stroke-linecap="round" opacity="0.85" />}
       </>
     )}
     {f.bart === "stoppel" && (
@@ -113,8 +127,9 @@ const haarStraehnenLang = ["M72 50 q-12 30 -12 90", "M88 42 q-6 20 -4 24", "M118
 
     <!-- Gesicht -->
     <g fill="none" stroke={brauenFarbe} stroke-linecap="round">
-      <path d="M79 81 Q87 76 95 80" stroke-width={braue} />
-      <path d="M105 80 Q113 76 121 81" stroke-width={braue} />
+      {f.brauen === "spitz"
+        ? <><path d="M78 82 L90 77.5 L95 80.5" stroke-width="4.6" stroke-linejoin="round" /><path d="M105 80.5 L110 77.5 L122 82" stroke-width="4.6" stroke-linejoin="round" /></>
+        : <><path d="M79 81 Q87 76 95 80" stroke-width={braue} /><path d="M105 80 Q113 76 121 81" stroke-width={braue} /></>}
     </g>
     {f.bart === "voll" || f.bart === "kurz"
       ? <path d="M92 113 Q100 118 108 113" fill="none" stroke="#fff" stroke-opacity="0.85" stroke-width="2.6" stroke-linecap="round" />
@@ -126,10 +141,10 @@ const haarStraehnenLang = ["M72 50 q-12 30 -12 90", "M88 42 q-6 20 -4 24", "M118
     <path d="M100 95 Q97 102 101 103" fill="none" stroke="#000" stroke-opacity="0.22" stroke-width="2.2" stroke-linecap="round" />
     {!f.bart && <><ellipse cx="80" cy="103" rx="6" ry="3.5" fill="#e0607e" opacity="0.18" /><ellipse cx="120" cy="103" rx="6" ry="3.5" fill="#e0607e" opacity="0.18" /></>}
     {f.brille && (
-      <g fill="none" stroke={f.brille === "schwarz" ? "#111" : "#0e2a33"} stroke-width={f.brille === "schwarz" ? 3.6 : 2.4}>
-        {f.brille === "schwarz"
-          ? <><rect x="75" y="83" width="23" height="17" rx="4" /><rect x="102" y="83" width="23" height="17" rx="4" /></>
-          : <><circle cx="87" cy="92" r="10" /><circle cx="113" cy="92" r="10" /></>}
+      <g fill="none" stroke={f.brille === "schwarz" ? "#111" : "#1d1a19"} stroke-width={f.brille === "schwarz" ? 3.6 : 2.5}>
+        {f.brille === "schwarz" && <><rect x="75" y="83" width="23" height="17" rx="4" /><rect x="102" y="83" width="23" height="17" rx="4" /></>}
+        {f.brille === "eckig" && <><rect x="76" y="84" width="22" height="16" rx="2.5" /><rect x="102" y="84" width="22" height="16" rx="2.5" /></>}
+        {f.brille === "rund" && <><circle cx="87" cy="92" r="10" /><circle cx="113" cy="92" r="10" /></>}
         <path d="M98 90 Q100 88 102 90" />
       </g>
     )}
