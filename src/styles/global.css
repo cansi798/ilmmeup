@@ -172,3 +172,7 @@ fieldset { border: 0; padding: 0; margin: 0; }
   *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; animation-delay: 0s !important; transition-duration: 0.001ms !important; transition-delay: 0s !important; }
   .js .reveal { opacity: 1; transform: none; }
 }
+
+/* Lichtbahn (JS): ersetzt den einfachen CSS-Lichtschein, Licht teilt sich an jedem Kreis */
+.bahn-aktiv::after { display: none !important; }
+.lichtbahn { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; z-index: 2; }

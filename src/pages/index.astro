@@ -55,10 +55,10 @@ const experten = ["Imame", "Gelehrte", "Ärztinnen & Ärzte", "Psychologinnen & 
     <div class="huelle">
       <p class="kicker reveal">Worum es uns geht</p>
       <p class="statement reveal" style="--v:80ms">Wir machen Wissen, Erfahrungen und positive Impulse sichtbar – und schaffen <em class="akzent">Mehrwert für alle wahrheitsliebenden und wissbegierigen Menschen.</em></p>
-      <ol class="saeulen reveal">
+      <ol class="saeulen reveal" data-bahn data-bahn-min="900" data-bahn-farbe="#ffc400">
         {saeulen.map((s, i) => (
           <li class="saeule" style={`--v:${300 + i * 380}ms; --i:${i}`}>
-            <span class="saeule-icon"><Icon name={s.icon} /></span>
+            <span class="saeule-icon" data-knoten><Icon name={s.icon} /></span>
             <div class="saeule-karte">
               <h3>{s.titel}</h3>
               <p>{s.text}</p>

@@ -8,11 +8,11 @@ const stufen = [
   { phase: "Langfristig", status: "Vision", titel: "Community Center", text: "Ein Ort für Begegnung, Lernen und gemeinschaftliches Engagement – offen für alle, die etwas bewegen wollen.", punkte: [["haus", "Ort der Begegnung"]] },
 ];
 ---
-<ol class="roadmap">
+<ol class="roadmap" data-bahn data-bahn-min="1000">
   {stufen.map((s, i) => (
     <li class:list={["stufe reveal", { aktiv: i === 0 }]} style={`--v:${i * 110}ms`}>
       <div class="stufe-kopf">
-        <span class="stufe-punkt" aria-hidden="true"></span>
+        <span class="stufe-punkt" aria-hidden="true" data-knoten></span>
         <span class="stufe-label"><span class="stufe-phase">{s.phase}</span><span class="stufe-status">{s.status}</span></span>
       </div>
       <h3>{s.titel}</h3>
