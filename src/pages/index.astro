@@ -14,12 +14,6 @@ const saeulen = [
   { icon: "herz", titel: "Verständnis fördern", text: "Ehrliche Perspektiven statt Schlagzeilen – für alle, die verstehen wollen." },
   { icon: "personen", titel: "Gemeinschaft stärken", text: "Aus Zuschauern werden Mitwirkende: Wir vernetzen Menschen, die etwas Positives bewegen wollen." },
 ];
-const formate = [
-  { icon: "gespraech", titel: "Im Gespräch", text: "Ausführliche Interviews mit Menschen, die etwas zu sagen haben." },
-  { icon: "blitz", titel: "Kurzimpulse", text: "Ein Gedanke, ein Thema, eine Minute – als Short, Reel und TikTok." },
-  { icon: "mikro", titel: "Fachvorträge", text: "Fundiertes Wissen aus Medizin, Psychologie, Pädagogik und mehr." },
-  { icon: "frage", titel: "Fragen & Antworten", text: "Fragen aus der Community, beantwortet von Expertinnen und Experten." },
-];
 const experten = ["Imame", "Gelehrte", "Ärztinnen & Ärzte", "Psychologinnen & Psychologen", "Pädagoginnen & Pädagogen", "Referentinnen & Referenten", "Unternehmerinnen & Unternehmer", "Autorinnen & Autoren", "Mentorinnen & Mentoren", "Community-Leader"];
 ---
 <Basis>
@@ -59,7 +53,7 @@ const experten = ["Imame", "Gelehrte", "Ärztinnen & Ärzte", "Psychologinnen & 
   <section class="abschnitt">
     <div class="huelle">
       <p class="kicker reveal">Worum es uns geht</p>
-      <p class="statement reveal" style="--v:80ms">Wir machen Wissen, Erfahrungen und positive Impulse sichtbar – und schaffen <em class="akzent unterstrich">Mehrwert für alle wahrheitsliebenden und wissbegierigen Menschen.</em></p>
+      <p class="statement reveal" style="--v:80ms">Wir machen Wissen, Erfahrungen und positive Impulse sichtbar – und schaffen <em class="akzent">Mehrwert für alle wahrheitsliebenden und wissbegierigen Menschen.</em></p>
       <div class="raster drei saeulen">
         {saeulen.map((s, i) => (
           <article class="karte reveal" style={`--v:${i * 100}ms`}>
@@ -70,30 +64,6 @@ const experten = ["Imame", "Gelehrte", "Ärztinnen & Ärzte", "Psychologinnen & 
         ))}
       </div>
       <p class="reveal mehr"><a class="textlink" href={u("/vision/")}>Unsere Vision & Werte <Icon name="pfeil" /></a></p>
-    </div>
-  </section>
-
-  <!-- FORMATE -->
-  <section class="abschnitt weiss">
-    <div class="huelle">
-      <div class="kopfzeile zweispaltig">
-        <div>
-          <p class="kicker reveal">Unsere Formate</p>
-          <h2 class="reveal">Vom Kurzimpuls bis zum <em class="akzent">langen Gespräch.</em></h2>
-        </div>
-        <p class="einleitung reveal">Jedes Thema bekommt die Form, die zu ihm passt – professionell gefilmt, sorgfältig geschnitten und dort veröffentlicht, wo Menschen zuschauen.</p>
-      </div>
-      <div class="raster vier">
-        {formate.map((f, i) => (
-          <a class="format reveal" href={u("/formate/")} style={`--v:${i * 80}ms`}>
-            <span class="format-nr">0{i + 1}</span>
-            <span class="symbol"><Icon name={f.icon} /></span>
-            <h3>{f.titel}</h3>
-            <p>{f.text}</p>
-            <span class="format-pfeil"><Icon name="pfeil" /></span>
-          </a>
-        ))}
-      </div>
     </div>
   </section>
 
@@ -219,20 +189,6 @@ const experten = ["Imame", "Gelehrte", "Ärztinnen & Ärzte", "Psychologinnen & 
   .saeulen p { margin: 0; color: var(--leise); }
   .mehr { margin: 2.5rem 0 0; }
 
-  /* Formate */
-  .format { position: relative; display: block; padding: 2rem 1.6rem 1.8rem; border-radius: var(--radius); background: var(--papier); text-decoration: none; color: var(--text); overflow: hidden; transition: transform 0.4s var(--kurve), background 0.4s, color 0.4s; }
-  .format::before { content: ""; position: absolute; inset: auto -40% -60% auto; width: 220px; height: 220px; border-radius: 50%; background: radial-gradient(circle, rgba(255, 204, 0, 0.5), transparent 65%); opacity: 0; transition: opacity 0.4s; }
-  .format:hover { transform: translateY(-6px); background: var(--nacht); color: rgba(255, 255, 255, 0.78); }
-  .format:hover::before { opacity: 1; }
-  .format:hover h3 { color: #fff; }
-  .format:hover .symbol { background: rgba(255, 204, 0, 0.14); color: var(--gelb); }
-  .format-nr { position: absolute; top: 1.4rem; right: 1.5rem; font-weight: 800; font-size: 1rem; color: var(--leise); }
-  .format:hover .format-nr { color: var(--gelb); }
-  .format h3 { margin-bottom: 0.35rem; transition: color 0.4s; }
-  .format p { margin: 0 0 1.4rem; font-size: 0.98rem; }
-  .format-pfeil { display: inline-grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; border: 1.5px solid currentColor; opacity: 0.7; }
-  .format-pfeil :global(svg) { width: 18px; height: 18px; }
-  .format:hover .format-pfeil { background: var(--gelb); border-color: var(--gelb); color: var(--tinte); opacity: 1; }
 
   /* Experten */
   .experten { overflow: hidden; }

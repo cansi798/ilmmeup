@@ -63,7 +63,6 @@ h3 { font-size: clamp(1.2rem, 1.8vw, 1.4rem); font-weight: 700; letter-spacing: 
 p { margin: 0 0 1.1em; text-wrap: pretty; }
 em.akzent { font-style: normal; font-weight: 800; color: var(--petrol); }
 .dunkel em.akzent, .seitenkopf em.akzent, .hero em.akzent { color: var(--gelb); }
-em.akzent.unterstrich { background: linear-gradient(transparent 68%, var(--gelb) 68%, var(--gelb) 92%, transparent 92%); padding: 0 0.08em; }
 
 .huelle { width: min(100% - 2 * var(--rand), var(--breite)); margin-inline: auto; }
 .schmal { max-width: 720px; }
