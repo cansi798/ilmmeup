@@ -175,12 +175,12 @@ const experten = ["Imame", "Gelehrte", "Ärztinnen & Ärzte", "Psychologinnen & 
     .js .hv1.reveal:not(.sichtbar) { transform: translateY(5rem); }
   }
 
-  .themenband { border-block: 1px solid rgba(255, 255, 255, 0.1); background: rgba(255, 255, 255, 0.03); overflow: hidden; padding-block: 1.1rem; }
+  .themenband { border-block: 1px solid rgba(255, 255, 255, 0.1); background: rgba(255, 255, 255, 0.03); overflow: hidden; padding-block: 0.9rem; }
   .themen-spur { display: flex; width: max-content; animation: laufen 48s linear infinite; }
   .themenband:hover .themen-spur { animation-play-state: paused; }
   .themen-spur ul { display: flex; list-style: none; margin: 0; padding: 0; }
-  .themen-spur li { display: flex; align-items: center; gap: 2.2rem; padding-right: 2.2rem; font-weight: 700; font-size: clamp(1.1rem, 2vw, 1.5rem); letter-spacing: -0.02em; color: rgba(255, 255, 255, 0.85); white-space: nowrap; }
-  .themen-spur li::after { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--gelb); }
+  .themen-spur li { display: flex; align-items: center; gap: 1.8rem; padding-right: 1.8rem; font-weight: 700; font-size: clamp(0.88rem, 1.5vw, 1.15rem); letter-spacing: -0.02em; color: rgba(255, 255, 255, 0.85); white-space: nowrap; }
+  .themen-spur li::after { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--gelb); }
   @keyframes laufen { to { transform: translateX(-50%); } }
   @media (prefers-reduced-motion: reduce) { .themen-spur { animation: none; flex-wrap: wrap; width: auto; } .themen-spur ul + ul { display: none; } .themen-spur ul { flex-wrap: wrap; padding-inline: var(--rand); row-gap: 0.5rem; } }
 
