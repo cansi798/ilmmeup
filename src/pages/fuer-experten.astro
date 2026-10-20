@@ -1,32 +1,32 @@
 ---
-// Ansprache auf dieser Seite: „Sie“ (Fachpublikum). Übrige Seiten: „du“ (Community).
+// Ansprache: „du“ wie auf allen Seiten (Wunsch Jamil, 20.10.).
 import Basis from "../layouts/Basis.astro";
 import SeitenKopf from "../components/SeitenKopf.astro";
 import Icon from "../components/Icon.astro";
 import FormularSkript from "../components/FormularSkript.astro";
 import { MAIL, u } from "../consts";
 const leistungen = [
-  { icon: "kompass", titel: "Konzept & Vorbereitung", text: "Wir entwickeln mit Ihnen Thema, Format und Ablauf – Sie bringen das Wissen mit, wir den Rahmen." },
+  { icon: "kompass", titel: "Konzept & Vorbereitung", text: "Wir entwickeln mit dir Thema, Format und Ablauf – du bringst das Wissen mit, wir den Rahmen." },
   { icon: "kamera", titel: "Professioneller Dreh", text: "Kamera, Licht und Ton von unserem eigenen Produktionsteam – bei uns oder an einem passenden Ort." },
   { icon: "schnitt", titel: "Schnitt & Gestaltung", text: "Sorgfältiger Schnitt, Untertitel und Kurzfassungen für Social Media – im einheitlichen Look von ilm me up." },
-  { icon: "netz", titel: "Veröffentlichung & Reichweite", text: "Wir veröffentlichen auf YouTube, Instagram und TikTok und machen Ihre Inhalte für viele Menschen sichtbar." },
+  { icon: "netz", titel: "Veröffentlichung & Reichweite", text: "Wir veröffentlichen auf YouTube, Instagram und TikTok und machen deine Inhalte für viele Menschen sichtbar." },
 ];
 const schritte = [
-  ["Anfrage senden", "Erzählen Sie uns kurz, wer Sie sind und welches Thema Ihnen am Herzen liegt."],
+  ["Anfrage senden", "Erzähl uns kurz, wer du bist und welches Thema dir am Herzen liegt."],
   ["Kennenlernen", "In einem unverbindlichen Gespräch klären wir Idee, Format und Erwartungen."],
   ["Aufnahme", "Wir planen den Dreh gemeinsam und produzieren in entspannter Atmosphäre."],
-  ["Veröffentlichung", "Sie erhalten die Inhalte vorab zur Freigabe – danach gehen sie online."],
+  ["Veröffentlichung", "Du erhältst die Inhalte vorab zur Freigabe – danach gehen sie online."],
 ];
 const fachgebiete = ["Imam / Gelehrte(r)", "Medizin", "Psychologie / Psychotherapie", "Pädagogik / Bildung", "Unternehmertum / Wirtschaft", "Autorin / Autor", "Mentoring / Coaching", "Community-Arbeit / Ehrenamt", "Anderes Fachgebiet"];
 const fragen = [
-  ["Was kostet die Zusammenarbeit?", "Die Zusammenarbeit ist für Sie kostenlos: Produktion und Veröffentlichung übernehmen wir, die Plattform finanzieren wir selbst. Unser Ziel ist gesellschaftlicher Mehrwert."],
-  ["Brauche ich Erfahrung vor der Kamera?", "Wir bereiten Sie gut vor und nehmen uns Zeit – gerade dann, wenn Sie zum ersten Mal vor der Kamera stehen."],
-  ["Wer entscheidet über die Inhalte?", "Wir stimmen Thema und Ablauf gemeinsam ab. Vor der Veröffentlichung sehen Sie das Ergebnis und geben es frei."],
+  ["Was kostet die Zusammenarbeit?", "Die Zusammenarbeit ist für dich kostenlos: Produktion und Veröffentlichung übernehmen wir, die Plattform finanzieren wir selbst. Unser Ziel ist gesellschaftlicher Mehrwert."],
+  ["Brauche ich Erfahrung vor der Kamera?", "Wir bereiten dich gut vor und nehmen uns Zeit – gerade dann, wenn du zum ersten Mal vor der Kamera stehen."],
+  ["Wer entscheidet über die Inhalte?", "Wir stimmen Thema und Ablauf gemeinsam ab. Vor der Veröffentlichung siehst du das Ergebnis und gibst es frei."],
   ["Wie ist ilm me up ausgerichtet?", "ilm me up ist unabhängig, überparteilich und offen für Menschen aller Richtungen. Respektvoller Umgang ist für uns Grundlage."],
 ];
 ---
-<Basis titel="Für Experten" beschreibung="Kostenlose professionelle Videoproduktion für Expertinnen und Experten: Teilen Sie Ihr Wissen auf der Medienplattform ilm me up.">
-  <SeitenKopf kicker="Für Expertinnen & Experten" titel='Ihr Wissen. <em class="akzent">Unsere Bühne.</em>' einleitung="Sie haben Wissen und Erfahrung, die Menschen weiterbringen? Wir produzieren und veröffentlichen Ihre Inhalte professionell – als kostenlose Dienstleistung unserer Videoplattform.">
+<Basis titel="Für Experten" beschreibung="Kostenlose professionelle Videoproduktion für Expertinnen und Experten: Teile dein Wissen auf der Medienplattform ilm me up.">
+  <SeitenKopf kicker="Für Expertinnen & Experten" titel='Dein Wissen. <em class="akzent">Unsere Bühne.</em>' einleitung="Du hast Wissen und Erfahrung, die Menschen weiterbringen? Wir produzieren und veröffentlichen deine Inhalte professionell – als kostenlose Dienstleistung unserer Videoplattform.">
     <div class="knopfreihe kopf-knoepfe">
       <a class="knopf" href="#anfrage">Jetzt anfragen <Icon name="pfeil" class="pfeil" /></a>
       <a class="knopf rahmen" href="#ablauf">So läuft es ab</a>
@@ -37,8 +37,8 @@ const fragen = [
     <div class="huelle">
       <div class="kopfzeile zweispaltig">
         <div>
-          <p class="kicker reveal">Was wir für Sie übernehmen</p>
-          <h2 class="reveal">Sie sprechen. <em class="akzent">Wir kümmern uns um den Rest.</em></h2>
+          <p class="kicker reveal">Was wir für dich übernehmen</p>
+          <h2 class="reveal">Du sprichst. <em class="akzent">Wir kümmern uns um den Rest.</em></h2>
         </div>
         <p class="einleitung reveal">Von der ersten Idee bis zum fertigen Video: Unser Team bringt Medienkompetenz und eigene Videoproduktion mit.</p>
       </div>
@@ -53,7 +53,7 @@ const fragen = [
       </div>
       <div class="kostenlos reveal">
         <span class="kostenlos-wert">0 €</span>
-        <p><strong>Kostenlos für Sie.</strong> Wir finanzieren die Plattform selbst und verstehen ilm me up als Beitrag für die Gesellschaft. Sie investieren Ihr Wissen und Ihre Zeit – um alles andere kümmern wir uns.</p>
+        <p><strong>Kostenlos für dich.</strong> Wir finanzieren die Plattform selbst und verstehen ilm me up als Beitrag für die Gesellschaft. Du investierst dein Wissen und deine Zeit – um alles andere kümmern wir uns.</p>
       </div>
     </div>
   </section>
@@ -61,7 +61,7 @@ const fragen = [
   <section class="abschnitt dunkel" id="ablauf">
     <div class="huelle">
       <p class="kicker reveal">Ablauf</p>
-      <h2 class="reveal">In vier Schritten <em class="akzent">zu Ihrem Beitrag.</em></h2>
+      <h2 class="reveal">In vier Schritten <em class="akzent">zu deinem Beitrag.</em></h2>
       <ol class="schritte" data-bahn>
         {schritte.map(([t, s], i) => (
           <li class="reveal schritt" style={`--v:${i * 380}ms; --i:${i}`}>
@@ -78,9 +78,9 @@ const fragen = [
     <div class="huelle anfrage-raster">
       <div class="anfrage-text">
         <p class="kicker reveal">Kooperationsanfrage</p>
-        <h2 class="reveal">Lassen Sie uns <em class="akzent">sprechen.</em></h2>
+        <h2 class="reveal">Lass uns <em class="akzent">sprechen.</em></h2>
         <p class="reveal">Wir freuen uns über Anfragen von Imamen, Gelehrten, Referentinnen und Referenten, Pädagoginnen und Pädagogen, Psychologinnen und Psychologen, Ärztinnen und Ärzten, Unternehmerinnen und Unternehmern, Autorinnen und Autoren, Mentorinnen und Mentoren sowie Community-Leadern.</p>
-        <p class="reveal leise">Wir melden uns so bald wie möglich bei Ihnen. Lieber direkt per E-Mail? <a href={`mailto:${MAIL}`}>{MAIL}</a></p>
+        <p class="reveal leise">Wir melden uns so bald wie möglich bei dir. Lieber direkt per E-Mail? <a href={`mailto:${MAIL}`}>{MAIL}</a></p>
         <div class="faq reveal">
           {fragen.map(([f, a]) => (
             <details>
@@ -96,12 +96,12 @@ const fragen = [
             <div class="feld">
               <label for="e-name">Name <span class="pflicht">*</span></label>
               <input id="e-name" name="name" type="text" autocomplete="name" required />
-              <span class="fehler">Bitte geben Sie Ihren Namen an.</span>
+              <span class="fehler">Bitte gib deinen Namen an.</span>
             </div>
             <div class="feld">
               <label for="e-mail">E-Mail <span class="pflicht">*</span></label>
               <input id="e-mail" name="email" type="email" autocomplete="email" required />
-              <span class="fehler">Bitte geben Sie eine gültige E-Mail-Adresse an.</span>
+              <span class="fehler">Bitte gib eine gültige E-Mail-Adresse an.</span>
             </div>
           </div>
           <div class="feldgruppe zwei">
@@ -111,7 +111,7 @@ const fragen = [
                 <option value="">Bitte wählen</option>
                 {fachgebiete.map((f) => <option>{f}</option>)}
               </select>
-              <span class="fehler">Bitte wählen Sie ein Fachgebiet.</span>
+              <span class="fehler">Bitte wähle ein Fachgebiet.</span>
             </div>
             <div class="feld">
               <label for="e-tel">Telefon</label>
@@ -122,12 +122,12 @@ const fragen = [
           <div class="feld">
             <label for="e-beruf">Beruf / Tätigkeit <span class="pflicht">*</span></label>
             <input id="e-beruf" name="beruf" type="text" placeholder="z. B. Fachärztin für Kinderheilkunde" required />
-            <span class="fehler">Bitte beschreiben Sie kurz Ihre Tätigkeit.</span>
+            <span class="fehler">Bitte beschreib kurz deine Tätigkeit.</span>
           </div>
           <div class="feld">
             <label for="e-thema">Themenidee <span class="pflicht">*</span></label>
-            <textarea id="e-thema" name="thema" rows="5" placeholder="Worüber möchten Sie sprechen? Für wen ist das Thema wichtig?" required minlength="20"></textarea>
-            <span class="fehler">Bitte beschreiben Sie Ihre Idee in ein paar Sätzen (mind. 20 Zeichen).</span>
+            <textarea id="e-thema" name="thema" rows="5" placeholder="Worüber möchtest du sprechen? Für wen ist das Thema wichtig?" required minlength="20"></textarea>
+            <span class="fehler">Bitte beschreib deine Idee in ein paar Sätzen (mind. 20 Zeichen).</span>
           </div>
           <div class="feld">
             <label for="e-links">Website oder Social-Media-Profil</label>
@@ -135,14 +135,14 @@ const fragen = [
           </div>
           <label class="haken feld-haken">
             <input type="checkbox" name="einwilligung" required />
-            <span>Ich bin einverstanden, dass meine Angaben zur Bearbeitung der Anfrage verwendet werden. Mehr in der <a href={u("/datenschutz/")}>Datenschutzerklärung</a>. <span class="pflicht">*</span><span class="fehler">Bitte bestätigen Sie die Einwilligung.</span></span>
+            <span>Ich bin einverstanden, dass meine Angaben zur Bearbeitung der Anfrage verwendet werden. Mehr in der <a href={u("/datenschutz/")}>Datenschutzerklärung</a>. <span class="pflicht">*</span><span class="fehler">Bitte bestätige die Einwilligung.</span></span>
           </label>
           <button class="knopf petrol-knopf senden" type="submit">Anfrage senden <Icon name="pfeil" class="pfeil" /></button>
-          <p class="formular-info"><Icon name="mail" /> Beim Senden öffnet sich Ihr E-Mail-Programm mit der vorbereiteten Nachricht an {MAIL}.</p>
+          <p class="formular-info"><Icon name="mail" /> Beim Senden öffnet sich dein E-Mail-Programm mit der vorbereiteten Nachricht an {MAIL}.</p>
         </form>
         <div class="formular-ok" tabindex="-1" role="status">
           <strong>Fast geschafft!</strong>
-          Ihr E-Mail-Programm sollte sich jetzt mit der vorbereiteten Nachricht öffnen – bitte dort noch auf „Senden“ klicken. Alternativ: <a data-mailto-link href={`mailto:${MAIL}`}>E-Mail manuell öffnen</a> oder direkt an {MAIL} schreiben.
+          Dein E-Mail-Programm sollte sich jetzt mit der vorbereiteten Nachricht öffnen – bitte dort noch auf „Senden“ klicken. Alternativ: <a data-mailto-link href={`mailto:${MAIL}`}>E-Mail manuell öffnen</a> oder direkt an {MAIL} schreiben.
         </div>
       </div>
     </div>
