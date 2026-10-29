@@ -5,16 +5,16 @@ import Icon from "../components/Icon.astro";
 import Video from "../components/Video.astro";
 import { VIDEOS, VORSCHAU, u } from "../consts";
 const formate = [
-  { icon: "gespraech", titel: "Im Gespräch", laenge: "20–60 Min.", kanal: "YouTube", text: "Ausführliche Interviews mit Menschen, die etwas zu sagen haben: Werdegang, Erfahrungen, Haltung – Raum für Tiefe und echte Gespräche." },
-  { icon: "blitz", titel: "Kurzimpulse", laenge: "30–90 Sek.", kanal: "Shorts, Reels, TikTok", text: "Ein Gedanke, ein Thema, eine Minute. Kompakte Impulse, die zum Weiterdenken anregen – ideal für unterwegs." },
-  { icon: "mikro", titel: "Fachvorträge", laenge: "10–30 Min.", kanal: "YouTube", text: "Fundiertes Wissen aus Medizin, Psychologie, Pädagogik, Naturwissenschaft und mehr – verständlich erklärt von Fachleuten." },
+  { icon: "gespraech", titel: "Im Gespräch", laenge: "20–60 Min.", kanal: "YouTube", text: "Ausführliche Interviews mit Menschen, die etwas zu sagen haben: über ihren Werdegang, ihre Erfahrungen und ihre Haltung. Hier ist Zeit für Tiefe." },
+  { icon: "blitz", titel: "Kurzimpulse", laenge: "30–90 Sek.", kanal: "Shorts, Reels, TikTok", text: "Ein Gedanke zu einem Thema in etwa einer Minute. Kurze Impulse zum Weiterdenken, gut für unterwegs." },
+  { icon: "mikro", titel: "Fachvorträge", laenge: "10–30 Min.", kanal: "YouTube", text: "Fachleute erklären verständlich, was sie aus Medizin, Psychologie, Pädagogik, Naturwissenschaft und anderen Gebieten wissen." },
   { icon: "frage", titel: "Fragen & Antworten", laenge: "5–15 Min.", kanal: "YouTube, Instagram", text: "Fragen aus der Community, beantwortet von Expertinnen und Experten. Ehrlich, sachlich und auf Augenhöhe." },
   { icon: "person", titel: "Porträts", laenge: "5–10 Min.", kanal: "YouTube", text: "Menschen und ihre Wege: Wer sie sind, was sie antreibt und was andere von ihnen lernen können." },
-  { icon: "kamera", titel: "Hinter der Kamera", laenge: "1–3 Min.", kanal: "Instagram, TikTok", text: "Einblicke in unsere Arbeit – wie Inhalte entstehen und wer daran mitwirkt." },
+  { icon: "kamera", titel: "Hinter der Kamera", laenge: "1–3 Min.", kanal: "Instagram, TikTok", text: "Einblicke in unsere Arbeit: wie Inhalte entstehen und wer daran mitwirkt." },
 ];
 const spaeter = [["mikro", "Podcast"], ["bibliothek", "Mediathek"], ["kalender", "Live-Veranstaltungen"], ["welt", "Mehrsprachige Inhalte"]];
 ---
-<Basis titel="Unsere Formate" beschreibung="Gespräche, Kurzimpulse, Fachvorträge, Fragen & Antworten: die Formate von ilm me up auf YouTube, Instagram und TikTok.">
+<Basis titel="Formate: Gespräche, Kurzimpulse, Vorträge" beschreibung="Gespräche, Kurzimpulse, Fachvorträge, Fragen & Antworten: die Formate von ilm me up auf YouTube, Instagram und TikTok.">
   <SeitenKopf kicker="Unsere Formate" titel='Jedes Thema in <em class="akzent">seiner Form.</em>' einleitung="Vom Impuls in 60 Sekunden bis zum ausführlichen Gespräch: Wir produzieren Inhalte, die zu ihrem Thema und zu den Menschen passen, die sie sehen." />
 
   <section class="abschnitt">

@@ -9,8 +9,8 @@ import { VIDEOS, u } from "../consts";
 
 const themen = ["Gesundheit", "Bildung", "Familie", "Psychologie", "Gesellschaft", "Erziehung", "Wissenschaft", "Glaube & Alltag", "Unternehmertum", "Jugend", "Medizin"];
 const saeulen = [
-  { icon: "licht", titel: "Wissen sichtbar machen", text: "Fachleute teilen, was sie wissen und erlebt haben – verständlich aufbereitet und hochwertig produziert." },
-  { icon: "herz", titel: "Verständnis fördern", text: "Ehrliche Perspektiven und echte Gespräche – für alle, die verstehen wollen." },
+  { icon: "licht", titel: "Wissen sichtbar machen", text: "Fachleute teilen, was sie wissen und erlebt haben. Wir bereiten es verständlich auf und produzieren es hochwertig." },
+  { icon: "herz", titel: "Verständnis fördern", text: "Ehrliche Perspektiven und echte Gespräche für alle, die verstehen wollen." },
   { icon: "personen", titel: "Gemeinschaft stärken", text: "Aus Zuschauern werden Mitwirkende: Wir vernetzen Menschen, die etwas Positives bewegen wollen." },
 ];
 const experten = ["Imame", "Gelehrte", "Ärztinnen & Ärzte", "Psychologinnen & Psychologen", "Pädagoginnen & Pädagogen", "Referentinnen & Referenten", "Unternehmerinnen & Unternehmer", "Autorinnen & Autoren", "Mentorinnen & Mentoren", "Community-Leader"];
@@ -23,7 +23,7 @@ const experten = ["Imame", "Gelehrte", "Ärztinnen & Ärzte", "Psychologinnen & 
       <div class="hero-text">
         <p class="kicker reveal">Unabhängige Medienplattform</p>
         <h1 class="reveal" style="--v:80ms">Wissen sichtbar machen. <em class="akzent">Menschen verbinden.</em></h1>
-        <p class="einleitung reveal" style="--v:160ms">ilm me up gibt Expertinnen, Experten und engagierten Persönlichkeiten eine professionelle Bühne – für Wissen, Erfahrungen und Perspektiven, die Menschen weiterbringen.</p>
+        <p class="einleitung reveal" style="--v:160ms">ilm me up gibt Expertinnen, Experten und engagierten Persönlichkeiten eine professionelle Bühne für Wissen, Erfahrungen und Perspektiven, die Menschen weiterbringen.</p>
         <div class="knopfreihe reveal" style="--v:240ms">
           <a class="knopf" href="#kanaele">Unsere Kanäle <Icon name="pfeil" class="pfeil" /></a>
           <a class="knopf rahmen" href={u("/fuer-experten/")}>Für Experten</a>
@@ -53,7 +53,8 @@ const experten = ["Imame", "Gelehrte", "Ärztinnen & Ärzte", "Psychologinnen & 
     <div class="mission-licht" aria-hidden="true"></div>
     <div class="huelle">
       <p class="kicker reveal">Worum es uns geht</p>
-      <p class="statement reveal" style="--v:80ms">Wir machen Wissen, Erfahrungen und positive Impulse sichtbar – und schaffen <em class="akzent">Mehrwert für alle wahrheitsliebenden und wissbegierigen Menschen.</em></p>
+      <h2 class="sr-only">Unsere Mission: Wissen sichtbar machen, Verständnis fördern, Gemeinschaft stärken</h2>
+      <p class="statement reveal" style="--v:80ms">Wir machen Wissen, Erfahrungen und positive Impulse sichtbar und schaffen damit <em class="akzent">Mehrwert für alle wahrheitsliebenden und wissbegierigen Menschen.</em></p>
       <ol class="saeulen reveal" data-bahn data-bahn-farbe="#ffd24a">
         {saeulen.map((s, i) => (
           <li class="saeule" style={`--v:${300 + i * 380}ms; --i:${i}`}>
@@ -75,7 +76,7 @@ const experten = ["Imame", "Gelehrte", "Ärztinnen & Ärzte", "Psychologinnen & 
       <div>
         <p class="kicker reveal">Für Expertinnen & Experten</p>
         <h2 class="reveal">Wissen verdient eine <em class="akzent">Bühne.</em></h2>
-        <p class="einleitung reveal">Unser Team übernimmt Planung, Dreh, Schnitt und Veröffentlichung – kostenlos. Für Fachleute, die ihr Wissen teilen und Menschen positiv erreichen möchten.</p>
+        <p class="einleitung reveal">Unser Team übernimmt Planung, Dreh, Schnitt und Veröffentlichung, und zwar kostenlos. Das Angebot richtet sich an Fachleute, die ihr Wissen teilen und Menschen positiv erreichen möchten.</p>
         <ul class="vorteile reveal">
           <li><Icon name="haken" />Kostenfreie professionelle Videoproduktion</li>
           <li><Icon name="haken" />Reichweite über YouTube, Instagram und TikTok</li>

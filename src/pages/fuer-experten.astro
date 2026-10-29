@@ -6,27 +6,27 @@ import Icon from "../components/Icon.astro";
 import FormularSkript from "../components/FormularSkript.astro";
 import { MAIL, u } from "../consts";
 const leistungen = [
-  { icon: "kompass", titel: "Konzept & Vorbereitung", text: "Wir entwickeln mit dir Thema, Format und Ablauf – du bringst das Wissen mit, wir den Rahmen." },
-  { icon: "kamera", titel: "Professioneller Dreh", text: "Kamera, Licht und Ton von unserem eigenen Produktionsteam – bei uns oder an einem passenden Ort." },
-  { icon: "schnitt", titel: "Schnitt & Gestaltung", text: "Sorgfältiger Schnitt, Untertitel und Kurzfassungen für Social Media – im einheitlichen Look von ilm me up." },
+  { icon: "kompass", titel: "Konzept & Vorbereitung", text: "Wir entwickeln mit dir Thema, Format und Ablauf. Du bringst das Wissen mit, wir den Rahmen." },
+  { icon: "kamera", titel: "Professioneller Dreh", text: "Kamera, Licht und Ton kommen von unserem eigenen Produktionsteam. Gedreht wird bei uns oder an einem passenden Ort." },
+  { icon: "schnitt", titel: "Schnitt & Gestaltung", text: "Sorgfältiger Schnitt, Untertitel und Kurzfassungen für Social Media im einheitlichen Look von ilm me up." },
   { icon: "netz", titel: "Veröffentlichung & Reichweite", text: "Wir veröffentlichen auf YouTube, Instagram und TikTok und machen deine Inhalte für viele Menschen sichtbar." },
 ];
 const schritte = [
   ["Anfrage senden", "Erzähl uns kurz, wer du bist und welches Thema dir am Herzen liegt."],
   ["Kennenlernen", "In einem unverbindlichen Gespräch klären wir Idee, Format und Erwartungen."],
   ["Aufnahme", "Wir planen den Dreh gemeinsam und produzieren in entspannter Atmosphäre."],
-  ["Veröffentlichung", "Du erhältst die Inhalte vorab zur Freigabe – danach gehen sie online."],
+  ["Veröffentlichung", "Du bekommst die Inhalte vorab zur Freigabe. Danach gehen sie online."],
 ];
 const fachgebiete = ["Imam / Gelehrte(r)", "Medizin", "Psychologie / Psychotherapie", "Pädagogik / Bildung", "Unternehmertum / Wirtschaft", "Autorin / Autor", "Mentoring / Coaching", "Community-Arbeit / Ehrenamt", "Anderes Fachgebiet"];
 const fragen = [
   ["Was kostet die Zusammenarbeit?", "Die Zusammenarbeit ist für dich kostenlos: Produktion und Veröffentlichung übernehmen wir, die Plattform finanzieren wir selbst. Unser Ziel ist gesellschaftlicher Mehrwert."],
-  ["Brauche ich Erfahrung vor der Kamera?", "Wir bereiten dich gut vor und nehmen uns Zeit – gerade dann, wenn du zum ersten Mal vor der Kamera stehen."],
+  ["Brauche ich Erfahrung vor der Kamera?", "Wir bereiten dich gut vor und nehmen uns Zeit, gerade wenn du zum ersten Mal vor der Kamera stehst."],
   ["Wer entscheidet über die Inhalte?", "Wir stimmen Thema und Ablauf gemeinsam ab. Vor der Veröffentlichung siehst du das Ergebnis und gibst es frei."],
   ["Wie ist ilm me up ausgerichtet?", "ilm me up ist unabhängig, überparteilich und offen für Menschen aller Richtungen. Respektvoller Umgang ist für uns Grundlage."],
 ];
 ---
-<Basis titel="Für Experten" beschreibung="Kostenlose professionelle Videoproduktion für Expertinnen und Experten: Teile dein Wissen auf der Medienplattform ilm me up.">
-  <SeitenKopf kicker="Für Expertinnen & Experten" titel='Dein Wissen. <em class="akzent">Unsere Bühne.</em>' einleitung="Du hast Wissen und Erfahrung, die Menschen weiterbringen? Wir produzieren und veröffentlichen deine Inhalte professionell – als kostenlose Dienstleistung unserer Videoplattform.">
+<Basis titel="Für Experten: kostenlose Videoproduktion" schema={[{ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: fragen.map(([f, a]) => ({ "@type": "Question", name: f, acceptedAnswer: { "@type": "Answer", text: a } })) }]} beschreibung="Kostenlose professionelle Videoproduktion für Expertinnen und Experten: Teile dein Wissen auf der Medienplattform ilm me up.">
+  <SeitenKopf kicker="Für Expertinnen & Experten" titel='Dein Wissen. <em class="akzent">Unsere Bühne.</em>' einleitung="Du hast Wissen und Erfahrung, die Menschen weiterbringen? Wir produzieren und veröffentlichen deine Inhalte professionell, und für dich ist das kostenlos.">
     <div class="knopfreihe kopf-knoepfe">
       <a class="knopf" href="#anfrage">Jetzt anfragen <Icon name="pfeil" class="pfeil" /></a>
       <a class="knopf rahmen" href="#ablauf">So läuft es ab</a>
@@ -53,7 +53,7 @@ const fragen = [
       </div>
       <div class="kostenlos reveal">
         <span class="kostenlos-wert">0 €</span>
-        <p><strong>Kostenlos für dich.</strong> Wir finanzieren die Plattform selbst und verstehen ilm me up als Beitrag für die Gesellschaft. Du investierst dein Wissen und deine Zeit – um alles andere kümmern wir uns.</p>
+        <p><strong>Kostenlos für dich.</strong> Wir finanzieren die Plattform selbst und verstehen ilm me up als Beitrag für die Gesellschaft. Du investierst dein Wissen und deine Zeit, um alles andere kümmern wir uns.</p>
       </div>
     </div>
   </section>
@@ -116,7 +116,7 @@ const fragen = [
             <div class="feld">
               <label for="e-tel">Telefon</label>
               <input id="e-tel" name="telefon" type="tel" autocomplete="tel" />
-              <span class="hilfe">Optional – für eine schnelle Rückmeldung.</span>
+              <span class="hilfe">Optional, für eine schnelle Rückmeldung.</span>
             </div>
           </div>
           <div class="feld">
@@ -142,7 +142,7 @@ const fragen = [
         </form>
         <div class="formular-ok" tabindex="-1" role="status">
           <strong>Fast geschafft!</strong>
-          Dein E-Mail-Programm sollte sich jetzt mit der vorbereiteten Nachricht öffnen – bitte dort noch auf „Senden“ klicken. Alternativ: <a data-mailto-link href={`mailto:${MAIL}`}>E-Mail manuell öffnen</a> oder direkt an {MAIL} schreiben.
+          Dein E-Mail-Programm sollte sich jetzt mit der vorbereiteten Nachricht öffnen. Bitte klick dort noch auf „Senden“. Alternativ: <a data-mailto-link href={`mailto:${MAIL}`}>E-Mail manuell öffnen</a> oder direkt an {MAIL} schreiben.
         </div>
       </div>
     </div>

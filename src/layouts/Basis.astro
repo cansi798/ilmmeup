@@ -2,14 +2,34 @@
 import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-import { BESCHREIBUNG, NAME, VORSCHAU, u } from "../consts";
+import { BESCHREIBUNG, NAME, VORSCHAU, MAIL, SOCIAL, CLAIM, u } from "../consts";
 import fontJakarta from "../styles/fonts/plus-jakarta-sans-latin-800-normal.woff2?url";
 import fontJakarta4 from "../styles/fonts/plus-jakarta-sans-latin-400-normal.woff2?url";
-interface Props { titel?: string; beschreibung?: string }
-const { titel, beschreibung = BESCHREIBUNG } = Astro.props;
-const voll = titel ? `${titel} · ${NAME}` : `${NAME} – Wissen sichtbar machen`;
+interface Props { titel?: string; beschreibung?: string; schema?: Record<string, unknown>[] }
+const { titel, beschreibung = BESCHREIBUNG, schema = [] } = Astro.props;
+const voll = titel ? `${titel} · ${NAME}` : `${NAME}: unabhängige Medienplattform für Wissen`;
 const kanon = new URL(Astro.url.pathname, Astro.site);
 const og = new URL(u("/assets/og-image.jpg"), Astro.site);
+// Strukturierte Daten (JSON-LD): wer ilm me up ist und wo die Kanäle sind – nur gesicherte Angaben
+const start = new URL(u("/"), Astro.site).href;
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": `${start}#organisation`,
+    name: NAME,
+    alternateName: "ilmmeup",
+    url: start,
+    logo: new URL(u("/assets/icon-512.png"), Astro.site).href,
+    image: og.href,
+    slogan: CLAIM,
+    description: BESCHREIBUNG,
+    email: MAIL,
+    sameAs: SOCIAL.map((s) => s.url),
+  },
+  { "@context": "https://schema.org", "@type": "WebSite", "@id": `${start}#website`, url: start, name: NAME, inLanguage: "de-DE", publisher: { "@id": `${start}#organisation` } },
+  ...schema,
+];
 ---
 <!doctype html>
 <html lang="de">
@@ -32,7 +52,11 @@ const og = new URL(u("/assets/og-image.jpg"), Astro.site);
     <meta property="og:title" content={voll} />
     <meta property="og:description" content={beschreibung} />
     <meta property="og:image" content={og} />
+    <meta property="og:url" content={kanon} />
+    <meta property="og:image:alt" content="Logo von ilm me up: gelbe Glühbirne mit Schriftzug auf petrolfarbenem Grund" />
     <meta name="twitter:card" content="summary_large_image" />
+    <link rel="sitemap" href={u("/sitemap.xml")} />
+    {jsonLd.map((obj) => <script type="application/ld+json" set:html={JSON.stringify(obj)} />)}
     <script is:inline>document.documentElement.classList.add("js");</script>
   </head>
   <body>

@@ -31,8 +31,8 @@
         zeilen.push(el.tagName === "TEXTAREA" ? `\n${label}:\n${wert}\n` : `${label}: ${wert}`);
       }
       const name = (form.querySelector<HTMLInputElement>("[name=name]")?.value || "").trim();
-      const betreff = `${form.dataset.betreff || "Anfrage über die Website"}${name ? " – " + name : ""}`;
-      const text = zeilen.join("\n") + "\n\n— gesendet über das Formular auf der ilm-me-up-Website";
+      const betreff = `${form.dataset.betreff || "Anfrage über die Website"}${name ? ": " + name : ""}`;
+      const text = zeilen.join("\n") + "\n\nGesendet über das Formular auf der ilm-me-up-Website";
       const ziel = `mailto:${form.dataset.mailto}?subject=${encodeURIComponent(betreff)}&body=${encodeURIComponent(text)}`;
       ok?.classList.add("zeigen");
       ok?.querySelector<HTMLAnchorElement>("a[data-mailto-link]")?.setAttribute("href", ziel);

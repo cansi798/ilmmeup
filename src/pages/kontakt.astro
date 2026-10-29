@@ -6,7 +6,7 @@ import FormularSkript from "../components/FormularSkript.astro";
 import { MAIL, SOCIAL, u } from "../consts";
 const anliegen = ["Allgemeine Frage", "Themenvorschlag", "Mitwirken / Ehrenamt", "Unterstützung & Förderung", "Presse", "Sonstiges"];
 ---
-<Basis titel="Kontakt" beschreibung="Kontakt zu ilm me up: Fragen, Ideen, Themenvorschläge oder Unterstützung – schreib uns.">
+<Basis titel="Kontakt" beschreibung="Kontakt zu ilm me up: Schreib uns deine Frage, Themenidee oder wie du mitwirken möchtest, per Formular, E-Mail oder Social Media.">
   <SeitenKopf kicker="Kontakt" titel='Schreib uns. <em class="akzent">Wir hören zu.</em>' einleitung="Eine Frage, eine Themenidee oder Lust mitzuwirken? Wir freuen uns auf deine Nachricht." />
 
   <section class="abschnitt">
@@ -65,7 +65,7 @@ const anliegen = ["Allgemeine Frage", "Themenvorschlag", "Mitwirken / Ehrenamt",
         </form>
         <div class="formular-ok" tabindex="-1" role="status">
           <strong>Danke!</strong>
-          Dein E-Mail-Programm sollte sich jetzt öffnen – bitte dort noch auf „Senden“ tippen. Alternativ: <a data-mailto-link href={`mailto:${MAIL}`}>E-Mail manuell öffnen</a> oder direkt an {MAIL} schreiben.
+          Dein E-Mail-Programm sollte sich jetzt öffnen. Bitte tipp dort noch auf „Senden“. Alternativ: <a data-mailto-link href={`mailto:${MAIL}`}>E-Mail manuell öffnen</a> oder direkt an {MAIL} schreiben.
         </div>
       </div>
     </div>
