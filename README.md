@@ -18,3 +18,8 @@ Offen (TODO): Fachrichtungen der Ärztinnen, Titel/Porträttexte bestätigen, Vi
 - [ ] `VORSCHAU = false` in `src/consts.ts` (noindex aus, Platzhalter-Hinweise weg), `public/robots.txt` freigeben und `Sitemap: https://<domain>/sitemap.xml` eintragen
 - [ ] Impressum und Datenschutz mit echten Angaben, rechtlich prüfen lassen
 - [ ] Eigene Domain: `site`/`base` in `astro.config.mjs` anpassen
+
+## Lizenz
+
+Alle Rechte vorbehalten – © 2026 Waybuild UG (haftungsbeschränkt). Siehe [`LICENSE`](LICENSE).
+Die Einsicht über GitHub ist nur zur Ansicht gestattet; Kopieren, Weiterverwenden oder Bearbeiten ist ohne schriftliche Zustimmung nicht erlaubt.
