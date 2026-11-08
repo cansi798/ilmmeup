@@ -24,7 +24,7 @@ export const GET: APIRoute = ({ site }) => {
     ...SOCIAL.map((s) => `- [${s.name}](${s.url}) (${s.handle}): ${s.text}`),
     "",
     "## Team",
-    ...TEAM.map((p) => `- ${p.name}: ${p.rolle}`),
+    ...TEAM.map((p) => `- ${p.name}: ${[p.rolle, p.fach, p.taetigkeit].filter(Boolean).join(" · ")}`),
     "",
     "## Seiten",
     ...NAV.map((n) => `- [${n.label}](${url(n.href)})`),

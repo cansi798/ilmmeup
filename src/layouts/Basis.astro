@@ -121,7 +121,8 @@ const jsonLd = [
         // Lage ohne CSS-Transformationen messen (Einblend-Animationen verschieben/skalieren noch)
         const lage = (el: HTMLElement) => {
           let x = 0, y = 0, e: HTMLElement | null = el;
-          while (e && e !== bahn) { x += e.offsetLeft; y += e.offsetTop; e = e.offsetParent as HTMLElement | null; }
+          // offsetLeft/-Top zählen den Rahmen (border) der Eltern nicht mit → clientLeft/-Top ergänzen, sonst sitzt das Licht neben der Linie
+          while (e && e !== bahn) { x += e.offsetLeft; y += e.offsetTop; e = e.offsetParent as HTMLElement | null; if (e && e !== bahn) { x += e.clientLeft; y += e.clientTop; } }
           return e === bahn ? { x, y } : null;
         };
         const knoten = [...bahn.querySelectorAll<HTMLElement>("[data-knoten]")].map((k) => {
@@ -134,16 +135,19 @@ const jsonLd = [
         // waagerecht (Desktop, über die volle Fensterbreite) oder senkrecht (Handy, Stationen untereinander)
         const senkrecht = knoten.length > 1 && Math.abs(knoten[1].cx - knoten[0].cx) < Math.abs(knoten[1].cy - knoten[0].cy);
         const y = knoten[0].cy, x = knoten[0].cx;
-        const a0 = senkrecht ? 0 : -box.left, a1 = senkrecht ? bahn.offsetHeight : innerWidth - box.left;
+        // Ende: senkrecht (Handy) und bei data-bahn-ende endet das Licht am letzten Kreis – wie die Linie selbst
+        const ende = senkrecht || bahn.dataset.bahnEnde !== undefined;
+        const letzter = knoten.length - 1;
+        const a0 = senkrecht ? knoten[0].cy - knoten[0].r : -box.left, a1 = senkrecht ? bahn.offsetHeight : innerWidth - box.left;
         const pfad = (oben: boolean) => {
           if (senkrecht) {
             let d = `M ${x} ${a0}`;
-            for (const k of knoten) d += ` V ${k.cy - k.r} A ${k.r} ${k.r} 0 0 ${oben ? 1 : 0} ${x} ${k.cy + k.r}`;
-            return d + ` V ${a1}`;
+            knoten.forEach((k, i) => { d += ` V ${k.cy - k.r}`; if (!(ende && i === letzter)) d += ` A ${k.r} ${k.r} 0 0 ${oben ? 1 : 0} ${x} ${k.cy + k.r}`; });
+            return ende ? d : d + ` V ${a1}`;
           }
           let d = `M ${a0} ${y}`;
-          for (const k of knoten) d += ` H ${k.cx - k.r} A ${k.r} ${k.r} 0 0 ${oben ? 1 : 0} ${k.cx + k.r} ${y}`;
-          return d + ` H ${a1}`;
+          knoten.forEach((k, i) => { d += ` H ${k.cx - k.r}`; if (!(ende && i === letzter)) d += ` A ${k.r} ${k.r} 0 0 ${oben ? 1 : 0} ${k.cx + k.r} ${y}`; });
+          return ende ? d : d + ` H ${a1}`;
         };
         const svg = document.createElementNS(SVGNS, "svg");
         svg.classList.add("lichtbahn");
@@ -182,8 +186,8 @@ const jsonLd = [
         // Aufleuchten der Kreise, zeitlich passend zur Position des Lichts
         const L = gesamt[0];
         let extra = 0;
-        for (const k of knoten) {
-          const s = (senkrecht ? k.cy : k.cx) - a0 + extra + (Math.PI * k.r) / 2 - k.r;
+        for (const [i, k] of knoten.entries()) {
+          const s = (senkrecht ? k.cy : k.cx) - a0 + extra + (ende && i === letzter ? -k.r : (Math.PI * k.r) / 2 - k.r);
           extra += Math.PI * k.r - 2 * k.r;
           const t = Math.min(0.999, Math.max(0.001, (s + STRICH / 2) / (L + STRICH)));
           const g = document.createElementNS(SVGNS, "circle");

@@ -21,9 +21,9 @@ const experten = ["Imame", "Gelehrte", "Ärztinnen & Ärzte", "Psychologinnen & 
     <div class="hero-licht" aria-hidden="true"><span class="strahl s1"></span><span class="strahl s2"></span><span class="glut"></span></div>
     <div class="huelle hero-raster">
       <div class="hero-text">
-        <p class="kicker reveal">Unabhängige Medienplattform</p>
+        <p class="kicker reveal">Von Reichweite zu Gemeinschaft</p>
         <h1 class="reveal" style="--v:80ms">Wissen sichtbar machen. <em class="akzent">Menschen verbinden.</em></h1>
-        <p class="einleitung reveal" style="--v:160ms">ilm me up gibt Expertinnen, Experten und engagierten Persönlichkeiten eine professionelle Bühne für Wissen, Erfahrungen und Perspektiven, die Menschen weiterbringen.</p>
+        <p class="einleitung reveal" style="--v:160ms">Wir machen das Wissen und die Erfahrungen von Fachleuten sichtbar, ehrlich und verständlich. Heute mit Videos, als Nächstes mit Mediathek, Podcast und Veranstaltungen, damit daraus eine Gemeinschaft wächst.</p>
         <div class="knopfreihe reveal" style="--v:240ms">
           <a class="knopf" href="#kanaele">Unsere Kanäle <Icon name="pfeil" class="pfeil" /></a>
           <a class="knopf rahmen" href={u("/fuer-experten/")}>Für Experten</a>
@@ -55,7 +55,7 @@ const experten = ["Imame", "Gelehrte", "Ärztinnen & Ärzte", "Psychologinnen & 
       <p class="kicker reveal">Worum es uns geht</p>
       <h2 class="sr-only">Unsere Mission: Wissen sichtbar machen, Verständnis fördern, Gemeinschaft stärken</h2>
       <p class="statement reveal" style="--v:80ms">Wir machen Wissen, Erfahrungen und positive Impulse sichtbar und schaffen damit <em class="akzent">Mehrwert für alle wahrheitsliebenden und wissbegierigen Menschen.</em></p>
-      <ol class="saeulen reveal" data-bahn data-bahn-farbe="#ffd24a">
+      <ol class="saeulen reveal" data-bahn data-bahn-ende data-bahn-farbe="#ffd24a">
         {saeulen.map((s, i) => (
           <li class="saeule" style={`--v:${300 + i * 380}ms; --i:${i}`}>
             <span class="saeule-icon" data-knoten><Icon name={s.icon} /></span>
@@ -99,7 +99,7 @@ const experten = ["Imame", "Gelehrte", "Ärztinnen & Ärzte", "Psychologinnen & 
       <div class="kopfzeile zweispaltig">
         <div>
           <p class="kicker reveal">Folge uns</p>
-          <h2 class="reveal">Dort, wo du <em class="akzent">zuschaust.</em></h2>
+          <h2 class="reveal">Wissen für <em class="akzent">deinen Feed<span class="punkt">.</span></em></h2>
         </div>
         <p class="einleitung reveal">Neue Videos erscheinen laufend auf unseren Kanälen. Folge uns und sei bei jedem neuen Impuls dabei.</p>
       </div>
@@ -177,9 +177,11 @@ const experten = ["Imame", "Gelehrte", "Ärztinnen & Ärzte", "Psychologinnen & 
   /* Drei Säulen: verbundene Stationen mit glimmenden Symbolen (Bildsprache wie Zeitleiste/Ablauf) */
   .saeulen { list-style: none; margin: 0; padding: 0; position: relative; display: grid; gap: 1.5rem; }
   .saeulen::before, .saeulen::after { content: ""; position: absolute; pointer-events: none; }
-  .saeulen::before { background: linear-gradient(var(--gelb), rgba(0, 103, 128, 0.25)); transform-origin: top center; transition: transform 1.6s var(--kurve) 0.2s; left: 35px; top: 36px; bottom: 36px; width: 2px; }
-  .saeulen::after { left: 34px; top: 36px; bottom: 36px; width: 4px; border-radius: 2px; filter: drop-shadow(0 0 4px rgba(255, 204, 0, 0.7)); background: linear-gradient(180deg, transparent, rgba(255, 230, 128, 1), transparent) no-repeat; background-size: 100% 26%; background-position: 0 -40%; animation: s-glanz-y 6s cubic-bezier(0.45, 0, 0.25, 1) 2s infinite; }
-  :global(.js) .saeulen.reveal:not(.sichtbar)::before { transform: scaleY(0); }
+  /* Handy: die Linie besteht aus Stücken von Kreis zu Kreis und endet genau am letzten Kreis („Gemeinschaft stärken“) */
+  .saeulen::before, .saeulen::after { display: none; }
+  .saeule:not(:last-of-type)::before { content: ""; position: absolute; left: 35px; top: 36px; width: 2px; height: calc(100% + 1.5rem); pointer-events: none; background: linear-gradient(var(--gelb), rgba(255, 204, 0, 0.55)); transform-origin: top center; transition: transform 0.8s var(--kurve); transition-delay: calc(0.3s + var(--i) * 0.38s); }
+  .saeule:nth-of-type(2)::before { background: linear-gradient(rgba(255, 204, 0, 0.55), rgba(0, 103, 128, 0.25)); }
+  :global(.js) .saeulen.reveal:not(.sichtbar) .saeule::before { transform: scaleY(0); }
   .saeule { position: relative; display: grid; grid-template-columns: 72px 1fr; gap: 1.1rem; align-items: start; align-content: start; }
   .saeule-icon { position: relative; z-index: 1; width: 72px; height: 72px; border-radius: 50%; display: grid; place-items: center; background: var(--weiss); color: var(--petrol); border: 2px solid rgba(0, 103, 128, 0.18); box-shadow: var(--schatten); transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.35s, color 0.35s, border-color 0.35s, opacity 0.4s; transition-delay: var(--v), 0s, 0s, 0s, var(--v); }
   .saeule-icon :global(svg) { width: 30px; height: 30px; }
@@ -198,17 +200,21 @@ const experten = ["Imame", "Gelehrte", "Ärztinnen & Ärzte", "Psychologinnen & 
   .saeule:hover .saeule-icon { background: var(--gelb); color: var(--tinte); border-color: var(--gelb); transform: scale(1.06); }
   @media (min-width: 900px) {
     .saeulen { grid-template-columns: repeat(3, 1fr); gap: 1.75rem; }
-    .saeulen::before { left: calc(50% - 50vw); right: calc(50% - 50vw); top: 35px; bottom: auto; width: auto; height: 2px; background: linear-gradient(90deg, rgba(255, 204, 0, 0.35), var(--gelb) 20%, rgba(0, 103, 128, 0.3) 80%, rgba(0, 103, 128, 0.12)); transform-origin: left center; }
+    /* PC: Linie kommt vom linken Rand und endet in der Mitte des letzten Kreises (3 Spalten, Abstand 1.75rem, Kreis 72px) */
+    .saeule::before { display: none; }
+    .saeulen::before, .saeulen::after { display: block; left: calc(50% - 50vw); width: calc(50vw - 50% + (100% - 3.5rem) * 2 / 3 + 3.5rem + 36px); }
+    .saeulen::before { top: 35px; height: 2px; background: linear-gradient(90deg, rgba(255, 204, 0, 0.35), var(--gelb) 25%, rgba(0, 103, 128, 0.45)); transform-origin: left center; transition: transform 1.6s var(--kurve) 0.2s; }
     :global(.js) .saeulen.reveal:not(.sichtbar)::before { transform: scaleX(0); }
-    .saeulen::after { left: calc(50% - 50vw); right: calc(50% - 50vw); top: 34px; bottom: auto; height: 4px; width: auto; background: linear-gradient(90deg, transparent, rgba(255, 230, 128, 1), transparent) no-repeat; background-size: 14% 100%; background-position: -20% 0; animation-name: s-glanz-x; animation-duration: 7s; }
+    .saeulen::after { top: 34px; height: 4px; border-radius: 2px; filter: drop-shadow(0 0 4px rgba(255, 204, 0, 0.7)); background: linear-gradient(90deg, transparent, rgba(255, 230, 128, 1), transparent) no-repeat; background-size: 14% 100%; background-position: -20% 0; animation: s-glanz-x 7s cubic-bezier(0.45, 0, 0.25, 1) 2s infinite; }
     .saeule { grid-template-columns: 1fr; gap: 1.4rem; }
   }
   @keyframes s-glimmen { 0%, 40%, 100% { opacity: 0; transform: scale(1.3); } 15% { opacity: 1; transform: scale(1.9); } }
   @keyframes s-welle { 0% { opacity: 0.8; transform: scale(1); } 25%, 100% { opacity: 0; transform: scale(1.7); } }
   @keyframes s-glanz-x { 0% { background-position: -20% 0; } 80%, 100% { background-position: 120% 0; } }
-  @keyframes s-glanz-y { 0% { background-position: 0 -40%; } 75%, 100% { background-position: 0 140%; } }
-  @media (prefers-reduced-motion: reduce) { .saeulen::after, .saeule-icon::before, .saeule-icon::after, .mission-licht { animation: none; } }
+    @media (prefers-reduced-motion: reduce) { .saeulen::after, .saeule-icon::before, .saeule-icon::after, .mission-licht { animation: none; } }
   .mehr { margin: 2.5rem 0 0; }
+  /* Satzpunkt am Ende großer Überschriften: die Schrift lässt davor sichtbar Luft */
+  h2 .punkt { margin-left: -0.06em; }
 
 
   /* Experten */

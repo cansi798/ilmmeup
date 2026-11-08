@@ -36,7 +36,10 @@ const aktiv = (href: string) => {
 
 <style>
   .kopf { position: fixed; inset: 0 0 auto; z-index: 50; color: #fff; transition: background 0.35s, box-shadow 0.35s, backdrop-filter 0.35s; }
-  .kopf.fest, .kopf.offen { background: rgba(4, 35, 45, 0.88); backdrop-filter: blur(14px) saturate(140%); -webkit-backdrop-filter: blur(14px) saturate(140%); box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08); }
+  /* Handy: Kopfzeile beim Scrollen voll deckend und ohne Weichzeichner – mit halbdurchsichtigem Grund + backdrop-filter
+     schien auf dem iPhone der Text darunter durch. Weichzeichner nur am PC. */
+  .kopf.fest, .kopf.offen { background: var(--nacht); box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08); }
+  @media (min-width: 900px) { .kopf.fest { background: rgba(4, 35, 45, 0.88); backdrop-filter: blur(14px) saturate(140%); -webkit-backdrop-filter: blur(14px) saturate(140%); } }
   .kopf.offen { background: var(--nacht); }
   .kopf-innen { display: flex; align-items: center; gap: 1.5rem; height: 84px; transition: height 0.3s; }
   .kopf.fest .kopf-innen { height: 70px; }

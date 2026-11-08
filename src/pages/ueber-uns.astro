@@ -46,7 +46,7 @@ const fakten = [
           <li class="person reveal" style={`--v:${(i % 4) * 80}ms`}>
             <div class="person-bild"><Figur figur={p.figur} name={p.name} hinter={i} /></div>
             <h3>{p.name}</h3>
-            <p class="rolle">{p.rolle}{p.zusatz && <span class="zusatz"> · {p.zusatz}</span>}</p>
+            <p class="rolle">{p.rolle}{p.fach && ` · ${p.fach}`}{p.taetigkeit && <span class="taetigkeit"> · {p.taetigkeit}</span>}{p.zusatz && <span class="zusatz"> · {p.zusatz}</span>}</p>
             <p class="portrait">{p.text}</p>
           </li>
         ))}
@@ -83,6 +83,7 @@ const fakten = [
   .person h3 { font-size: 1.4rem; margin-bottom: 0.15rem; }
   .rolle { font-weight: 700; color: var(--petrol); margin-bottom: 0.7rem; }
   .zusatz { font-weight: 500; color: var(--leise); font-style: italic; }
+  .taetigkeit { font-weight: 600; color: var(--text); }
   .portrait { color: var(--leise); font-size: 0.97rem; margin: 0; }
   .mitmachen { display: grid; gap: 1.5rem; align-items: center; padding: clamp(2rem, 5vw, 3.5rem); border-radius: var(--radius-gross); background: var(--weiss); box-shadow: var(--schatten); }
   @media (min-width: 900px) { .mitmachen { grid-template-columns: 1.3fr auto; } }

@@ -1,14 +1,15 @@
 ---
 // „Was entsteht“: die langfristige Vision als Ausblick – bewusst ohne eigene Unterseiten.
 import Icon from "./Icon.astro";
+import { u } from "../consts";
 const stufen = [
   { phase: "Heute", status: "aktiv", titel: "Medienplattform", text: "Gespräche, Impulse und Fachbeiträge, professionell produziert und auf YouTube, Instagram und TikTok veröffentlicht.", punkte: [["kamera", "Videoproduktion"], ["netz", "Social Media"], ["personen", "Expertennetzwerk"]] },
-  { phase: "Als Nächstes", status: "in Planung", titel: "Wissen bündeln", text: "Inhalte geordnet auffindbar machen und Menschen auch offline zusammenbringen.", punkte: [["bibliothek", "Mediathek"], ["mikro", "Podcast"], ["kalender", "Veranstaltungen"]] },
+  { phase: "Als Nächstes", status: "in Planung", titel: "Wissen bündeln", text: "Inhalte geordnet auffindbar machen und Menschen auch offline zusammenbringen.", punkte: [["bibliothek", "Mediathek", "/mediathek/"], ["mikro", "Podcast"], ["kalender", "Veranstaltungen"]] },
   { phase: "Perspektivisch", status: "Vision", titel: "Gemeinschaft stärken", text: "Aus Reichweite wird Begleitung: Lernen, Austausch und Unterstützung für alle Generationen.", punkte: [["personen", "Community"], ["schule", "Bildungsangebote"], ["kompass", "Mentoring"], ["familie", "Familien- & Jugendarbeit"], ["hand", "Partner & Kooperationen"]] },
   { phase: "Langfristig", status: "Vision", titel: "Community Center", text: "Ein Ort für Begegnung, Lernen und gemeinschaftliches Engagement, offen für alle, die etwas bewegen wollen.", punkte: [["haus", "Ort der Begegnung"]] },
 ];
 ---
-<ol class="roadmap" data-bahn>
+<ol class="roadmap" data-bahn data-bahn-ende>
   {stufen.map((s, i) => (
     <li class:list={["stufe reveal", { aktiv: i === 0 }]} style={`--v:${i * 110}ms`}>
       <div class="stufe-kopf">
@@ -18,7 +19,7 @@ const stufen = [
       <h3>{s.titel}</h3>
       <p>{s.text}</p>
       <ul class="stufe-liste">
-        {s.punkte.map(([icon, label]) => <li><Icon name={icon} />{label}</li>)}
+        {s.punkte.map(([icon, label, href]) => <li><Icon name={icon} />{href ? <a class="stufe-link" href={u(href)}><span class="stufe-link-text">{label}</span><span class="stufe-neu">Vorschau online</span></a> : label}</li>)}
       </ul>
     </li>
   ))}
@@ -26,9 +27,22 @@ const stufen = [
 
 <style>
   .roadmap { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.25rem; position: relative; }
-  @media (min-width: 1000px) { .roadmap { grid-template-columns: repeat(4, 1fr); gap: 1.5rem; } .roadmap::before { content: ""; position: absolute; left: calc(50% - 50vw); right: calc(50% - 50vw); top: 11px; height: 2px; background: linear-gradient(90deg, rgba(255, 204, 0, 0.35), var(--gelb) 18%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.08)); } }
+  @media (min-width: 1000px) { .roadmap { grid-template-columns: repeat(4, 1fr); gap: 1.5rem; } .roadmap::before { content: ""; position: absolute; left: calc(50% - 50vw); width: calc(50vw - 50% + (100% - 4.5rem) * 3 / 4 + 4.5rem + 11px); top: 11px; height: 2px; background: linear-gradient(90deg, rgba(255, 204, 0, 0.35), var(--gelb) 22%, rgba(255, 255, 255, 0.18) 55%, rgba(255, 255, 255, 0.14)); } }
   .stufe { position: relative; padding: 0 0 0 0; }
-  @media (max-width: 999px) { .stufe { padding-left: 2rem; border-left: 2px solid rgba(255, 255, 255, 0.12); padding-bottom: 1.5rem; } .stufe.aktiv { border-left-color: var(--gelb); } .stufe-punkt { position: absolute; left: -12px; top: 0; } }
+  /* Handy: eine durchgehende senkrechte Linie wie am PC – Stück für Stück von Kreismitte zu Kreismitte,
+     endet am letzten Kreis. Linie und Kreise stehen fest; nur die Texte blenden beim Scrollen ein
+     (vorher rutschten die ganzen Stufen samt Linienstück einzeln nach oben → Linie wirkte zerstückelt). */
+  @media (max-width: 999px) {
+    .stufe { padding: 0 0 1.5rem 2.4rem; }
+    .stufe:not(:last-of-type)::before { content: ""; position: absolute; left: 10px; top: 11px; width: 2px; height: calc(100% + 1.25rem); background: linear-gradient(rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.1)); pointer-events: none; }
+    .stufe.aktiv::before { background: linear-gradient(var(--gelb), var(--gelb) 55%, rgba(255, 255, 255, 0.16)) !important; }
+    .stufe-kopf { min-height: 22px; }
+    .stufe .stufe-punkt { position: absolute; left: 0; top: 0; z-index: 1; }
+    :global(.js) .stufe.reveal { opacity: 1; transform: none; }
+    :global(.js) .stufe.reveal :is(.stufe-label, h3, p, .stufe-liste) { transition: opacity 0.8s var(--kurve), transform 0.8s var(--kurve); transition-delay: var(--v, 0ms); }
+    :global(.js) .stufe.reveal:not(.sichtbar) :is(.stufe-label, h3, p, .stufe-liste) { opacity: 0; transform: translateY(16px); }
+    .stufe-kopf { margin-bottom: 1.1rem; }
+  }
   .stufe-kopf { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 1.4rem; flex-wrap: wrap; }
   .stufe-punkt { width: 22px; height: 22px; border-radius: 50%; background: var(--nacht); border: 2px solid rgba(255, 255, 255, 0.35); flex: none; position: relative; }
   .aktiv .stufe-punkt { background: var(--gelb); border-color: var(--gelb); box-shadow: 0 0 10px 2px rgba(255, 204, 0, 0.55); }
@@ -41,14 +55,10 @@ const stufen = [
   /* Glanz, der über die Zeitleiste läuft */
   .roadmap::after { content: ""; position: absolute; pointer-events: none; border-radius: 2px; background: linear-gradient(90deg, transparent, rgba(255, 240, 180, 0.95), transparent); box-shadow: 0 0 12px rgba(255, 220, 90, 0.6); }
   @media (min-width: 1000px) {
-    .roadmap::after { left: calc(50% - 50vw); right: calc(50% - 50vw); top: 10px; height: 4px; box-shadow: none; filter: drop-shadow(0 0 4px rgba(255, 220, 90, 0.7)); background: linear-gradient(90deg, transparent, rgba(255, 240, 180, 1), transparent) no-repeat; background-size: 14% 100%; background-position: -20% 0; animation: glanz-x 7s cubic-bezier(0.45, 0, 0.25, 1) infinite; }
+    .roadmap::after { left: calc(50% - 50vw); width: calc(50vw - 50% + (100% - 4.5rem) * 3 / 4 + 4.5rem + 11px); top: 10px; height: 4px; box-shadow: none; filter: drop-shadow(0 0 4px rgba(255, 220, 90, 0.7)); background: linear-gradient(90deg, transparent, rgba(255, 240, 180, 1), transparent) no-repeat; background-size: 14% 100%; background-position: -20% 0; animation: glanz-x 7s cubic-bezier(0.45, 0, 0.25, 1) infinite; }
   }
-  @media (max-width: 999px) {
-    .roadmap::after { left: -1px; top: 0; bottom: 0; width: 4px; box-shadow: none; filter: drop-shadow(0 0 4px rgba(255, 220, 90, 0.7)); background: linear-gradient(180deg, transparent, rgba(255, 240, 180, 1), transparent) no-repeat; background-size: 100% 18%; background-position: 0 -20%; animation: glanz-y 7s cubic-bezier(0.45, 0, 0.25, 1) infinite; }
-  }
+  @media (max-width: 999px) { .roadmap::after { display: none; } }
   @keyframes glanz-x { 0% { background-position: -20% 0; } 80%, 100% { background-position: 120% 0; } }
-  @keyframes glanz-y { 0% { background-position: 0 -20%; } 80%, 100% { background-position: 0 120%; } }
-  @media (max-width: 999px) { .stufe .stufe-punkt { position: absolute; left: -12px; top: 0; } }
   .stufe-label { display: inline-flex; align-items: center; gap: 0.7rem; flex-wrap: wrap; }
   @media (min-width: 1000px) { .stufe-kopf { display: grid; justify-items: start; gap: 1.1rem; } }
   @media (prefers-reduced-motion: reduce) { .roadmap::after { display: none; } .aktiv .stufe-punkt::before { opacity: 0.7; } }
@@ -61,4 +71,8 @@ const stufen = [
   .stufe-liste li { display: flex; align-items: center; gap: 0.6rem; font-size: 0.95rem; font-weight: 600; color: #fff; }
   .stufe-liste :global(svg) { width: 20px; height: 20px; color: var(--gelb); flex: none; }
   .stufe:not(.aktiv) .stufe-liste li { color: rgba(255, 255, 255, 0.8); }
+  .stufe-liste .stufe-link { display: inline-flex; align-items: center; gap: 0.55rem; color: #fff; text-decoration: none; min-height: 24px; }
+  .stufe-link-text { text-decoration: underline; text-decoration-color: rgba(255, 204, 0, 0.6); text-underline-offset: 0.2em; }
+  .stufe-link:hover .stufe-link-text { text-decoration-color: var(--gelb); }
+  .stufe-neu { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--tinte); background: var(--gelb); padding: 0.2em 0.55em; border-radius: 999px; text-decoration: none; }
 </style>

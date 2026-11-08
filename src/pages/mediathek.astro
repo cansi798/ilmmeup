@@ -1,0 +1,186 @@
+---
+// Mediathek: alle Videos an einem Ort. Inhalte pflegen in src/data/mediathek.ts (dort steht, wie ein Video dazukommt).
+// Tempo: Pro Video wird nur ein kleines lokales Vorschaubild (WebP, lazy) geladen. Der YouTube-Player
+// (youtube-nocookie) kommt erst nach Klick auf „Abspielen“ – das übernimmt das Skript in Basis.astro ([data-yt]).
+import { Picture } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import Basis from "../layouts/Basis.astro";
+import SeitenKopf from "../components/SeitenKopf.astro";
+import Icon from "../components/Icon.astro";
+import { VORSCHAU, NAME, u } from "../consts";
+import { MEDIATHEK, KATEGORIEN } from "../data/mediathek";
+
+const bilder = import.meta.glob<{ default: ImageMetadata }>("../assets/mediathek/*.jpg", { eager: true });
+const bild = (id: string | null) => (id ? bilder[`../assets/mediathek/${id}.jpg`]?.default : undefined);
+const datumText = (d?: string) => (d ? new Date(d + "T12:00:00Z").toLocaleDateString("de-DE", { day: "numeric", month: "long", year: "numeric" }) : "");
+
+// Strukturierte Daten nur für echte Videos
+const echte = MEDIATHEK.filter((v) => v.id && v.datum);
+const schema = echte.length
+  ? [{
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      name: `Mediathek von ${NAME}`,
+      itemListElement: echte.map((v, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        item: {
+          "@type": "VideoObject",
+          name: v.titel.replace(/[„“]/g, ""),
+          description: `${v.format} von ${NAME}${v.sprecher !== NAME ? ` mit ${v.sprecher}` : ""}.`,
+          thumbnailUrl: `https://i.ytimg.com/vi/${v.id}/maxresdefault.jpg`,
+          uploadDate: v.datum,
+          ...(v.dauerIso ? { duration: v.dauerIso } : {}),
+          embedUrl: `https://www.youtube-nocookie.com/embed/${v.id}`,
+          contentUrl: `https://www.youtube.com/shorts/${v.id}`,
+          publisher: { "@type": "Organization", name: NAME },
+        },
+      })),
+    }]
+  : [];
+---
+<Basis titel="Mediathek: alle Videos" beschreibung="Die Mediathek von ilm me up: Gespräche, Fachvorträge und Kurzimpulse nach Themen sortiert. Videos laden erst, wenn du auf Abspielen tippst." schema={schema}>
+  <SeitenKopf kicker="Mediathek" titel='Alle Videos. <em class="akzent">An einem Ort.</em>' einleitung="Gespräche, Fachvorträge und Kurzimpulse, nach Themen sortiert. Such dir aus, was dich gerade interessiert." />
+
+  <section class="abschnitt">
+    <div class="huelle">
+      {VORSCHAU && <p class="platzhalter-hinweis hinweis-oben">Vorschau: Die ersten zwei Videos sind echt, die übrigen sind Platzhalter, bis weitere Videos hochgeladen sind.</p>}
+
+      <div class="werkzeuge" data-mt-werkzeuge>
+        <div class="filter" role="group" aria-label="Nach Thema filtern">
+          <button type="button" class="filter-knopf" aria-pressed="true" data-filter="alle">Alle</button>
+          {KATEGORIEN.map((k) => <button type="button" class="filter-knopf" aria-pressed="false" data-filter={k}>{k}</button>)}
+        </div>
+        <div class="suche">
+          <label for="mt-suche" class="sr-only">Videos durchsuchen</label>
+          <input id="mt-suche" type="search" placeholder="Suchen, z. B. Gesundheit" autocomplete="off" data-mt-suche />
+        </div>
+      </div>
+      <p class="anzahl" aria-live="polite" data-mt-anzahl>{MEDIATHEK.length} Videos</p>
+
+      <ul class="mt-raster">
+        {MEDIATHEK.map((v, i) => {
+          const b = bild(v.id);
+          return (
+            <li class="mt-karte reveal" style={`--v:${(i % 3) * 80}ms`} data-kategorie={v.kategorie} data-text={`${v.titel} ${v.kategorie} ${v.format} ${v.sprecher}`.toLowerCase()}>
+              <div class:list={["mt-bild", `k${i % 3}`]}>
+                {v.id ? (
+                  <button type="button" class="mt-start" data-yt={v.id} data-titel={v.titel} aria-label={`Video abspielen: ${v.titel}`}>
+                    {b ? <Picture src={b} formats={["webp"]} widths={[360, 640]} sizes="(min-width: 1000px) 380px, (min-width: 640px) 46vw, 92vw" alt="" loading="lazy" decoding="async" class="mt-vorschau" /> : <span class="mt-kunst" aria-hidden="true" />}
+                    <span class="mt-play" aria-hidden="true"><Icon name="play" /></span>
+                    <span class="mt-dauer">{v.dauer}</span>
+                  </button>
+                ) : (
+                  <div class="mt-start platzhalter" role="img" aria-label={`Platzhalter für ein Video: ${v.titel}`}>
+                    <span class="mt-kunst" aria-hidden="true"><img src={u("/assets/logo.svg")} alt="" loading="lazy" width="46" height="55" /></span>
+                    <span class="mt-play" aria-hidden="true"><Icon name="play" /></span>
+                    <span class="platzhalter-hinweis mt-badge">Platzhalter</span>
+                    <span class="mt-dauer">{v.dauer}</span>
+                  </div>
+                )}
+              </div>
+              <div class="mt-text">
+                <p class="mt-kategorie">{v.kategorie} · {v.format}</p>
+                <h2 class="mt-titel">{v.titel}</h2>
+                <p class="mt-meta">
+                  <span><Icon name="person" />{v.sprecher}</span>
+                  {v.datum ? <span><Icon name="kalender" /><time datetime={v.datum}>{datumText(v.datum)}</time></span> : <span><Icon name="kalender" />Datum folgt</span>}
+                </p>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+      <p class="leer" hidden data-mt-leer>Dazu gibt es noch kein Video. Versuch einen anderen Begriff oder ein anderes Thema.</p>
+
+      <p class="datenschutz"><Icon name="schild" />Die Videos werden erst geladen, wenn du auf „Abspielen“ tippst. Erst dann verbindet sich deine Seite mit YouTube (youtube-nocookie.com). <a href={u("/datenschutz/")}>Mehr dazu im Datenschutz</a>.</p>
+    </div>
+  </section>
+
+  <section class="abschnitt eng dunkel">
+    <div class="huelle mt-cta reveal">
+      <h2>Mehr gibt es <em class="akzent">auf unseren Kanälen.</em></h2>
+      <p>Neue Videos erscheinen zuerst auf YouTube, Instagram und TikTok.</p>
+      <a class="knopf" href={u("/#kanaele")}>Zu den Kanälen <Icon name="pfeil" class="pfeil" /></a>
+    </div>
+  </section>
+</Basis>
+
+<script>
+  // Filter nach Thema + Suche (ohne Bibliothek, nur Ein-/Ausblenden)
+  const knoepfe = [...document.querySelectorAll<HTMLButtonElement>("[data-filter]")];
+  const suche = document.querySelector<HTMLInputElement>("[data-mt-suche]");
+  const karten = [...document.querySelectorAll<HTMLElement>(".mt-karte")];
+  const anzahl = document.querySelector<HTMLElement>("[data-mt-anzahl]");
+  const leer = document.querySelector<HTMLElement>("[data-mt-leer]");
+  let thema = "alle";
+  const anwenden = () => {
+    const q = (suche?.value || "").trim().toLowerCase();
+    let n = 0;
+    for (const k of karten) {
+      const zeigen = (thema === "alle" || k.dataset.kategorie === thema) && (!q || (k.dataset.text || "").includes(q));
+      k.hidden = !zeigen;
+      if (zeigen) { n++; k.classList.add("sichtbar"); }
+    }
+    if (anzahl) anzahl.textContent = n === 1 ? "1 Video" : `${n} Videos`;
+    if (leer) leer.hidden = n > 0;
+  };
+  knoepfe.forEach((b) => b.addEventListener("click", () => {
+    thema = b.dataset.filter || "alle";
+    knoepfe.forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+    anwenden();
+  }));
+  suche?.addEventListener("input", anwenden);
+</script>
+
+<style>
+  .hinweis-oben { margin-bottom: 1.75rem; }
+  .werkzeuge { display: grid; gap: 1rem; margin-bottom: 0.75rem; }
+  @media (min-width: 900px) { .werkzeuge { grid-template-columns: 1fr 300px; align-items: center; } }
+  .filter { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .filter-knopf { font: 700 0.95rem/1 var(--sans); min-height: 44px; padding: 0 1.15em; border-radius: 999px; border: 1.5px solid var(--linie); background: var(--weiss); color: var(--tinte); cursor: pointer; transition: background 0.2s, border-color 0.2s, color 0.2s; }
+  .filter-knopf:hover { border-color: var(--petrol); }
+  .filter-knopf[aria-pressed="true"] { background: var(--petrol); border-color: var(--petrol); color: #fff; }
+  .suche input { width: 100%; font: 500 1rem/1.4 var(--sans); color: var(--tinte); background: var(--weiss); border: 1.5px solid #c5d2d4; border-radius: 999px; padding: 0.7em 1.2em; min-height: 48px; }
+  .suche input:focus { outline: none; border-color: var(--petrol); box-shadow: 0 0 0 4px rgba(0, 103, 128, 0.15); }
+  .anzahl { font-size: 0.9rem; font-weight: 600; color: var(--leise); margin: 0 0 1.75rem; }
+
+  .mt-raster { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.75rem; }
+  @media (min-width: 640px) { .mt-raster { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1000px) { .mt-raster { grid-template-columns: repeat(3, 1fr); gap: 2rem; } }
+  .mt-karte[hidden] { display: none; }
+  .mt-karte { display: grid; align-content: start; background: var(--weiss); border-radius: var(--radius); box-shadow: var(--schatten); overflow: hidden; border: 1px solid rgba(14, 42, 51, 0.05); transition: transform 0.45s var(--kurve), box-shadow 0.45s, opacity 0.9s var(--kurve); }
+  .mt-karte:hover { transform: translateY(-4px); box-shadow: 0 24px 50px -24px rgba(4, 35, 45, 0.35); }
+
+  .mt-bild { position: relative; aspect-ratio: 16 / 9; background: var(--nacht); overflow: hidden; isolation: isolate; }
+  .mt-start { all: unset; position: absolute; inset: 0; display: grid; place-items: center; cursor: pointer; }
+  .mt-start.platzhalter { cursor: default; }
+  .mt-start:focus-visible { outline: 3px solid var(--gelb); outline-offset: -3px; }
+  .mt-start :global(picture), .mt-start :global(.mt-vorschau) { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; }
+  .mt-start :global(.mt-vorschau) { object-fit: cover; transition: transform 1.2s var(--kurve); }
+  .mt-start:hover :global(.mt-vorschau) { transform: scale(1.04); }
+  .mt-kunst { position: absolute; inset: 0; z-index: -1; display: grid; place-items: center; }
+  .mt-kunst img { width: 22%; height: auto; opacity: 0.14; }
+  .k0 .mt-kunst { background: radial-gradient(60% 80% at 75% 20%, rgba(255, 204, 0, 0.5), transparent 60%), radial-gradient(70% 90% at 10% 100%, #1a8aa6, transparent 60%), linear-gradient(135deg, #00495b, #04232d); }
+  .k1 .mt-kunst { background: radial-gradient(55% 70% at 20% 25%, rgba(255, 204, 0, 0.42), transparent 60%), radial-gradient(80% 90% at 100% 100%, #006780, transparent 60%), linear-gradient(160deg, #0a3341, #04232d); }
+  .k2 .mt-kunst { background: radial-gradient(50% 60% at 50% 50%, rgba(255, 204, 0, 0.38), transparent 62%), linear-gradient(200deg, #006780, #04232d 70%); }
+  .mt-play { width: 60px; height: 60px; border-radius: 50%; display: grid; place-items: center; background: var(--gelb); color: var(--tinte); box-shadow: 0 0 0 8px rgba(255, 204, 0, 0.2), 0 14px 30px -10px rgba(0, 0, 0, 0.5); transition: transform 0.35s var(--kurve); }
+  .mt-play :global(svg) { width: 34%; height: 34%; margin-left: 6%; }
+  .mt-start:hover .mt-play { transform: scale(1.08); }
+  .mt-dauer { position: absolute; right: 0.7rem; bottom: 0.7rem; font-size: 0.78rem; font-weight: 700; color: #fff; background: rgba(4, 35, 45, 0.85); padding: 0.2em 0.6em; border-radius: 6px; }
+  .mt-badge { position: absolute; left: 0.8rem; top: 0.8rem; }
+  .mt-bild :global(iframe) { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+  .mt-text { padding: 1.2rem 1.35rem 1.4rem; }
+  .mt-kategorie { font-size: 0.74rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--petrol); margin: 0 0 0.4rem; }
+  .mt-titel { font-size: 1.15rem; line-height: 1.3; letter-spacing: -0.015em; margin: 0 0 0.75rem; hyphens: auto; }
+  .mt-meta { display: flex; flex-wrap: wrap; gap: 0.35rem 1.1rem; margin: 0; font-size: 0.9rem; color: var(--leise); }
+  .mt-meta span { display: inline-flex; align-items: center; gap: 0.4rem; }
+  .mt-meta :global(svg) { width: 16px; height: 16px; color: var(--petrol); flex: none; }
+
+  .leer { margin: 1rem 0 0; font-weight: 600; color: var(--leise); }
+  .datenschutz { display: flex; gap: 0.6rem; align-items: flex-start; margin: 2.5rem 0 0; font-size: 0.92rem; color: var(--leise); max-width: 70ch; }
+  .datenschutz :global(svg) { width: 20px; height: 20px; flex: none; color: var(--petrol); margin-top: 0.2rem; }
+  .mt-cta { text-align: center; display: grid; justify-items: center; }
+  .mt-cta p { max-width: 52ch; }
+</style>

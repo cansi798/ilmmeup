@@ -5,6 +5,8 @@ Astro-Projekt. Vorschau: https://cansi798.github.io/ilmmeup/ (Branch `main` = ge
 - Bauen + Linkprüfung + Bildschirmfotos: `bash scripts/pruefen.sh` (Docker: node:22, Playwright-Image)
 - Veröffentlichen: `bash scripts/deploy.sh` (baut und pusht `dist/` nach `main`)
 - Logo/Favicons/OG-Bild neu erzeugen: `node scripts/logo.mjs` (im node:22-Container) – vektorisiert `quellbilder/Logo_ilm_me_up_petrol.jpg`
+- Mediathek (`/mediathek/`): Videos in `src/data/mediathek.ts` pflegen, Vorschaubild nach `src/assets/mediathek/<YouTube-ID>.jpg` – Anleitung oben in der Datei. Player lädt erst nach Klick (youtube-nocookie), VideoObject-JSON-LD nur für echte Videos
+- Zeitleisten (Werte, Ablauf, Roadmap) enden am letzten Punkt; Licht-Animation (`data-bahn`, `data-bahn-ende`) in `src/layouts/Basis.astro`
 - Inhalte/Platzhalter zentral in `src/consts.ts` (Kanäle, Videos, Team, E-Mail, `VORSCHAU` = noindex + Platzhalter-Hinweise)
 - Schrift selbst gehostet (nur Plus Jakarta Sans, OFL – Fraunces auf Wunsch von Jamil entfernt) in `src/styles/fonts/`
 - Ansprache: „du“ auf allen Seiten (auch „Für Experten“ und Datenschutz; Wunsch Jamil 20.10.)
